@@ -19,17 +19,26 @@ export default function Privacy() {
             <section>
               <h2 className="text-2xl font-bold mb-4">Introduction</h2>
               <p className="text-muted-foreground">
-                ResumeFit ("we," "us," "our," or "Company") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website and use our services.
+                ResumeFit ("we," "us," "our," or "Company") is committed to
+                protecting your privacy. This Privacy Policy explains how we
+                collect, use, disclose, and safeguard your information when you
+                visit our website and use our services.
               </p>
             </section>
 
             <section>
-              <h2 className="text-2xl font-bold mb-4">Information We Collect</h2>
+              <h2 className="text-2xl font-bold mb-4">
+                Information We Collect
+              </h2>
               <p className="text-muted-foreground mb-3">
-                We only process data from public LinkedIn profiles that you choose to share with us. We never request your LinkedIn credentials or password.
+                We only process data from public LinkedIn profiles that you
+                choose to share with us. We never request your LinkedIn
+                credentials or password.
               </p>
               <ul className="list-disc list-inside space-y-2 text-muted-foreground">
-                <li>Profile information extracted from your LinkedIn profile</li>
+                <li>
+                  Profile information extracted from your LinkedIn profile
+                </li>
                 <li>Email address (if provided for resume delivery)</li>
                 <li>Job title you're targeting (optional)</li>
                 <li>Usage data and analytics</li>
@@ -37,7 +46,9 @@ export default function Privacy() {
             </section>
 
             <section>
-              <h2 className="text-2xl font-bold mb-4">How We Use Your Information</h2>
+              <h2 className="text-2xl font-bold mb-4">
+                How We Use Your Information
+              </h2>
               <ul className="list-disc list-inside space-y-2 text-muted-foreground">
                 <li>Generate your ATS-optimized resume</li>
                 <li>Improve our service and user experience</li>
@@ -49,17 +60,21 @@ export default function Privacy() {
             <section>
               <h2 className="text-2xl font-bold mb-4">Data Retention</h2>
               <p className="text-muted-foreground">
-                <strong>Free Users:</strong> Your extracted profile data is stored for 24-72 hours, then automatically deleted.
+                <strong>Free Users:</strong> Your extracted profile data is
+                stored for 24-72 hours, then automatically deleted.
               </p>
               <p className="text-muted-foreground mt-3">
-                <strong>Pro Users:</strong> Your data is retained until you request deletion or cancel your subscription.
+                <strong>Pro Users:</strong> Your data is retained until you
+                request deletion or cancel your subscription.
               </p>
             </section>
 
             <section>
               <h2 className="text-2xl font-bold mb-4">Data Security</h2>
               <p className="text-muted-foreground">
-                We use industry-standard encryption and security practices to protect your data. However, no method of transmission over the internet is 100% secure.
+                We use industry-standard encryption and security practices to
+                protect your data. However, no method of transmission over the
+                internet is 100% secure.
               </p>
             </section>
 
@@ -79,7 +94,8 @@ export default function Privacy() {
             <section>
               <h2 className="text-2xl font-bold mb-4">Contact Us</h2>
               <p className="text-muted-foreground">
-                If you have questions about this Privacy Policy, please contact us at privacy@resumefit.com.
+                If you have questions about this Privacy Policy, please contact
+                us at privacy@resumefit.com.
               </p>
             </section>
           </div>

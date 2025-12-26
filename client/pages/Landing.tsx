@@ -3,7 +3,17 @@ import { useEffect, useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import { Check, Zap, Shield, FileText, Briefcase, Eye, ArrowRight, Sparkles, TrendingUp } from "lucide-react";
+import {
+  Check,
+  Zap,
+  Shield,
+  FileText,
+  Briefcase,
+  Eye,
+  ArrowRight,
+  Sparkles,
+  TrendingUp,
+} from "lucide-react";
 
 export default function Landing() {
   const [isVisible, setIsVisible] = useState(false);
@@ -13,7 +23,13 @@ export default function Landing() {
   }, []);
 
   // Animated feature cards
-  const FeatureCard = ({ icon: Icon, title, description, delay, gradient }: any) => (
+  const FeatureCard = ({
+    icon: Icon,
+    title,
+    description,
+    delay,
+    gradient,
+  }: any) => (
     <div
       className={`group relative overflow-hidden rounded-2xl bg-white border border-border/50 p-8 transition-all duration-500 hover:border-primary/30 hover:shadow-2xl hover:-translate-y-2 ${
         isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
@@ -23,12 +39,16 @@ export default function Landing() {
       }}
     >
       {/* Gradient background on hover */}
-      <div className={`absolute inset-0 ${gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-500`} />
-      
-      <div className={`relative inline-flex items-center justify-center w-14 h-14 rounded-xl ${gradient} mb-4 transition-transform duration-500 group-hover:scale-110`}>
+      <div
+        className={`absolute inset-0 ${gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-500`}
+      />
+
+      <div
+        className={`relative inline-flex items-center justify-center w-14 h-14 rounded-xl ${gradient} mb-4 transition-transform duration-500 group-hover:scale-110`}
+      >
         <Icon className="w-7 h-7 text-white" />
       </div>
-      
+
       <h3 className="font-bold text-lg mb-3 text-foreground group-hover:text-primary transition-colors">
         {title}
       </h3>
@@ -55,12 +75,8 @@ export default function Landing() {
         </div>
       </div>
       <div className="pt-1">
-        <h3 className="text-lg font-bold text-foreground mb-2">
-          {title}
-        </h3>
-        <p className="text-muted-foreground leading-relaxed">
-          {description}
-        </p>
+        <h3 className="text-lg font-bold text-foreground mb-2">{title}</h3>
+        <p className="text-muted-foreground leading-relaxed">{description}</p>
       </div>
     </div>
   );
@@ -83,14 +99,11 @@ export default function Landing() {
         ))}
       </div>
       <p className="text-sm text-muted-foreground italic mb-4 leading-relaxed">
-        "ResumeFit made it so easy to create a professional resume that actually passes ATS checks. Got 3 interviews in a week!"
+        "ResumeFit made it so easy to create a professional resume that actually
+        passes ATS checks. Got 3 interviews in a week!"
       </p>
-      <p className="text-sm font-semibold text-foreground">
-        {name}
-      </p>
-      <p className="text-xs text-muted-foreground">
-        {role}
-      </p>
+      <p className="text-sm font-semibold text-foreground">{name}</p>
+      <p className="text-xs text-muted-foreground">{role}</p>
     </div>
   );
 
@@ -103,7 +116,10 @@ export default function Landing() {
         {/* Animated background elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute -top-1/2 -right-1/2 w-full h-full bg-gradient-to-b from-primary/5 to-transparent rounded-full blur-3xl animate-pulse" />
-          <div className="absolute -bottom-1/2 -left-1/2 w-full h-full bg-gradient-to-t from-accent/5 to-transparent rounded-full blur-3xl animate-pulse" style={{ animationDelay: "1s" }} />
+          <div
+            className="absolute -bottom-1/2 -left-1/2 w-full h-full bg-gradient-to-t from-accent/5 to-transparent rounded-full blur-3xl animate-pulse"
+            style={{ animationDelay: "1s" }}
+          />
         </div>
 
         <div className="container mx-auto px-4 relative z-10">
@@ -123,35 +139,45 @@ export default function Landing() {
             {/* Heading */}
             <h1
               className={`text-4xl md:text-7xl font-black text-foreground mb-6 leading-tight transition-all duration-700 ${
-                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                isVisible
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-8"
               }`}
               style={{
                 transitionDelay: isVisible ? "150ms" : "0ms",
-                background: "linear-gradient(135deg, #1a2742 0%, #0d4a8a 50%, #1a2742 100%)",
+                background:
+                  "linear-gradient(135deg, #1a2742 0%, #0d4a8a 50%, #1a2742 100%)",
                 backgroundClip: "text",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
               }}
             >
-              Turn LinkedIn into<br />an<span className="ml-3 text-primary">ATS Winner</span>
+              Turn LinkedIn into
+              <br />
+              an<span className="ml-3 text-primary">ATS Winner</span>
             </h1>
 
             {/* Subheading */}
             <p
               className={`text-lg md:text-xl text-muted-foreground mb-10 max-w-2xl mx-auto leading-relaxed transition-all duration-700 ${
-                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                isVisible
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-8"
               }`}
               style={{
                 transitionDelay: isVisible ? "300ms" : "0ms",
               }}
             >
-              One click. One minute. Your resume passes ATS checks with confidence. Powered by AI, trusted by recruiters.
+              One click. One minute. Your resume passes ATS checks with
+              confidence. Powered by AI, trusted by recruiters.
             </p>
 
             {/* CTA Buttons */}
             <div
               className={`flex flex-col sm:flex-row gap-4 justify-center mb-12 transition-all duration-700 ${
-                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                isVisible
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-8"
               }`}
               style={{
                 transitionDelay: isVisible ? "450ms" : "0ms",
@@ -190,7 +216,8 @@ export default function Landing() {
             >
               <Shield className="w-5 h-5 text-primary" />
               <span className="text-sm font-medium text-foreground">
-                No credentials needed • Your data is private • 24-hour auto-delete
+                No credentials needed • Your data is private • 24-hour
+                auto-delete
               </span>
             </div>
           </div>
@@ -232,7 +259,9 @@ export default function Landing() {
           <div className="max-w-3xl mx-auto">
             <div
               className={`text-center mb-16 transition-all duration-700 ${
-                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                isVisible
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-8"
               }`}
               style={{
                 transitionDelay: isVisible ? "200ms" : "0ms",
@@ -275,7 +304,9 @@ export default function Landing() {
         <div className="container mx-auto px-4">
           <div
             className={`text-center mb-16 transition-all duration-700 ${
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              isVisible
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-8"
             }`}
             style={{
               transitionDelay: isVisible ? "300ms" : "0ms",
@@ -315,7 +346,9 @@ export default function Landing() {
           <div className="max-w-4xl mx-auto">
             <div
               className={`text-center mb-16 transition-all duration-700 ${
-                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                isVisible
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-8"
               }`}
               style={{
                 transitionDelay: isVisible ? "200ms" : "0ms",
@@ -360,15 +393,21 @@ export default function Landing() {
                 <div
                   key={i}
                   className={`group relative p-8 rounded-2xl bg-white border border-border/50 hover:border-primary/30 transition-all duration-500 hover:shadow-lg hover:-translate-y-1 ${
-                    isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                    isVisible
+                      ? "opacity-100 translate-y-0"
+                      : "opacity-0 translate-y-8"
                   }`}
                   style={{
                     transitionDelay: isVisible ? `${feature.delay}ms` : "0ms",
                   }}
                 >
-                  <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${feature.color} opacity-0 group-hover:opacity-5 transition-opacity duration-500`} />
-                  
-                  <div className={`relative inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br ${feature.color} text-white mb-4 group-hover:scale-110 transition-transform duration-300`}>
+                  <div
+                    className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${feature.color} opacity-0 group-hover:opacity-5 transition-opacity duration-500`}
+                  />
+
+                  <div
+                    className={`relative inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br ${feature.color} text-white mb-4 group-hover:scale-110 transition-transform duration-300`}
+                  >
                     <feature.icon className="w-6 h-6" />
                   </div>
 
@@ -394,7 +433,9 @@ export default function Landing() {
         <div className="container mx-auto px-4 relative z-10">
           <div
             className={`max-w-2xl mx-auto text-center transition-all duration-700 ${
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              isVisible
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-8"
             }`}
             style={{
               transitionDelay: isVisible ? "400ms" : "0ms",
@@ -404,7 +445,8 @@ export default function Landing() {
               Ready to land more interviews?
             </h2>
             <p className="text-lg text-muted-foreground mb-8">
-              Your ATS-ready resume is just 60 seconds away. No credit card. No BS.
+              Your ATS-ready resume is just 60 seconds away. No credit card. No
+              BS.
             </p>
             <Link to="/generator">
               <Button

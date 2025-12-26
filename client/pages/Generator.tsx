@@ -6,7 +6,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
-import { AlertCircle, Check, ChevronRight, Loader2, Sparkles } from "lucide-react";
+import {
+  AlertCircle,
+  Check,
+  ChevronRight,
+  Loader2,
+  Sparkles,
+} from "lucide-react";
 
 type Step = "idle" | "extracting" | "optimizing" | "building" | "complete";
 
@@ -86,7 +92,8 @@ export default function Generator() {
                 Your resume is ready!
               </h1>
               <p className="text-lg text-muted-foreground mb-12">
-                Your ATS-optimized resume has been generated and is ready to download. Let's get you interviews! 🚀
+                Your ATS-optimized resume has been generated and is ready to
+                download. Let's get you interviews! 🚀
               </p>
 
               <div className="bg-white rounded-2xl border border-border/50 shadow-lg p-8 mb-8">
@@ -111,19 +118,28 @@ export default function Generator() {
                 </div>
 
                 <p className="text-sm text-muted-foreground">
-                  💡 <strong>Why DOCX?</strong> Better for ATS parsing. PDF preserves beautiful layout.
+                  💡 <strong>Why DOCX?</strong> Better for ATS parsing. PDF
+                  preserves beautiful layout.
                 </p>
               </div>
 
               {/* Stats Grid */}
               <div className="grid grid-cols-2 gap-4 mb-8">
                 <div className="bg-gradient-to-br from-primary/10 to-primary/5 rounded-xl border border-primary/20 p-6 hover:border-primary/40 transition-colors">
-                  <p className="text-3xl font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent mb-1">High</p>
-                  <p className="text-sm text-muted-foreground font-medium">ATS Score</p>
+                  <p className="text-3xl font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent mb-1">
+                    High
+                  </p>
+                  <p className="text-sm text-muted-foreground font-medium">
+                    ATS Score
+                  </p>
                 </div>
                 <div className="bg-gradient-to-br from-accent/10 to-accent/5 rounded-xl border border-accent/20 p-6 hover:border-accent/40 transition-colors">
-                  <p className="text-3xl font-bold bg-gradient-to-r from-accent to-accent/80 bg-clip-text text-transparent mb-1">8/10</p>
-                  <p className="text-sm text-muted-foreground font-medium">Match Score</p>
+                  <p className="text-3xl font-bold bg-gradient-to-r from-accent to-accent/80 bg-clip-text text-transparent mb-1">
+                    8/10
+                  </p>
+                  <p className="text-sm text-muted-foreground font-medium">
+                    Match Score
+                  </p>
                 </div>
               </div>
 
@@ -169,7 +185,9 @@ export default function Generator() {
             {/* Header */}
             <div
               className={`text-center mb-12 transition-all duration-700 ${
-                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                isVisible
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-8"
               }`}
             >
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-primary/10 to-accent/10 border border-primary/20 mb-6">
@@ -183,7 +201,8 @@ export default function Generator() {
                 Generate Your ATS Resume
               </h1>
               <p className="text-lg text-muted-foreground">
-                Paste your LinkedIn URL. We'll extract, optimize, and build your ATS-ready resume in minutes.
+                Paste your LinkedIn URL. We'll extract, optimize, and build your
+                ATS-ready resume in minutes.
               </p>
             </div>
 
@@ -204,8 +223,8 @@ export default function Generator() {
                           isCurrent
                             ? "bg-primary/5 border-primary/40 shadow-md"
                             : isComplete
-                            ? "bg-accent/5 border-accent/30"
-                            : "bg-muted/30 border-border/50"
+                              ? "bg-accent/5 border-accent/30"
+                              : "bg-muted/30 border-border/50"
                         }`}
                       >
                         <div
@@ -213,8 +232,8 @@ export default function Generator() {
                             isComplete
                               ? "bg-gradient-to-r from-accent to-accent/80"
                               : isCurrent
-                              ? "bg-gradient-to-r from-primary to-primary/80"
-                              : "bg-muted-foreground/50"
+                                ? "bg-gradient-to-r from-primary to-primary/80"
+                                : "bg-muted-foreground/50"
                           }`}
                         >
                           {isComplete ? (
@@ -228,8 +247,8 @@ export default function Generator() {
                             isCurrent
                               ? "text-primary"
                               : isComplete
-                              ? "text-accent"
-                              : "text-muted-foreground"
+                                ? "text-accent"
+                                : "text-muted-foreground"
                           }`}
                         >
                           {s.label}
@@ -247,7 +266,10 @@ export default function Generator() {
                 <form onSubmit={handleSubmit} className="space-y-6">
                   {/* LinkedIn URL Field */}
                   <div className="group">
-                    <Label htmlFor="linkedin-url" className="text-base font-bold mb-3 block text-foreground">
+                    <Label
+                      htmlFor="linkedin-url"
+                      className="text-base font-bold mb-3 block text-foreground"
+                    >
                       LinkedIn Profile URL
                     </Label>
                     <div className="relative">
@@ -268,14 +290,21 @@ export default function Generator() {
                       )}
                     </div>
                     <p className="text-sm text-muted-foreground mt-2">
-                      Paste your public profile — no sign-in needed. Your data stays private.
+                      Paste your public profile — no sign-in needed. Your data
+                      stays private.
                     </p>
                   </div>
 
                   {/* Job Title Field */}
                   <div className="group">
-                    <Label htmlFor="job-title" className="text-base font-bold mb-3 block text-foreground">
-                      Target Job Title <span className="text-muted-foreground font-normal">(Optional)</span>
+                    <Label
+                      htmlFor="job-title"
+                      className="text-base font-bold mb-3 block text-foreground"
+                    >
+                      Target Job Title{" "}
+                      <span className="text-muted-foreground font-normal">
+                        (Optional)
+                      </span>
                     </Label>
                     <Input
                       id="job-title"
@@ -286,7 +315,8 @@ export default function Generator() {
                       className="h-12 text-base border-2 border-border/50 focus:border-primary/60 group-hover:border-border rounded-xl transition-colors duration-300 bg-background/50"
                     />
                     <p className="text-sm text-muted-foreground mt-2">
-                      Help us align keywords to your target role. This makes your resume even stronger.
+                      Help us align keywords to your target role. This makes
+                      your resume even stronger.
                     </p>
                   </div>
 
@@ -294,7 +324,9 @@ export default function Generator() {
                   {error && (
                     <div className="flex gap-3 p-4 rounded-xl bg-destructive/10 border border-destructive/30 animate-in fade-in">
                       <AlertCircle className="w-5 h-5 text-destructive flex-shrink-0 mt-0.5" />
-                      <p className="text-sm text-destructive font-medium">{error}</p>
+                      <p className="text-sm text-destructive font-medium">
+                        {error}
+                      </p>
                     </div>
                   )}
 
@@ -309,7 +341,8 @@ export default function Generator() {
                   </Button>
 
                   <p className="text-xs text-muted-foreground text-center font-medium">
-                    🔒 Your data is encrypted and deleted after 24 hours. No spam ever.
+                    🔒 Your data is encrypted and deleted after 24 hours. No
+                    spam ever.
                   </p>
                 </form>
               </Card>

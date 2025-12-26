@@ -7,7 +7,10 @@ export default function Header() {
     <header className="sticky top-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-xl">
       <div className="container mx-auto px-4 py-3.5 flex items-center justify-between h-16">
         {/* Logo */}
-        <Link to="/" className="group flex items-center gap-2.5 font-bold text-xl text-foreground hover:opacity-80 transition-opacity">
+        <Link
+          to="/"
+          className="group flex items-center gap-2.5 font-bold text-xl text-foreground hover:opacity-80 transition-opacity"
+        >
           <div className="bg-gradient-to-br from-primary to-primary/80 rounded-lg p-2.5 group-hover:shadow-lg group-hover:scale-105 transition-all duration-300">
             <FileText className="w-5 h-5 text-white" />
           </div>
@@ -50,8 +53,8 @@ export default function Header() {
 
         {/* CTA Button */}
         <Link to="/generator">
-          <Button 
-            size="sm" 
+          <Button
+            size="sm"
             className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 font-semibold"
           >
             Get Started

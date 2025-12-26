@@ -60,7 +60,9 @@ export default function Templates() {
           {/* Header */}
           <div
             className={`max-w-3xl mx-auto text-center mb-16 transition-all duration-700 ${
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              isVisible
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-8"
             }`}
           >
             <h1 className="text-5xl md:text-6xl font-bold text-foreground mb-6">
@@ -71,7 +73,8 @@ export default function Templates() {
               </span>
             </h1>
             <p className="text-xl text-muted-foreground">
-              Every template is tested and validated to pass ATS parsing. Choose the style that works best for your industry.
+              Every template is tested and validated to pass ATS parsing. Choose
+              the style that works best for your industry.
             </p>
           </div>
 
@@ -81,18 +84,25 @@ export default function Templates() {
               <div
                 key={i}
                 className={`group rounded-2xl border border-border/50 bg-white overflow-hidden hover:border-primary/30 hover:shadow-xl transition-all duration-500 hover:-translate-y-2 ${
-                  isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                  isVisible
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-8"
                 }`}
                 style={{
                   transitionDelay: isVisible ? `${template.delay}ms` : "0ms",
                 }}
               >
                 {/* Template Preview */}
-                <div className={`h-64 bg-gradient-to-br ${template.gradient} p-6 relative overflow-hidden`}>
+                <div
+                  className={`h-64 bg-gradient-to-br ${template.gradient} p-6 relative overflow-hidden`}
+                >
                   {/* Animated background pattern */}
                   <div className="absolute inset-0 opacity-20">
                     <div className="absolute top-0 right-0 w-40 h-40 bg-white rounded-full mix-blend-multiply filter blur-3xl animate-pulse" />
-                    <div className="absolute bottom-0 left-0 w-40 h-40 bg-white rounded-full mix-blend-multiply filter blur-3xl animate-pulse" style={{ animationDelay: "0.5s" }} />
+                    <div
+                      className="absolute bottom-0 left-0 w-40 h-40 bg-white rounded-full mix-blend-multiply filter blur-3xl animate-pulse"
+                      style={{ animationDelay: "0.5s" }}
+                    />
                   </div>
 
                   <div className="relative w-full h-full space-y-3">

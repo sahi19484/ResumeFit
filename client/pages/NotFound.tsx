@@ -25,7 +25,8 @@ const NotFound = () => {
             Page not found
           </h2>
           <p className="text-lg text-muted-foreground mb-8">
-            Sorry, we couldn't find the page you're looking for. Let's get you back on track.
+            Sorry, we couldn't find the page you're looking for. Let's get you
+            back on track.
           </p>
           <Link to="/">
             <Button size="lg" className="bg-primary hover:bg-primary/90">

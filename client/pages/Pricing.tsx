@@ -77,7 +77,9 @@ export default function Pricing() {
             {/* Header */}
             <div
               className={`text-center mb-16 transition-all duration-700 ${
-                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                isVisible
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-8"
               }`}
             >
               <h1 className="text-5xl md:text-6xl font-bold text-foreground mb-6">
@@ -180,7 +182,9 @@ export default function Pricing() {
             <div className="max-w-3xl mx-auto">
               <div
                 className={`text-center mb-12 transition-all duration-700 ${
-                  isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                  isVisible
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-8"
                 }`}
                 style={{
                   transitionDelay: isVisible ? "400ms" : "0ms",
@@ -225,7 +229,8 @@ export default function Pricing() {
                       <span className="text-primary">Q:</span> {faq.q}
                     </h4>
                     <p className="text-sm text-muted-foreground leading-relaxed">
-                      <span className="text-accent font-semibold">A:</span> {faq.a}
+                      <span className="text-accent font-semibold">A:</span>{" "}
+                      {faq.a}
                     </p>
                   </div>
                 ))}
