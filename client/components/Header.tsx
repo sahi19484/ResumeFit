@@ -4,47 +4,56 @@ import { FileText } from "lucide-react";
 
 export default function Header() {
   return (
-    <header className="border-b border-border bg-background sticky top-0 z-50">
-      <div className="container mx-auto px-4 py-4 flex items-center justify-between h-16">
+    <header className="sticky top-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-xl">
+      <div className="container mx-auto px-4 py-3.5 flex items-center justify-between h-16">
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-2 font-bold text-xl text-primary hover:opacity-80 transition">
-          <div className="bg-primary rounded-lg p-2">
+        <Link to="/" className="group flex items-center gap-2.5 font-bold text-xl text-foreground hover:opacity-80 transition-opacity">
+          <div className="bg-gradient-to-br from-primary to-primary/80 rounded-lg p-2.5 group-hover:shadow-lg group-hover:scale-105 transition-all duration-300">
             <FileText className="w-5 h-5 text-white" />
           </div>
-          <span>ResumeFit</span>
+          <span className="bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent font-black">
+            ResumeFit
+          </span>
         </Link>
 
         {/* Navigation Links */}
         <nav className="hidden md:flex items-center gap-8">
           <Link
             to="/"
-            className="text-sm font-medium text-foreground hover:text-primary transition"
+            className="text-sm font-semibold text-foreground hover:text-primary transition-colors duration-300 relative group"
           >
             Home
+            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-accent group-hover:w-full transition-all duration-300" />
           </Link>
           <a
             href="#how-it-works"
-            className="text-sm font-medium text-foreground hover:text-primary transition"
+            className="text-sm font-semibold text-foreground hover:text-primary transition-colors duration-300 relative group"
           >
             How It Works
+            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-accent group-hover:w-full transition-all duration-300" />
           </a>
           <Link
             to="/pricing"
-            className="text-sm font-medium text-foreground hover:text-primary transition"
+            className="text-sm font-semibold text-foreground hover:text-primary transition-colors duration-300 relative group"
           >
             Pricing
+            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-accent group-hover:w-full transition-all duration-300" />
           </Link>
           <Link
             to="/templates"
-            className="text-sm font-medium text-foreground hover:text-primary transition"
+            className="text-sm font-semibold text-foreground hover:text-primary transition-colors duration-300 relative group"
           >
             Templates
+            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-accent group-hover:w-full transition-all duration-300" />
           </Link>
         </nav>
 
         {/* CTA Button */}
         <Link to="/generator">
-          <Button size="sm" className="bg-primary hover:bg-primary/90">
+          <Button 
+            size="sm" 
+            className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 font-semibold"
+          >
             Get Started
           </Button>
         </Link>
