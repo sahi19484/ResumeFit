@@ -8,6 +8,8 @@ import { Eye, CheckCircle2, X } from "lucide-react";
 
 export default function Templates() {
   const [isVisible, setIsVisible] = useState(false);
+  const [previewTemplate, setPreviewTemplate] = useState<number | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setIsVisible(true);
