@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Eye, CheckCircle2 } from "lucide-react";
+import { Eye, CheckCircle2, X } from "lucide-react";
 
 export default function Templates() {
   const [isVisible, setIsVisible] = useState(false);
