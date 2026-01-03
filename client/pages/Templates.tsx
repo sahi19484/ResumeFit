@@ -92,6 +92,17 @@ export default function Templates() {
     },
   ];
 
+  // Get unique industries and styles
+  const industries = Array.from(new Set(templates.map((t) => t.industry)));
+  const styles = Array.from(new Set(templates.map((t) => t.style)));
+
+  // Filter templates
+  const filteredTemplates = templates.filter((t) => {
+    const industryMatch = selectedIndustry === "all" || t.industry === selectedIndustry;
+    const styleMatch = selectedStyle === "all" || t.style === selectedStyle;
+    return industryMatch && styleMatch;
+  });
+
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-b from-background to-muted/20">
       <Header />
