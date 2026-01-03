@@ -105,11 +105,42 @@ export default function Templates() {
                     />
                   </div>
 
-                  <div className="relative w-full h-full space-y-3">
-                    <div className="h-4 bg-white/40 rounded w-3/4" />
-                    <div className="h-3 bg-white/30 rounded w-full" />
-                    <div className="h-3 bg-white/30 rounded w-5/6" />
-                    <div className="h-3 bg-white/20 rounded w-4/5" />
+                  <div className="relative w-full h-full flex flex-col justify-between text-white text-xs">
+                    {/* Name & Title */}
+                    <div>
+                      <div className="font-bold text-sm mb-0.5">Sarah Anderson</div>
+                      <div className="text-white/70 text-xs mb-2">
+                        Product Manager | Tech & Innovation
+                      </div>
+                    </div>
+
+                    {/* Experience Section */}
+                    <div>
+                      <div className="font-semibold text-xs mb-1 opacity-90">Experience</div>
+                      <div className="text-white/80 text-xs">
+                        <div className="font-medium mb-0.5">Senior Product Manager</div>
+                        <div className="text-white/60 text-xs mb-1">TechCorp Inc. • 2021 - Present</div>
+                        <div className="space-y-0.5">
+                          <div className="flex gap-1">
+                            <span className="text-white/50">•</span>
+                            <span className="text-white/80">Led product strategy for 3 platforms</span>
+                          </div>
+                          <div className="flex gap-1">
+                            <span className="text-white/50">•</span>
+                            <span className="text-white/80">Increased user engagement by 45%</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Education Section */}
+                    <div>
+                      <div className="font-semibold text-xs opacity-90">Education</div>
+                      <div className="text-white/80 text-xs">
+                        <div className="font-medium">MBA Business Administration</div>
+                        <div className="text-white/60">Stanford University • 2019</div>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
