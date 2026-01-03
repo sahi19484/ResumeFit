@@ -204,60 +204,226 @@ export default function Templates() {
       {/* Preview Modal */}
       {previewTemplate !== null && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[85vh] overflow-hidden shadow-2xl">
-            <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-8 relative overflow-hidden flex flex-col justify-between min-h-[60vh]">
-              {/* Close Button */}
-              <button
-                onClick={() => setPreviewTemplate(null)}
-                className="absolute top-4 right-4 p-2 hover:bg-white/20 rounded-lg transition-colors"
-              >
-                <X className="w-6 h-6 text-white" />
-              </button>
+          <div className="bg-white rounded-2xl max-w-3xl w-full max-h-[85vh] overflow-hidden shadow-2xl">
+            {/* Close Button */}
+            <button
+              onClick={() => setPreviewTemplate(null)}
+              className="absolute top-4 right-4 p-2 hover:bg-gray-200 rounded-lg transition-colors z-10"
+            >
+              <X className="w-6 h-6 text-gray-700" />
+            </button>
 
-              {/* Name & Title */}
-              <div>
-                <h2 className="text-3xl font-bold text-white mb-2">Sarah Anderson</h2>
-                <p className="text-lg text-gray-300">Product Manager | Tech & Innovation</p>
-                <p className="text-sm text-gray-400 mt-2">
-                  sarah.anderson@email.com | (555) 123-4567 | linkedin.com/in/sarahanderson
-                </p>
-              </div>
+            {/* Template Preview Content */}
+            <div className={`bg-gradient-to-br ${templates[previewTemplate].bgColor} p-12 relative overflow-hidden flex-1`}>
+              {templates[previewTemplate].previewStyle === "modern" && (
+                <div className="text-white space-y-6">
+                  <div className="border-b border-white/30 pb-6">
+                    <h2 className="text-4xl font-bold mb-1">SARAH ANDERSON</h2>
+                    <p className="text-lg text-blue-100 mb-3">Product Manager</p>
+                    <p className="text-sm text-blue-200">
+                      sarah.anderson@email.com | (555) 123-4567 | LinkedIn: linkedin.com/in/sarahanderson | San Francisco, CA
+                    </p>
+                  </div>
 
-              {/* Professional Summary */}
-              <div>
-                <h3 className="text-lg font-bold text-white mb-2">Professional Summary</h3>
-                <p className="text-gray-200 text-sm leading-relaxed">
-                  Results-driven Product Manager with 8+ years of experience leading innovative tech
-                  solutions. Proven track record of delivering high-impact products that drive user
-                  engagement and business growth. Skilled in product strategy, data analytics, and
-                  cross-functional team leadership.
-                </p>
-              </div>
-
-              {/* Experience */}
-              <div>
-                <h3 className="text-lg font-bold text-white mb-2">Experience</h3>
-                <div className="space-y-3">
                   <div>
-                    <h4 className="font-semibold text-white">Senior Product Manager</h4>
-                    <p className="text-sm text-gray-400">TechCorp Inc. | San Francisco, CA | 2021 - Present</p>
-                    <ul className="text-sm text-gray-200 mt-1 space-y-1">
-                      <li>• Led product strategy and roadmap for 3 major platforms serving 2M+ users</li>
-                      <li>• Increased monthly active users by 45% through data-driven feature releases</li>
-                      <li>• Managed cross-functional teams of engineers, designers, and marketers</li>
+                    <h3 className="text-lg font-bold mb-2 uppercase tracking-wider">Professional Summary</h3>
+                    <p className="text-sm text-blue-100 leading-relaxed">
+                      Results-driven Product Manager with 8+ years driving innovative solutions and building high-performing teams.
+                    </p>
+                  </div>
+
+                  <div>
+                    <h3 className="text-lg font-bold mb-3 uppercase tracking-wider">Experience</h3>
+                    <div className="space-y-3">
+                      <div>
+                        <p className="font-semibold">Senior Product Manager</p>
+                        <p className="text-sm text-blue-200">TechCorp Inc. • 2021 - Present</p>
+                        <ul className="text-sm mt-1 space-y-1 text-blue-100">
+                          <li>• Led product strategy across 3 platforms</li>
+                          <li>• Increased user engagement by 45%</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {templates[previewTemplate].previewStyle === "classic" && (
+                <div className="text-white space-y-4 font-serif">
+                  <div className="text-center mb-6 border-b-2 border-white/40 pb-4">
+                    <h2 className="text-3xl font-bold">SARAH ANDERSON</h2>
+                    <p className="text-lg">Product Manager | Tech & Innovation</p>
+                    <p className="text-xs mt-2">
+                      Email: sarah.anderson@email.com | Phone: (555) 123-4567 | LinkedIn.com/in/sarahanderson
+                    </p>
+                  </div>
+
+                  <div>
+                    <h3 className="text-base font-bold mb-2">PROFESSIONAL SUMMARY</h3>
+                    <p className="text-sm leading-relaxed">
+                      Experienced Product Manager with a proven track record of launching successful products and leading cross-functional teams in the technology industry.
+                    </p>
+                  </div>
+
+                  <div>
+                    <h3 className="text-base font-bold mb-2">PROFESSIONAL EXPERIENCE</h3>
+                    <div className="ml-4 space-y-2 text-sm">
+                      <div>
+                        <p className="font-semibold">Senior Product Manager — TechCorp Inc. (2021-Present)</p>
+                        <ul className="ml-4 mt-1 space-y-1">
+                          <li>◦ Led product roadmap for 3 platforms serving 2M+ users</li>
+                          <li>◦ Increased monthly active users by 45%</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {templates[previewTemplate].previewStyle === "bold" && (
+                <div className="text-white space-y-5">
+                  <div className="border-l-4 border-white pl-4">
+                    <h2 className="text-5xl font-black mb-1">SARAH<br/>ANDERSON</h2>
+                    <p className="text-2xl font-bold text-orange-200">PRODUCT MANAGER</p>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4 text-xs py-4">
+                    <div>
+                      <p className="font-bold uppercase">Email</p>
+                      <p>sarah.anderson@email.com</p>
+                    </div>
+                    <div>
+                      <p className="font-bold uppercase">Phone</p>
+                      <p>(555) 123-4567</p>
+                    </div>
+                  </div>
+
+                  <div className="border-t border-white/50 pt-4">
+                    <h3 className="text-xl font-black mb-2">EXPERIENCE</h3>
+                    <div className="space-y-3">
+                      <div>
+                        <p className="font-bold text-lg">Senior Product Manager</p>
+                        <p className="text-sm text-orange-200">TechCorp Inc. | 2021 - Present</p>
+                        <ul className="text-sm mt-2 space-y-1">
+                          <li>▸ Led product strategy for 3 platforms</li>
+                          <li>▸ 45% increase in user engagement</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {templates[previewTemplate].previewStyle === "minimal" && (
+                <div className="text-white space-y-8">
+                  <div>
+                    <h2 className="text-5xl font-bold mb-2">Sarah Anderson</h2>
+                    <div className="flex gap-6 text-sm">
+                      <span>Product Manager</span>
+                      <span>San Francisco, CA</span>
+                    </div>
+                  </div>
+
+                  <div className="h-px bg-white/30"></div>
+
+                  <div>
+                    <h3 className="text-sm font-bold uppercase tracking-widest mb-3">Professional Summary</h3>
+                    <p className="text-sm leading-relaxed max-w-xl">
+                      Product Manager with 8+ years building innovative solutions. Passionate about user-centered design and data-driven decisions.
+                    </p>
+                  </div>
+
+                  <div>
+                    <h3 className="text-sm font-bold uppercase tracking-widest mb-4">Experience</h3>
+                    <div className="space-y-4">
+                      <div>
+                        <p className="font-semibold text-base">Senior Product Manager</p>
+                        <p className="text-xs text-green-200">TechCorp Inc. | 2021 - Present</p>
+                        <div className="mt-3 space-y-2 text-xs">
+                          <p>Led product strategy and roadmap for 3 major platforms</p>
+                          <p>Increased monthly active users by 45% through feature launches</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {templates[previewTemplate].previewStyle === "executive" && (
+                <div className="text-white space-y-6">
+                  <div className="bg-white/10 p-4 rounded">
+                    <h2 className="text-3xl font-bold mb-1">Sarah Anderson</h2>
+                    <p className="text-base font-semibold text-indigo-200">Senior Product Manager — Strategic Leader</p>
+                    <div className="flex gap-3 text-xs mt-3">
+                      <span>sarah.anderson@email.com</span>
+                      <span>|</span>
+                      <span>(555) 123-4567</span>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h3 className="text-base font-bold mb-2">EXECUTIVE PROFILE</h3>
+                    <p className="text-sm leading-relaxed">
+                      Strategic Product Leader with 8+ years driving digital transformation and delivering measurable business results. Proven expertise in building high-performing teams and launching market-leading products.
+                    </p>
+                  </div>
+
+                  <div>
+                    <h3 className="text-base font-bold mb-3">KEY ACHIEVEMENTS</h3>
+                    <ul className="space-y-2 text-sm">
+                      <li>→ Led 3 platform launches generating $50M+ in revenue</li>
+                      <li>→ Grew user base by 45% while reducing churn by 30%</li>
+                      <li>→ Built and mentored teams of 15+ cross-functional leaders</li>
                     </ul>
                   </div>
                 </div>
-              </div>
+              )}
 
-              {/* Education */}
-              <div>
-                <h3 className="text-lg font-bold text-white mb-2">Education</h3>
-                <div>
-                  <h4 className="font-semibold text-white">MBA in Business Administration</h4>
-                  <p className="text-sm text-gray-400">Stanford University | 2019</p>
+              {templates[previewTemplate].previewStyle === "creative" && (
+                <div className="text-white space-y-6">
+                  <div className="flex items-end gap-4 border-b-4 border-white pb-4">
+                    <div>
+                      <h2 className="text-5xl font-black">SA</h2>
+                    </div>
+                    <div>
+                      <h2 className="text-2xl font-bold">SARAH ANDERSON</h2>
+                      <p className="text-sm font-light">Product Manager | Innovator</p>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-3 gap-4 text-xs py-4">
+                    <div>
+                      <p className="font-bold uppercase text-pink-200">Location</p>
+                      <p>San Francisco</p>
+                    </div>
+                    <div>
+                      <p className="font-bold uppercase text-pink-200">Email</p>
+                      <p>sarah.anderson@</p>
+                      <p>email.com</p>
+                    </div>
+                    <div>
+                      <p className="font-bold uppercase text-pink-200">LinkedIn</p>
+                      <p>in/sarahanderson</p>
+                    </div>
+                  </div>
+
+                  <div className="bg-white/10 p-4 rounded-lg">
+                    <h3 className="text-lg font-bold mb-2">ABOUT</h3>
+                    <p className="text-xs leading-relaxed">
+                      Creative-minded Product Manager specializing in innovative solutions and user experience design. 8+ years in tech.
+                    </p>
+                  </div>
+
+                  <div>
+                    <h3 className="text-lg font-bold mb-3">WORK EXPERIENCE</h3>
+                    <div>
+                      <p className="font-bold">Senior Product Manager @ TechCorp</p>
+                      <p className="text-xs text-pink-200">2021 - Present</p>
+                      <p className="text-xs mt-2">→ Launched 3 successful products | → 45% growth</p>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
 
             {/* Action Footer */}
