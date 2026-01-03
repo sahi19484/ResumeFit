@@ -443,10 +443,10 @@ export default function Templates() {
               {templates[previewTemplate].previewStyle === "results" && (
                 <div className="text-white space-y-5">
                   <div>
-                    <h2 className="text-3xl font-bold mb-1">SARAH ANDERSON</h2>
-                    <p className="text-lg text-orange-100">Sales Executive | Business Development</p>
+                    <h2 className="text-2xl md:text-3xl font-bold mb-1">SARAH ANDERSON</h2>
+                    <p className="text-base md:text-lg text-orange-100">Sales Executive | Business Development</p>
                   </div>
-                  <div className="grid grid-cols-3 gap-3 bg-orange-900/40 p-3 rounded">
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3 bg-orange-900/40 p-3 rounded">
                     <div className="text-center">
                       <p className="text-2xl font-bold">$2.5M</p>
                       <p className="text-xs">ARR Generated</p>
