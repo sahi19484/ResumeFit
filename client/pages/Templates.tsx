@@ -411,14 +411,14 @@ export default function Templates() {
               {/* CREATIVE BRIEF - Designers */}
               {templates[previewTemplate].previewStyle === "creative" && (
                 <div className="text-white space-y-6">
-                  <div className="flex items-end gap-4 border-b-4 border-pink-300">
-                    <div className="text-6xl font-black text-pink-200">SA</div>
-                    <div className="mb-2">
+                  <div className="flex flex-col md:flex-row md:items-end gap-4 border-b-4 border-pink-300 pb-3">
+                    <div className="text-5xl md:text-6xl font-black text-pink-200">SA</div>
+                    <div>
                       <h2 className="text-2xl font-bold">SARAH ANDERSON</h2>
                       <p className="text-sm text-pink-100">UX/UI Designer</p>
                     </div>
                   </div>
-                  <div className="grid grid-cols-3 gap-3 text-xs">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
                     <div>
                       <p className="font-bold text-pink-200">Dribbble</p>
                       <p>dribbble.com/sarah</p>
