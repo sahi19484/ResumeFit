@@ -9,6 +9,8 @@ import { Eye, CheckCircle2, X } from "lucide-react";
 export default function Templates() {
   const [isVisible, setIsVisible] = useState(false);
   const [previewTemplate, setPreviewTemplate] = useState<number | null>(null);
+  const [selectedIndustry, setSelectedIndustry] = useState<string>("all");
+  const [selectedStyle, setSelectedStyle] = useState<string>("all");
   const navigate = useNavigate();
 
   useEffect(() => {
