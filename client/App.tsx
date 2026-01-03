@@ -10,6 +10,8 @@ import Landing from "./pages/Landing";
 import Generator from "./pages/Generator";
 import Pricing from "./pages/Pricing";
 import Templates from "./pages/Templates";
+import Editor from "./pages/Editor";
+import Marketplace from "./pages/Marketplace";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import NotFound from "./pages/NotFound";
