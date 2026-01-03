@@ -61,7 +61,9 @@ export function ScoreMeter({
         </span>
       </div>
 
-      <div className={`h-3 bg-muted rounded-full overflow-hidden ${getBgColor()}`}>
+      <div
+        className={`h-3 bg-muted rounded-full overflow-hidden ${getBgColor()}`}
+      >
         <div
           className={`h-full bg-gradient-to-r ${getColor()} transition-all duration-300 rounded-full`}
           style={{ width: `${percentage}%` }}
@@ -76,10 +78,14 @@ export function ScoreMeter({
       </div>
 
       {displayScore >= 80 && (
-        <p className="text-xs text-green-600 font-medium">✓ Great ATS compatibility</p>
+        <p className="text-xs text-green-600 font-medium">
+          ✓ Great ATS compatibility
+        </p>
       )}
       {displayScore >= 60 && displayScore < 80 && (
-        <p className="text-xs text-yellow-600 font-medium">⚠ Room for improvement</p>
+        <p className="text-xs text-yellow-600 font-medium">
+          ⚠ Room for improvement
+        </p>
       )}
       {displayScore < 60 && (
         <p className="text-xs text-red-600 font-medium">✗ Needs optimization</p>

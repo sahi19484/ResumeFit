@@ -17,12 +17,25 @@ export default function Editor() {
     userVersionId: `draft-${Date.now()}`,
     templateId: location.state?.selectedTemplate || "template-1",
     sections: [
-      { id: "name", name: "name", content: "SARAH ANDERSON", order: 1, visible: true },
-      { id: "title", name: "title", content: "Product Manager | Tech & Innovation", order: 2, visible: true },
+      {
+        id: "name",
+        name: "name",
+        content: "SARAH ANDERSON",
+        order: 1,
+        visible: true,
+      },
+      {
+        id: "title",
+        name: "title",
+        content: "Product Manager | Tech & Innovation",
+        order: 2,
+        visible: true,
+      },
       {
         id: "contact",
         name: "contact",
-        content: "sarah.anderson@email.com | (555) 123-4567 | San Francisco, CA",
+        content:
+          "sarah.anderson@email.com | (555) 123-4567 | San Francisco, CA",
         order: 3,
         visible: true,
       },
@@ -37,14 +50,16 @@ export default function Editor() {
       {
         id: "experience",
         name: "Experience",
-        content: "Senior Product Manager - TechCorp Inc. (2021-Present)\n• Led product strategy for 3 platforms serving 2M+ users\n• Increased user engagement by 45% through feature optimization\n• Managed cross-functional team of 12 engineers and designers",
+        content:
+          "Senior Product Manager - TechCorp Inc. (2021-Present)\n• Led product strategy for 3 platforms serving 2M+ users\n• Increased user engagement by 45% through feature optimization\n• Managed cross-functional team of 12 engineers and designers",
         order: 5,
         visible: true,
       },
       {
         id: "education",
         name: "Education",
-        content: "MBA in Business Administration - Stanford University (2019)\nBS in Computer Science - UC Berkeley (2015)",
+        content:
+          "MBA in Business Administration - Stanford University (2019)\nBS in Computer Science - UC Berkeley (2015)",
         order: 6,
         visible: true,
       },
@@ -56,7 +71,9 @@ export default function Editor() {
 
   const [atsResult, setAtsResult] = useState<ATSParseResult | null>(null);
   const [starterPack, setStarterPack] = useState(starterPacks[0]);
-  const [appliedSuggestions, setAppliedSuggestions] = useState<Set<string>>(new Set());
+  const [appliedSuggestions, setAppliedSuggestions] = useState<Set<string>>(
+    new Set(),
+  );
   const [isSaving, setIsSaving] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
 
@@ -87,13 +104,17 @@ export default function Editor() {
     setEditorState((prev) => ({
       ...prev,
       sections: prev.sections.map((s) =>
-        s.id === sectionId ? { ...s, content } : s
+        s.id === sectionId ? { ...s, content } : s,
       ),
       isDirty: true,
     }));
   };
 
-  const applySuggestion = (bulletId: string, bulletText: string, sectionName: string) => {
+  const applySuggestion = (
+    bulletId: string,
+    bulletText: string,
+    sectionName: string,
+  ) => {
     const section = editorState.sections.find((s) => s.name === sectionName);
     if (section) {
       const newContent = section.content + "\n• " + bulletText;
@@ -118,10 +139,8 @@ export default function Editor() {
     return sections
       .filter((s) => s.visible)
       .map((s) => {
-        if (s.name === "name")
-          return `<h1>${s.content}</h1>`;
-        if (s.name === "title")
-          return `<p>${s.content}</p>`;
+        if (s.name === "name") return `<h1>${s.content}</h1>`;
+        if (s.name === "title") return `<p>${s.content}</p>`;
         return `<h2>${s.name}</h2><p>${s.content.replace(/\n/g, "</p><p>")}</p>`;
       })
       .join("\n");
@@ -149,7 +168,8 @@ export default function Editor() {
             <div className="flex items-center gap-4">
               <h1 className="text-lg font-bold">Resume Editor</h1>
               <div className="text-sm text-muted-foreground">
-                Last saved: {new Date(editorState.lastSaved).toLocaleTimeString()}
+                Last saved:{" "}
+                {new Date(editorState.lastSaved).toLocaleTimeString()}
               </div>
             </div>
 
@@ -163,11 +183,20 @@ export default function Editor() {
                 <Eye className="w-4 h-4 mr-2" />
                 {showPreview ? "Edit" : "Preview"}
               </Button>
-              <Button variant="outline" size="sm" onClick={saveVersion} disabled={!editorState.isDirty || isSaving}>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={saveVersion}
+                disabled={!editorState.isDirty || isSaving}
+              >
                 <Save className="w-4 h-4 mr-2" />
                 {isSaving ? "Saving..." : "Save"}
               </Button>
-              <Button size="sm" onClick={exportToPDF} className="bg-gradient-to-r from-primary to-primary/80">
+              <Button
+                size="sm"
+                onClick={exportToPDF}
+                className="bg-gradient-to-r from-primary to-primary/80"
+              >
                 <Download className="w-4 h-4 mr-2" />
                 Export PDF
               </Button>
@@ -179,7 +208,9 @@ export default function Editor() {
         <div className="container mx-auto px-4 py-8">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
             {/* Left Pane: Canvas Editor */}
-            <div className={`${showPreview ? "hidden" : ""} md:col-span-7 md:block`}>
+            <div
+              className={`${showPreview ? "hidden" : ""} md:col-span-7 md:block`}
+            >
               <Card className="p-6 space-y-6 bg-white">
                 <div className="space-y-4">
                   {editorState.sections.map((section) => (
@@ -191,11 +222,18 @@ export default function Editor() {
                       )}
                       <textarea
                         value={section.content}
-                        onChange={(e) => updateSection(section.id, e.target.value)}
+                        onChange={(e) =>
+                          updateSection(section.id, e.target.value)
+                        }
                         className={`w-full border rounded-lg p-3 font-mono text-sm resize-none focus:outline-none focus:ring-2 focus:ring-primary ${
                           section.name === "name" ? "text-2xl font-bold" : ""
                         } ${section.name === "title" ? "text-lg font-semibold" : ""}`}
-                        rows={section.name === "experience" || section.name === "education" ? 6 : 2}
+                        rows={
+                          section.name === "experience" ||
+                          section.name === "education"
+                            ? 6
+                            : 2
+                        }
                         placeholder={`Enter ${section.name}...`}
                       />
                     </div>
@@ -205,34 +243,47 @@ export default function Editor() {
             </div>
 
             {/* Right Pane: Insights & Suggestions */}
-            <div className={`${!showPreview ? "hidden" : ""} md:col-span-5 md:block`}>
+            <div
+              className={`${!showPreview ? "hidden" : ""} md:col-span-5 md:block`}
+            >
               <div className="space-y-6">
                 {/* ATS Score Section */}
                 <Card className="p-6">
-                  <ScoreMeter score={atsResult?.score || 72} label="ATS Compatibility Score" />
+                  <ScoreMeter
+                    score={atsResult?.score || 72}
+                    label="ATS Compatibility Score"
+                  />
                 </Card>
 
                 {/* Warnings & Gaps */}
-                {atsResult && (atsResult.warnings.length > 0 || atsResult.gaps.length > 0) && (
-                  <Card className="p-6 space-y-3">
-                    <h3 className="font-semibold flex items-center gap-2">
-                      <AlertCircle className="w-5 h-5 text-yellow-600" />
-                      Issues to Fix
-                    </h3>
+                {atsResult &&
+                  (atsResult.warnings.length > 0 ||
+                    atsResult.gaps.length > 0) && (
+                    <Card className="p-6 space-y-3">
+                      <h3 className="font-semibold flex items-center gap-2">
+                        <AlertCircle className="w-5 h-5 text-yellow-600" />
+                        Issues to Fix
+                      </h3>
 
-                    {atsResult.gaps.map((gap, i) => (
-                      <div key={i} className="text-sm text-yellow-700 bg-yellow-50 p-2 rounded">
-                        • {gap}
-                      </div>
-                    ))}
+                      {atsResult.gaps.map((gap, i) => (
+                        <div
+                          key={i}
+                          className="text-sm text-yellow-700 bg-yellow-50 p-2 rounded"
+                        >
+                          • {gap}
+                        </div>
+                      ))}
 
-                    {atsResult.warnings.map((warning, i) => (
-                      <div key={i} className="text-sm text-red-700 bg-red-50 p-2 rounded">
-                        • {warning}
-                      </div>
-                    ))}
-                  </Card>
-                )}
+                      {atsResult.warnings.map((warning, i) => (
+                        <div
+                          key={i}
+                          className="text-sm text-red-700 bg-red-50 p-2 rounded"
+                        >
+                          • {warning}
+                        </div>
+                      ))}
+                    </Card>
+                  )}
 
                 {/* Suggestions Tab */}
                 <Card className="p-6">
@@ -256,7 +307,11 @@ export default function Editor() {
                           impact={bullet.impact}
                           applied={appliedSuggestions.has(bullet.id)}
                           onApply={() =>
-                            applySuggestion(bullet.id, bullet.text, "experience")
+                            applySuggestion(
+                              bullet.id,
+                              bullet.text,
+                              "experience",
+                            )
                           }
                         />
                       ))}
@@ -284,9 +339,15 @@ export default function Editor() {
                       </p>
                       {starterPack.sample_metrics.map((metric, i) => (
                         <div key={i} className="p-3 bg-muted rounded-lg">
-                          <p className="font-semibold text-sm">{metric.metric}</p>
-                          <p className="text-xl font-bold text-primary">{metric.value}</p>
-                          <p className="text-xs text-muted-foreground">{metric.context}</p>
+                          <p className="font-semibold text-sm">
+                            {metric.metric}
+                          </p>
+                          <p className="text-xl font-bold text-primary">
+                            {metric.value}
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            {metric.context}
+                          </p>
                         </div>
                       ))}
                     </TabsContent>
@@ -295,20 +356,32 @@ export default function Editor() {
 
                 {/* Parsed Text Preview */}
                 <Card className="p-6 space-y-3">
-                  <h3 className="font-semibold text-sm">How ATS Sees Your Resume</h3>
+                  <h3 className="font-semibold text-sm">
+                    How ATS Sees Your Resume
+                  </h3>
                   {atsResult && (
                     <div className="space-y-3 text-sm">
                       <div>
-                        <p className="font-semibold text-xs text-muted-foreground">NAME</p>
+                        <p className="font-semibold text-xs text-muted-foreground">
+                          NAME
+                        </p>
                         <p className="font-mono">{atsResult.fields.name}</p>
                       </div>
                       <div>
-                        <p className="font-semibold text-xs text-muted-foreground">EMAIL</p>
-                        <p className="font-mono text-xs">{atsResult.fields.email}</p>
+                        <p className="font-semibold text-xs text-muted-foreground">
+                          EMAIL
+                        </p>
+                        <p className="font-mono text-xs">
+                          {atsResult.fields.email}
+                        </p>
                       </div>
                       <div>
-                        <p className="font-semibold text-xs text-muted-foreground">PHONE</p>
-                        <p className="font-mono text-xs">{atsResult.fields.phone}</p>
+                        <p className="font-semibold text-xs text-muted-foreground">
+                          PHONE
+                        </p>
+                        <p className="font-mono text-xs">
+                          {atsResult.fields.phone}
+                        </p>
                       </div>
                     </div>
                   )}

@@ -25,7 +25,9 @@ export default function Marketplace() {
           {/* Hero Section */}
           <div
             className={`max-w-3xl mx-auto text-center mb-20 transition-all duration-700 ${
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              isVisible
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-8"
             }`}
           >
             <h1 className="text-5xl md:text-6xl font-bold text-foreground mb-6">
@@ -36,8 +38,9 @@ export default function Marketplace() {
               </span>
             </h1>
             <p className="text-xl text-muted-foreground mb-8">
-              Get curated keywords, achievement bullets, and metrics specifically tailored to your
-              industry. Accelerate your resume with proven language that passes ATS screening.
+              Get curated keywords, achievement bullets, and metrics
+              specifically tailored to your industry. Accelerate your resume
+              with proven language that passes ATS screening.
             </p>
 
             <div className="grid grid-cols-3 gap-4 max-w-lg mx-auto">
@@ -47,7 +50,9 @@ export default function Marketplace() {
               </div>
               <div className="bg-accent/10 rounded-lg p-4">
                 <p className="text-2xl font-bold text-accent mb-1">50+</p>
-                <p className="text-xs text-muted-foreground">Bullet Templates</p>
+                <p className="text-xs text-muted-foreground">
+                  Bullet Templates
+                </p>
               </div>
               <div className="bg-green-500/10 rounded-lg p-4">
                 <p className="text-2xl font-bold text-green-600 mb-1">100%</p>
@@ -62,7 +67,9 @@ export default function Marketplace() {
               <div
                 key={pack.id}
                 className={`group rounded-2xl border border-border/50 bg-white overflow-hidden hover:border-primary/30 hover:shadow-xl transition-all duration-500 hover:-translate-y-2 ${
-                  isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                  isVisible
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-8"
                 }`}
                 style={{
                   transitionDelay: isVisible ? `${i * 100}ms` : "0ms",
@@ -77,11 +84,16 @@ export default function Marketplace() {
                   {/* Animated background circles */}
                   <div className="absolute inset-0 opacity-20">
                     <div className="absolute top-0 right-0 w-32 h-32 bg-white rounded-full mix-blend-multiply filter blur-3xl animate-pulse" />
-                    <div className="absolute bottom-0 left-0 w-32 h-32 bg-white rounded-full mix-blend-multiply filter blur-3xl animate-pulse" style={{ animationDelay: "0.5s" }} />
+                    <div
+                      className="absolute bottom-0 left-0 w-32 h-32 bg-white rounded-full mix-blend-multiply filter blur-3xl animate-pulse"
+                      style={{ animationDelay: "0.5s" }}
+                    />
                   </div>
 
                   <div className="relative">
-                    <h3 className="text-2xl font-bold text-white mb-2">{pack.industry}</h3>
+                    <h3 className="text-2xl font-bold text-white mb-2">
+                      {pack.industry}
+                    </h3>
                     <p className="text-sm text-white/80">{pack.description}</p>
                   </div>
                 </div>
@@ -91,16 +103,28 @@ export default function Marketplace() {
                   {/* Stats */}
                   <div className="grid grid-cols-3 gap-2">
                     <div className="bg-muted/50 rounded-lg p-3 text-center">
-                      <p className="text-2xl font-bold text-primary">{pack.bullets.length}</p>
-                      <p className="text-xs text-muted-foreground mt-1">Bullets</p>
+                      <p className="text-2xl font-bold text-primary">
+                        {pack.bullets.length}
+                      </p>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        Bullets
+                      </p>
                     </div>
                     <div className="bg-muted/50 rounded-lg p-3 text-center">
-                      <p className="text-2xl font-bold text-accent">{pack.keywords.length}</p>
-                      <p className="text-xs text-muted-foreground mt-1">Keywords</p>
+                      <p className="text-2xl font-bold text-accent">
+                        {pack.keywords.length}
+                      </p>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        Keywords
+                      </p>
                     </div>
                     <div className="bg-muted/50 rounded-lg p-3 text-center">
-                      <p className="text-2xl font-bold text-green-600">{pack.sample_metrics.length}</p>
-                      <p className="text-xs text-muted-foreground mt-1">Metrics</p>
+                      <p className="text-2xl font-bold text-green-600">
+                        {pack.sample_metrics.length}
+                      </p>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        Metrics
+                      </p>
                     </div>
                   </div>
 
@@ -111,7 +135,10 @@ export default function Marketplace() {
                     </p>
                     <ul className="space-y-2">
                       {pack.bullets.slice(0, 2).map((bullet) => (
-                        <li key={bullet.id} className="text-xs text-foreground leading-relaxed">
+                        <li
+                          key={bullet.id}
+                          className="text-xs text-foreground leading-relaxed"
+                        >
                           <span className="text-muted-foreground">•</span>{" "}
                           {bullet.text.substring(0, 50)}...
                         </li>
@@ -170,10 +197,13 @@ export default function Marketplace() {
 
           {/* CTA Section */}
           <div className="max-w-3xl mx-auto text-center space-y-6 mb-20">
-            <h2 className="text-3xl font-bold">Ready to Optimize Your Resume?</h2>
+            <h2 className="text-3xl font-bold">
+              Ready to Optimize Your Resume?
+            </h2>
             <p className="text-lg text-muted-foreground">
-              Combine any starter pack with our ATS-optimized templates to create a resume that
-              gets past screening systems and lands interviews.
+              Combine any starter pack with our ATS-optimized templates to
+              create a resume that gets past screening systems and lands
+              interviews.
             </p>
             <div className="flex gap-4 justify-center">
               <Button

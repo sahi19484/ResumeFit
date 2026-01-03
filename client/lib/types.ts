@@ -4,7 +4,15 @@ export interface Template {
   id: string;
   name: string;
   industry_tags: string[];
-  style: "modern" | "classic" | "clinical" | "creative" | "results" | "academic" | "technical" | "executive";
+  style:
+    | "modern"
+    | "classic"
+    | "clinical"
+    | "creative"
+    | "results"
+    | "academic"
+    | "technical"
+    | "executive";
   description: string;
   preview_image: string;
   baseline_ats_score: number;

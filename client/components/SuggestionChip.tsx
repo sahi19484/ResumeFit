@@ -61,7 +61,11 @@ export function SuggestionChip({
 
   const getImpactBadge = () => {
     if (!impact) return null;
-    const labels = { high: "High Impact", medium: "Medium Impact", low: "Low Impact" };
+    const labels = {
+      high: "High Impact",
+      medium: "Medium Impact",
+      low: "Low Impact",
+    };
     return (
       <span
         className={`text-xs font-semibold px-2 py-1 rounded ${
@@ -83,8 +87,16 @@ export function SuggestionChip({
     >
       <div className="flex items-start justify-between gap-2">
         <div className="flex-1 space-y-1">
-          {category && <p className="text-xs font-semibold text-muted-foreground">{category}</p>}
-          <p className={`text-sm font-medium leading-relaxed ${getTextColor()}`}>{text}</p>
+          {category && (
+            <p className="text-xs font-semibold text-muted-foreground">
+              {category}
+            </p>
+          )}
+          <p
+            className={`text-sm font-medium leading-relaxed ${getTextColor()}`}
+          >
+            {text}
+          </p>
         </div>
         <div className="flex items-center gap-2 shrink-0">
           <span className={`${getTextColor()}`}>{getIcon()}</span>
@@ -97,11 +109,17 @@ export function SuggestionChip({
               Apply
             </Button>
           )}
-          {applied && <span className="text-xs font-semibold text-primary">✓ Added</span>}
+          {applied && (
+            <span className="text-xs font-semibold text-primary">✓ Added</span>
+          )}
         </div>
       </div>
 
-      {impact && <div className="flex justify-between items-center">{getImpactBadge()}</div>}
+      {impact && (
+        <div className="flex justify-between items-center">
+          {getImpactBadge()}
+        </div>
+      )}
     </div>
   );
 }

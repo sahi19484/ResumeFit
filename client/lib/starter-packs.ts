@@ -58,12 +58,30 @@ export const starterPacks: StarterPack[] = [
       "agile",
     ],
     sample_metrics: [
-      { metric: "Activation Rate Increase", value: "32%", context: "in 6 months" },
+      {
+        metric: "Activation Rate Increase",
+        value: "32%",
+        context: "in 6 months",
+      },
       { metric: "User Retention Improvement", value: "8%", context: "YoY" },
-      { metric: "Revenue Impact", value: "$2M+", context: "attributed to features shipped" },
-      { metric: "Team Size", value: "3 platforms", context: "under management" },
+      {
+        metric: "Revenue Impact",
+        value: "$2M+",
+        context: "attributed to features shipped",
+      },
+      {
+        metric: "Team Size",
+        value: "3 platforms",
+        context: "under management",
+      },
     ],
-    recommended_sections: ["Professional Summary", "Experience", "Skills", "Education", "Projects"],
+    recommended_sections: [
+      "Professional Summary",
+      "Experience",
+      "Skills",
+      "Education",
+      "Projects",
+    ],
   },
   {
     id: "finance-consulting",
@@ -127,7 +145,11 @@ export const starterPacks: StarterPack[] = [
       { metric: "Portfolio Under Management", value: "$250M+", context: "" },
       { metric: "Cost Reduction", value: "28%", context: "within 2 years" },
       { metric: "Client Retention", value: "98%", context: "YoY" },
-      { metric: "Process Efficiency", value: "40%", context: "faster close time" },
+      {
+        metric: "Process Efficiency",
+        value: "40%",
+        context: "faster close time",
+      },
     ],
     recommended_sections: [
       "Professional Summary",
@@ -197,7 +219,11 @@ export const starterPacks: StarterPack[] = [
       { metric: "Patient Satisfaction", value: "95%+", context: "" },
       { metric: "Patient Load", value: "6-8 patients", context: "per shift" },
       { metric: "Safety Incidents", value: "Zero", context: "in 2 years" },
-      { metric: "Staff Trained", value: "12+", context: "nurses & technicians" },
+      {
+        metric: "Staff Trained",
+        value: "12+",
+        context: "nurses & technicians",
+      },
     ],
     recommended_sections: [
       "Professional Summary",
@@ -335,9 +361,21 @@ export const starterPacks: StarterPack[] = [
       "design thinking",
     ],
     sample_metrics: [
-      { metric: "Design Impact", value: "32% increase", context: "in user engagement" },
-      { metric: "Time Savings", value: "40%", context: "through design system" },
-      { metric: "User Satisfaction", value: "4.8/5", context: "average rating" },
+      {
+        metric: "Design Impact",
+        value: "32% increase",
+        context: "in user engagement",
+      },
+      {
+        metric: "Time Savings",
+        value: "40%",
+        context: "through design system",
+      },
+      {
+        metric: "User Satisfaction",
+        value: "4.8/5",
+        context: "average rating",
+      },
       { metric: "Projects Delivered", value: "15+", context: "on time" },
     ],
     recommended_sections: [
@@ -410,9 +448,21 @@ export const starterPacks: StarterPack[] = [
     ],
     sample_metrics: [
       { metric: "System Throughput", value: "50K+ req/sec", context: "" },
-      { metric: "Latency Reduction", value: "60%", context: "through optimization" },
-      { metric: "Deployment Frequency", value: "10x", context: "faster with CI/CD" },
-      { metric: "Incident Response", value: "99.99%", context: "uptime achieved" },
+      {
+        metric: "Latency Reduction",
+        value: "60%",
+        context: "through optimization",
+      },
+      {
+        metric: "Deployment Frequency",
+        value: "10x",
+        context: "faster with CI/CD",
+      },
+      {
+        metric: "Incident Response",
+        value: "99.99%",
+        context: "uptime achieved",
+      },
     ],
     recommended_sections: [
       "Professional Summary",
@@ -429,8 +479,12 @@ export function mockParseResume(htmlContent: string): any {
   const textContent = htmlContent.replace(/<[^>]*>/g, " ").toLowerCase();
 
   const nameMatch = htmlContent.match(/<h1[^>]*>([^<]+)<\/h1>/i);
-  const emailMatch = textContent.match(/([a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,})/);
-  const phoneMatch = textContent.match(/\(?(\d{3})\)?[-.\s]?(\d{3})[-.\s]?(\d{4})/);
+  const emailMatch = textContent.match(
+    /([a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,})/,
+  );
+  const phoneMatch = textContent.match(
+    /\(?(\d{3})\)?[-.\s]?(\d{3})[-.\s]?(\d{4})/,
+  );
 
   const keywords = extractKeywords(textContent);
   const score = calculateATSScore(textContent, keywords);
@@ -439,7 +493,9 @@ export function mockParseResume(htmlContent: string): any {
     fields: {
       name: nameMatch ? nameMatch[1].trim() : "Not found",
       email: emailMatch ? emailMatch[0] : "Not found",
-      phone: phoneMatch ? `(${phoneMatch[1]}) ${phoneMatch[2]}-${phoneMatch[3]}` : "Not found",
+      phone: phoneMatch
+        ? `(${phoneMatch[1]}) ${phoneMatch[2]}-${phoneMatch[3]}`
+        : "Not found",
     },
     sections: extractSections(htmlContent),
     keywords,
@@ -504,8 +560,10 @@ function identifyGaps(text: string, keywords: string[]): string[] {
   const gaps = [];
 
   if (!text.includes("@")) gaps.push("Email address not found");
-  if (!/\d{3}[-.\s]?\d{3}[-.\s]?\d{4}/.test(text)) gaps.push("Phone number not found");
-  if (keywords.length < 5) gaps.push("Missing action verbs - add more quantifiable achievements");
+  if (!/\d{3}[-.\s]?\d{3}[-.\s]?\d{4}/.test(text))
+    gaps.push("Phone number not found");
+  if (keywords.length < 5)
+    gaps.push("Missing action verbs - add more quantifiable achievements");
 
   return gaps;
 }
@@ -513,7 +571,10 @@ function identifyGaps(text: string, keywords: string[]): string[] {
 function identifyWarnings(html: string): string[] {
   const warnings = [];
 
-  if (html.includes("<img")) warnings.push("Resume contains images - ensure text is not embedded in images");
+  if (html.includes("<img"))
+    warnings.push(
+      "Resume contains images - ensure text is not embedded in images",
+    );
   if (html.match(/<table/gi) && html.match(/<table/gi)!.length > 2)
     warnings.push("Multiple tables detected - simplify for better ATS parsing");
 
