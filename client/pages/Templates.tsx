@@ -130,6 +130,54 @@ export default function Templates() {
             </p>
           </div>
 
+          {/* Filters */}
+          <div className="max-w-4xl mx-auto mb-12 space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* Industry Filter */}
+              <div>
+                <label className="text-sm font-semibold text-foreground mb-2 block">
+                  Filter by Industry
+                </label>
+                <select
+                  value={selectedIndustry}
+                  onChange={(e) => setSelectedIndustry(e.target.value)}
+                  className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-background"
+                >
+                  <option value="all">All Industries</option>
+                  {industries.map((industry) => (
+                    <option key={industry} value={industry}>
+                      {industry}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Style Filter */}
+              <div>
+                <label className="text-sm font-semibold text-foreground mb-2 block">
+                  Filter by Style
+                </label>
+                <select
+                  value={selectedStyle}
+                  onChange={(e) => setSelectedStyle(e.target.value)}
+                  className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-background"
+                >
+                  <option value="all">All Styles</option>
+                  {styles.map((style) => (
+                    <option key={style} value={style}>
+                      {style.charAt(0).toUpperCase() + style.slice(1)}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            {/* Results count */}
+            <p className="text-sm text-muted-foreground">
+              Showing {filteredTemplates.length} of {templates.length} templates
+            </p>
+          </div>
+
           {/* Template Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {templates.map((template, i) => (
