@@ -312,7 +312,7 @@ export default function Templates() {
             <div className={`bg-gradient-to-br ${templates[previewTemplate].bgColor} p-8 relative overflow-hidden`}>
               {/* MODERN CLEAN - Tech Product Managers */}
               {templates[previewTemplate].previewStyle === "modern" && (
-                <div className="grid grid-cols-3 gap-8 text-white">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-white">
                   {/* Left column: Contact & Skills */}
                   <div className="col-span-1 space-y-6">
                     <div>
