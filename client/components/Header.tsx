@@ -49,6 +49,13 @@ export default function Header() {
             Templates
             <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-accent group-hover:w-full transition-all duration-300" />
           </Link>
+          <Link
+            to="/marketplace"
+            className="text-sm font-semibold text-foreground hover:text-primary transition-colors duration-300 relative group"
+          >
+            Starter Packs
+            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-accent group-hover:w-full transition-all duration-300" />
+          </Link>
         </nav>
 
         {/* CTA Button */}
