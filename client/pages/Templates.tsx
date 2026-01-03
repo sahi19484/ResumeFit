@@ -144,42 +144,113 @@ export default function Templates() {
                     />
                   </div>
 
-                  <div className="relative w-full h-full flex flex-col justify-between text-white text-xs">
-                    {/* Name & Title */}
-                    <div>
-                      <div className="font-bold text-sm mb-0.5">Sarah Anderson</div>
-                      <div className="text-white/70 text-xs mb-2">
-                        Product Manager | Tech & Innovation
-                      </div>
-                    </div>
-
-                    {/* Experience Section */}
-                    <div>
-                      <div className="font-semibold text-xs mb-1 opacity-90">Experience</div>
-                      <div className="text-white/80 text-xs">
-                        <div className="font-medium mb-0.5">Senior Product Manager</div>
-                        <div className="text-white/60 text-xs mb-1">TechCorp Inc. • 2021 - Present</div>
-                        <div className="space-y-0.5">
-                          <div className="flex gap-1">
-                            <span className="text-white/50">•</span>
-                            <span className="text-white/80">Led product strategy for 3 platforms</span>
-                          </div>
-                          <div className="flex gap-1">
-                            <span className="text-white/50">•</span>
-                            <span className="text-white/80">Increased user engagement by 45%</span>
+                  <div className="relative w-full h-full flex flex-col justify-between text-white text-xs overflow-hidden">
+                    {templates[i].previewStyle === "modern" && (
+                      <>
+                        <div>
+                          <div className="font-bold text-sm mb-0.5">Sarah Anderson</div>
+                          <div className="text-white/70 text-xs mb-1">Product Manager</div>
+                          <div className="text-white/60 text-xs space-y-0.5">
+                            <p>Data Analytics: 85%</p>
+                            <p>Product Strategy: 90%</p>
                           </div>
                         </div>
-                      </div>
-                    </div>
-
-                    {/* Education Section */}
-                    <div>
-                      <div className="font-semibold text-xs opacity-90">Education</div>
-                      <div className="text-white/80 text-xs">
-                        <div className="font-medium">MBA Business Administration</div>
-                        <div className="text-white/60">Stanford University • 2019</div>
-                      </div>
-                    </div>
+                        <div>
+                          <div className="font-semibold text-xs mb-0.5">Senior PM @ TechCorp</div>
+                          <p className="text-white/70 text-xs">+32% activation • 3 launches</p>
+                        </div>
+                      </>
+                    )}
+                    {templates[i].previewStyle === "classic" && (
+                      <>
+                        <div className="text-center">
+                          <div className="font-bold text-sm">SARAH ANDERSON</div>
+                          <div className="text-white/70 text-xs">Finance Manager</div>
+                        </div>
+                        <div>
+                          <div className="font-semibold text-xs mb-1">Morgan Stanley</div>
+                          <p className="text-white/70 text-xs">$250M Portfolio • +28% Efficiency</p>
+                          <p className="text-white/60 text-xs mt-1">CFA Level III</p>
+                        </div>
+                      </>
+                    )}
+                    {templates[i].previewStyle === "clinical" && (
+                      <>
+                        <div>
+                          <div className="font-bold text-sm">SARAH ANDERSON, RN</div>
+                          <div className="text-white/70 text-xs">Critical Care Nurse</div>
+                        </div>
+                        <div>
+                          <p className="text-white/60 text-xs font-semibold">RN License CA #123456</p>
+                          <p className="text-white/70 text-xs mt-1">UCSF Medical Center</p>
+                          <p className="text-white/70 text-xs">CCRN • BLS/ACLS</p>
+                        </div>
+                      </>
+                    )}
+                    {templates[i].previewStyle === "creative" && (
+                      <>
+                        <div className="text-lg font-black">SA</div>
+                        <div>
+                          <div className="font-bold text-sm">SARAH ANDERSON</div>
+                          <div className="text-white/70 text-xs">UX/UI Designer</div>
+                          <p className="text-white/60 text-xs mt-1">dribbble.com/sarah</p>
+                        </div>
+                      </>
+                    )}
+                    {templates[i].previewStyle === "results" && (
+                      <>
+                        <div>
+                          <div className="font-bold text-sm">SARAH ANDERSON</div>
+                          <div className="text-white/70 text-xs">Sales Executive</div>
+                        </div>
+                        <div className="grid grid-cols-2 gap-1 text-center">
+                          <div>
+                            <p className="font-bold text-xs">$2.5M</p>
+                            <p className="text-white/60 text-xs">ARR</p>
+                          </div>
+                          <div>
+                            <p className="font-bold text-xs">145%</p>
+                            <p className="text-white/60 text-xs">Quota</p>
+                          </div>
+                        </div>
+                      </>
+                    )}
+                    {templates[i].previewStyle === "academic" && (
+                      <>
+                        <div>
+                          <div className="font-bold text-sm">Dr. Sarah Anderson</div>
+                          <div className="text-white/70 text-xs">Computer Science</div>
+                        </div>
+                        <div>
+                          <p className="text-white/60 text-xs font-semibold">Research: ML & NLP</p>
+                          <p className="text-white/70 text-xs mt-1">4 Recent Publications</p>
+                        </div>
+                      </>
+                    )}
+                    {templates[i].previewStyle === "technical" && (
+                      <>
+                        <div>
+                          <div className="font-bold text-sm">SARAH ANDERSON</div>
+                          <div className="text-white/70 text-xs">Full Stack Engineer</div>
+                        </div>
+                        <div className="text-white/60 text-xs space-y-0.5">
+                          <p>React • Node.js • Docker</p>
+                          <p>Python • PostgreSQL • AWS</p>
+                        </div>
+                      </>
+                    )}
+                    {templates[i].previewStyle === "executive" && (
+                      <>
+                        <div>
+                          <div className="font-bold text-sm">SARAH ANDERSON</div>
+                          <div className="text-white/70 text-xs">VP of Product</div>
+                        </div>
+                        <div>
+                          <p className="text-white/60 text-xs font-semibold">$250M Growth</p>
+                          <p className="text-white/70 text-xs mt-1">50+ Leadership Team</p>
+                        </div>
+                      </>
+                    )}
                   </div>
                 </div>
 
