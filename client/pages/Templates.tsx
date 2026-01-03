@@ -189,6 +189,89 @@ export default function Templates() {
         </div>
       </div>
 
+      {/* Preview Modal */}
+      {previewTemplate !== null && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[85vh] overflow-hidden shadow-2xl">
+            <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-8 relative overflow-hidden flex flex-col justify-between min-h-[60vh]">
+              {/* Close Button */}
+              <button
+                onClick={() => setPreviewTemplate(null)}
+                className="absolute top-4 right-4 p-2 hover:bg-white/20 rounded-lg transition-colors"
+              >
+                <X className="w-6 h-6 text-white" />
+              </button>
+
+              {/* Name & Title */}
+              <div>
+                <h2 className="text-3xl font-bold text-white mb-2">Sarah Anderson</h2>
+                <p className="text-lg text-gray-300">Product Manager | Tech & Innovation</p>
+                <p className="text-sm text-gray-400 mt-2">
+                  sarah.anderson@email.com | (555) 123-4567 | linkedin.com/in/sarahanderson
+                </p>
+              </div>
+
+              {/* Professional Summary */}
+              <div>
+                <h3 className="text-lg font-bold text-white mb-2">Professional Summary</h3>
+                <p className="text-gray-200 text-sm leading-relaxed">
+                  Results-driven Product Manager with 8+ years of experience leading innovative tech
+                  solutions. Proven track record of delivering high-impact products that drive user
+                  engagement and business growth. Skilled in product strategy, data analytics, and
+                  cross-functional team leadership.
+                </p>
+              </div>
+
+              {/* Experience */}
+              <div>
+                <h3 className="text-lg font-bold text-white mb-2">Experience</h3>
+                <div className="space-y-3">
+                  <div>
+                    <h4 className="font-semibold text-white">Senior Product Manager</h4>
+                    <p className="text-sm text-gray-400">TechCorp Inc. | San Francisco, CA | 2021 - Present</p>
+                    <ul className="text-sm text-gray-200 mt-1 space-y-1">
+                      <li>• Led product strategy and roadmap for 3 major platforms serving 2M+ users</li>
+                      <li>• Increased monthly active users by 45% through data-driven feature releases</li>
+                      <li>• Managed cross-functional teams of engineers, designers, and marketers</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              {/* Education */}
+              <div>
+                <h3 className="text-lg font-bold text-white mb-2">Education</h3>
+                <div>
+                  <h4 className="font-semibold text-white">MBA in Business Administration</h4>
+                  <p className="text-sm text-gray-400">Stanford University | 2019</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Action Footer */}
+            <div className="bg-gray-50 px-8 py-4 flex gap-2 justify-end border-t border-gray-200">
+              <Button
+                variant="outline"
+                onClick={() => setPreviewTemplate(null)}
+                className="border-gray-300 hover:bg-gray-100"
+              >
+                Close
+              </Button>
+              <Button
+                onClick={() => {
+                  navigate("/generator", {
+                    state: { selectedTemplate: templates[previewTemplate].name },
+                  });
+                }}
+                className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-white"
+              >
+                Use This Template
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <Footer />
     </div>
   );
