@@ -298,8 +298,8 @@ export default function Templates() {
 
       {/* Preview Modal */}
       {previewTemplate !== null && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl max-w-3xl w-full max-h-[85vh] overflow-hidden shadow-2xl">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
+          <div className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden shadow-2xl my-auto">
             {/* Close Button */}
             <button
               onClick={() => setPreviewTemplate(null)}
