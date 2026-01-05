@@ -112,14 +112,21 @@ Six comprehensive starter packs, each including:
 - **React 18** - UI framework with hooks
 - **TypeScript** - Type-safe development
 - **Tailwind CSS** - Utility-first styling
-- **React Router v6** - Client-side routing
+- **React Router v6** - Client-side routing (SPA mode)
 - **Lucide React** - Icon library (Eye, Download, Save, etc.)
+
+### Backend
+
+- **Node.js** - Runtime environment
+- **Express 5** - Web framework
+- **Cheerio** - HTML parsing (jQuery-like API for server-side scraping)
+- **node-fetch** - HTTP client for LinkedIn profile extraction
 
 ### Build & Development
 
-- **Vite** - Lightning-fast build tool
+- **Vite** - Lightning-fast dev server & build tool (single port for frontend + backend)
 - **PostCSS** - CSS preprocessing
-- **pnpm** - Fast package manager
+- **pnpm** - Fast, reliable package manager
 
 ### Styling & Animation
 
@@ -152,7 +159,7 @@ code/
 │   │
 │   ├── pages/
 │   │   ├── Landing.tsx               # Home page with hero & features
-│   │   ├── Generator.tsx             # LinkedIn import flow
+│   │   ├── Generator.tsx             # LinkedIn extraction & resume generation
 │   │   ├── Pricing.tsx               # Pricing plans
 │   │   ├── Templates.tsx             # Templates gallery (8 templates)
 │   │   ├── Marketplace.tsx           # Industry starter packs
@@ -172,6 +179,14 @@ code/
 │   └── index.html                    # HTML entry point
 │
 ├── server/                           # Backend (Node/Express)
+│   ├── index.ts                      # Express server setup
+│   └── routes/
+│       ├── demo.ts                   # Demo endpoint
+│       └── extract.ts                # LinkedIn profile extraction (cheerio)
+│
+├── shared/                           # Shared types & interfaces
+│   └── api.ts                        # API response types
+│
 ├── public/                           # Static assets
 ├── tailwind.config.ts                # Tailwind configuration
 ├── tsconfig.json                     # TypeScript config
@@ -211,14 +226,33 @@ pnpm run dev
 npm run dev
 ```
 
-The app will be available at `http://localhost:5173` (or your configured port)
+The app will be available at `http://localhost:8080`
+
+The dev server includes:
+- Vite frontend dev server (HMR enabled)
+- Express backend server for API routes (e.g., `/api/extract`)
+- Both run on the same port for simplicity
 
 ### Build for Production
 
 ```bash
 pnpm run build
-pnpm run preview  # Test production build locally
+pnpm run start  # Start production server
 ```
+
+### Workflow: Generate Resume from LinkedIn
+
+1. Go to `/generator`
+2. Paste a **public LinkedIn profile URL** (e.g., `https://www.linkedin.com/in/yourname/`)
+3. (Optional) Enter a target job title for resume alignment
+4. Click **Generate My Resume**
+5. The app will:
+   - Call `/api/extract` to scrape the LinkedIn profile
+   - Parse name, headline, location, experiences, education, skills
+   - Generate an ATS-optimized resume
+   - Show download and edit options
+6. Download as **DOCX** (recommended for ATS) or **PDF** (for visual appeal)
+7. Or click **Edit Resume** to refine it further
 
 ## 📍 Available Pages & Routes
 
@@ -392,6 +426,67 @@ interface ATSParseResult {
   warnings: string[]; // ATS warnings
 }
 ```
+
+## 🌐 API Endpoints
+
+### POST /api/extract
+
+**Purpose**: Extract profile information from a public LinkedIn URL server-side
+
+**Request**:
+
+```typescript
+{
+  "url": "https://www.linkedin.com/in/yourname/"
+}
+```
+
+**Response**:
+
+```typescript
+{
+  "name": "John Doe",
+  "headline": "Senior Product Manager at TechCorp",
+  "location": "San Francisco, CA",
+  "experiences": [
+    {
+      "title": "Senior Product Manager",
+      "company": "TechCorp Inc.",
+      "date": "2021 - Present",
+      "description": "Led product strategy for 10+ markets..."
+    }
+  ],
+  "education": [
+    {
+      "school": "UC Berkeley",
+      "degree": "BS Computer Science"
+    }
+  ],
+  "skills": ["Product Strategy", "Data Analysis", "Leadership", ...],
+  "textSnippet": "Raw page text excerpt for fallback..."
+}
+```
+
+**Features**:
+
+- Server-side scraping using Cheerio (avoids CORS issues)
+- Extracts: name, headline, location, experience, education, skills
+- Best-effort parsing with fallbacks
+- Built with Node.js Fetch API for broad compatibility
+- User-agent spoofing to reduce blocking
+
+**Implementation Details**:
+
+- Uses [Cheerio](https://cheerio.js.org/) for HTML parsing (lightweight jQuery-like API)
+- Uses [node-fetch](https://github.com/node-fetch/node-fetch) for HTTP requests
+- Runs on the Express server integrated with Vite dev server
+- Client sends URL → Server fetches & parses → Resume generated from parsed data
+
+**Limitations**:
+
+- LinkedIn frequently changes HTML markup, may require maintenance
+- LinkedIn may rate-limit or block requests; not recommended for production at scale
+- For production, consider using [LinkedIn Official API](https://learn.microsoft.com/en-us/linkedin/shared/linkedin-api-overview) with OAuth
 
 ## 🤖 ATS Parser Logic
 
