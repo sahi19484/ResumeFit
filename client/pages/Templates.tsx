@@ -102,7 +102,7 @@ export default function Templates() {
 
   // Get unique industries and styles
   const industries = Array.from(new Set(templates.map((t) => t.industry)));
-  const styles = Array.from(new Set(templates.map((t) => t.style)));
+  const styles = Array.from(new Set(templates.map((t) => t.previewStyle)));
 
   // Filter templates
   const filteredTemplates = templates.filter((t) => {
