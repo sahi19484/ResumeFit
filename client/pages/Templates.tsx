@@ -360,7 +360,7 @@ export default function Templates() {
                         </div>
                       </>
                     )}
-                    {templates[i].previewStyle === "executive" && (
+                    {template.previewStyle === "executive" && (
                       <>
                         <div>
                           <div className="font-bold text-sm">
