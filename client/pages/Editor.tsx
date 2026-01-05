@@ -16,13 +16,15 @@ import {
 
 export default function Editor() {
   const location = useLocation();
-  const selectedTemplate = (location.state as any)?.selectedTemplate || "Modern Clean";
+  const selectedTemplate =
+    (location.state as any)?.selectedTemplate || "Modern Clean";
 
   const [resumeSections, setResumeSections] = useState<ResumeSection[]>([
     {
       id: "contact",
       name: "Contact Info",
-      content: "Your Name\nyourname@email.com | (555) 123-4567 | linkedin.com/in/yourprofile",
+      content:
+        "Your Name\nyourname@email.com | (555) 123-4567 | linkedin.com/in/yourprofile",
       order: 1,
       visible: true,
     },
@@ -37,7 +39,8 @@ export default function Editor() {
     {
       id: "experience",
       name: "Experience",
-      content: "Senior Role Title\nCompany Name • 2020 - Present\n• Achievement 1\n• Achievement 2",
+      content:
+        "Senior Role Title\nCompany Name • 2020 - Present\n• Achievement 1\n• Achievement 2",
       order: 3,
       visible: true,
     },
@@ -53,7 +56,7 @@ export default function Editor() {
   const [atsScore, setAtsScore] = useState(75);
   const [lastSaved, setLastSaved] = useState(new Date());
   const [atsParseResult, setAtsParseResult] = useState<ATSParseResult | null>(
-    null
+    null,
   );
   const [viewMode, setViewMode] = useState<"visual" | "parsed">("visual");
   const [selectedSectionId, setSelectedSectionId] = useState("contact");
@@ -62,7 +65,9 @@ export default function Editor() {
 
   // Get starter pack for current template
   const currentStarterPack = starterPacks.find((pack) =>
-    selectedTemplate.toLowerCase().includes(pack.industry.split(" ")[0].toLowerCase())
+    selectedTemplate
+      .toLowerCase()
+      .includes(pack.industry.split(" ")[0].toLowerCase()),
   );
 
   // Mock ATS Parser
@@ -139,8 +144,10 @@ export default function Editor() {
   const handleSectionChange = (sectionId: string, newContent: string) => {
     setResumeSections((sections) =>
       sections.map((section) =>
-        section.id === sectionId ? { ...section, content: newContent } : section
-      )
+        section.id === sectionId
+          ? { ...section, content: newContent }
+          : section,
+      ),
     );
   };
 
@@ -161,7 +168,7 @@ export default function Editor() {
     const element = document.createElement("a");
     element.setAttribute(
       "href",
-      "data:text/plain;charset=utf-8," + encodeURIComponent(fullContent)
+      "data:text/plain;charset=utf-8," + encodeURIComponent(fullContent),
     );
     element.setAttribute("download", "resume.txt");
     element.style.display = "none";
@@ -273,7 +280,9 @@ export default function Editor() {
               {/* Preview Area */}
               <div className="bg-white rounded-xl border border-border/50 p-6 shadow-sm">
                 <h3 className="font-semibold text-foreground mb-4">
-                  {viewMode === "visual" ? "Visual Preview" : "How ATS Sees Your Resume"}
+                  {viewMode === "visual"
+                    ? "Visual Preview"
+                    : "How ATS Sees Your Resume"}
                 </h3>
                 {viewMode === "visual" ? (
                   <div className="prose prose-sm max-w-none">

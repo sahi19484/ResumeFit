@@ -16,7 +16,9 @@ export default function Marketplace() {
   }, []);
 
   const handleStartPack = (packId: string, industry: string) => {
-    navigate("/editor", { state: { selectedTemplate: industry, starterPackId: packId } });
+    navigate("/editor", {
+      state: { selectedTemplate: industry, starterPackId: packId },
+    });
   };
 
   return (
@@ -28,7 +30,9 @@ export default function Marketplace() {
           {/* Header */}
           <div
             className={`max-w-3xl mx-auto text-center mb-20 transition-all duration-700 ${
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              isVisible
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-8"
             }`}
           >
             <div className="flex items-center justify-center gap-2 mb-4">
@@ -45,8 +49,9 @@ export default function Marketplace() {
               </span>
             </h1>
             <p className="text-xl text-muted-foreground">
-              Get industry-specific bullet points, keywords, and metrics curated by hiring
-              experts. Jump-start your resume with proven content patterns for your role.
+              Get industry-specific bullet points, keywords, and metrics curated
+              by hiring experts. Jump-start your resume with proven content
+              patterns for your role.
             </p>
           </div>
 
@@ -56,7 +61,9 @@ export default function Marketplace() {
               <div
                 key={pack.id}
                 className={`group rounded-2xl border border-border/50 bg-white overflow-hidden hover:border-primary/30 hover:shadow-xl transition-all duration-500 hover:-translate-y-2 ${
-                  isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                  isVisible
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-8"
                 }`}
                 style={{
                   transitionDelay: isVisible ? `${(index + 1) * 100}ms` : "0ms",
@@ -68,10 +75,15 @@ export default function Marketplace() {
                 >
                   <div className="absolute inset-0 opacity-10">
                     <div className="absolute top-0 right-0 w-40 h-40 bg-white rounded-full mix-blend-multiply filter blur-3xl animate-pulse" />
-                    <div className="absolute bottom-0 left-0 w-40 h-40 bg-white rounded-full mix-blend-multiply filter blur-3xl animate-pulse" style={{ animationDelay: "0.5s" }} />
+                    <div
+                      className="absolute bottom-0 left-0 w-40 h-40 bg-white rounded-full mix-blend-multiply filter blur-3xl animate-pulse"
+                      style={{ animationDelay: "0.5s" }}
+                    />
                   </div>
                   <div className="relative">
-                    <h3 className="text-2xl font-bold text-white">{pack.industry}</h3>
+                    <h3 className="text-2xl font-bold text-white">
+                      {pack.industry}
+                    </h3>
                     <p className="text-sm text-white/80">{pack.description}</p>
                   </div>
                 </div>
@@ -89,7 +101,8 @@ export default function Marketplace() {
                           key={i}
                           className="text-xs text-muted-foreground leading-relaxed"
                         >
-                          <span className="text-primary font-bold">•</span> {bullet.text.substring(0, 60)}
+                          <span className="text-primary font-bold">•</span>{" "}
+                          {bullet.text.substring(0, 60)}
                           ...
                         </li>
                       ))}
@@ -112,7 +125,10 @@ export default function Marketplace() {
                         </Badge>
                       ))}
                       {pack.keywords.length > 4 && (
-                        <Badge variant="outline" className="text-xs text-muted-foreground">
+                        <Badge
+                          variant="outline"
+                          className="text-xs text-muted-foreground"
+                        >
                           +{pack.keywords.length - 4}
                         </Badge>
                       )}
@@ -143,7 +159,10 @@ export default function Marketplace() {
                       `${pack.keywords.length} industry keywords`,
                       `${pack.recommended_sections.length} recommended sections`,
                     ].map((feature, i) => (
-                      <div key={i} className="flex items-center gap-2 text-xs text-muted-foreground">
+                      <div
+                        key={i}
+                        className="flex items-center gap-2 text-xs text-muted-foreground"
+                      >
                         <CheckCircle2 className="w-3.5 h-3.5 text-green-600" />
                         {feature}
                       </div>
@@ -178,8 +197,8 @@ export default function Marketplace() {
                     Curated Bullet Points
                   </h3>
                   <p className="text-sm text-muted-foreground">
-                    5+ industry-specific achievement templates you can customize with your
-                    metrics
+                    5+ industry-specific achievement templates you can customize
+                    with your metrics
                   </p>
                 </div>
               </div>
@@ -192,7 +211,8 @@ export default function Marketplace() {
                     Keyword Library
                   </h3>
                   <p className="text-sm text-muted-foreground">
-                    12+ high-impact keywords vetted for ATS systems and recruiter filters
+                    12+ high-impact keywords vetted for ATS systems and
+                    recruiter filters
                   </p>
                 </div>
               </div>
@@ -205,7 +225,8 @@ export default function Marketplace() {
                     Metric Examples
                   </h3>
                   <p className="text-sm text-muted-foreground">
-                    Real numbers and percentages you can adapt to show quantifiable impact
+                    Real numbers and percentages you can adapt to show
+                    quantifiable impact
                   </p>
                 </div>
               </div>
@@ -218,7 +239,8 @@ export default function Marketplace() {
                     Section Guidance
                   </h3>
                   <p className="text-sm text-muted-foreground">
-                    Recommended resume sections and structure for maximum ATS compatibility
+                    Recommended resume sections and structure for maximum ATS
+                    compatibility
                   </p>
                 </div>
               </div>
@@ -231,8 +253,8 @@ export default function Marketplace() {
               Ready to Build Your ATS-Optimized Resume?
             </h2>
             <p className="text-lg text-muted-foreground mb-8">
-              Choose a starter pack above to get personalized suggestions and instantly
-              boost your resume's ATS compatibility.
+              Choose a starter pack above to get personalized suggestions and
+              instantly boost your resume's ATS compatibility.
             </p>
           </div>
         </div>
