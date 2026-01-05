@@ -108,7 +108,8 @@ export default function Templates() {
   const filteredTemplates = templates.filter((t) => {
     const industryMatch =
       selectedIndustry === "all" || t.industry === selectedIndustry;
-    const styleMatch = selectedStyle === "all" || t.style === selectedStyle;
+    const styleMatch =
+      selectedStyle === "all" || t.previewStyle === selectedStyle;
     return industryMatch && styleMatch;
   });
 
