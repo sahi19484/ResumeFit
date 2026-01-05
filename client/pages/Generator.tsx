@@ -120,6 +120,67 @@ ACHIEVEMENTS
     return resumeContent;
   };
 
+  const buildResumeFromProfile = (profile: any, targetRole: string) => {
+    const name = profile?.name || "John Doe";
+    const headline = profile?.headline || "";
+    const location = profile?.location || "";
+
+    const skills = (profile?.skills || []).slice(0, 10).join(", ");
+
+    let experienceBlock = "";
+    if (profile?.experiences && profile.experiences.length) {
+      experienceBlock = profile.experiences
+        .slice(0, 5)
+        .map((e: any) => {
+          const title = e.title || e.role || "";
+          const company = e.company || "";
+          const date = e.date || "";
+          const desc = e.description || "";
+          return `${title} | ${company}\n${date}\n${desc}\n`;
+        })
+        .join("\n");
+    } else if (profile?.textSnippet) {
+      experienceBlock = profile.textSnippet.slice(0, 1000);
+    }
+
+    const educationBlock = (profile?.education || [])
+      .slice(0, 3)
+      .map((ed: any) => `${ed.school || ""} ${ed.degree || ""}`)
+      .join("\n");
+
+    const resume = `${name}
+${targetRole}
+
+${headline}
+
+Email: ${name.toLowerCase().replace(/ /g, ".")}@email.com
+LinkedIn: ${profile?.linkedIn || ""}
+Location: ${location}
+
+PROFESSIONAL SUMMARY
+${headline || `Experienced ${targetRole} with proven results.`}
+
+EXPERIENCE
+
+${experienceBlock}
+
+EDUCATION
+
+${educationBlock}
+
+SKILLS
+
+${skills}
+
+ADDITIONAL
+
+Extracted snippet:
+${(profile?.textSnippet || "").slice(0, 1500)}
+`;
+
+    return resume;
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
@@ -134,14 +195,38 @@ ACHIEVEMENTS
       return;
     }
 
-    setStep("extracting");
-    setTimeout(() => setStep("optimizing"), 2000);
-    setTimeout(() => setStep("building"), 4000);
-    setTimeout(() => {
-      const resume = generateSampleResume(linkedInUrl, jobTitle);
-      setGeneratedResume(resume);
-      setStep("complete");
-    }, 6000);
+    (async () => {
+      setStep("extracting");
+
+      try {
+        const resp = await fetch("/api/extract", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ url: linkedInUrl }),
+        });
+
+        if (!resp.ok) {
+          const err = await resp.json().catch(() => ({}));
+          setError(err?.error || "Failed to extract LinkedIn profile");
+          setStep("idle");
+          return;
+        }
+
+        const profile = await resp.json();
+
+        setStep("optimizing");
+        await new Promise((r) => setTimeout(r, 1200));
+        setStep("building");
+        await new Promise((r) => setTimeout(r, 1000));
+
+        const resume = buildResumeFromProfile(profile, jobTitle || "Professional");
+        setGeneratedResume(resume);
+        setStep("complete");
+      } catch (err) {
+        setError("Unexpected error extracting profile");
+        setStep("idle");
+      }
+    })();
   };
 
   const handleDownloadDOCX = () => {
