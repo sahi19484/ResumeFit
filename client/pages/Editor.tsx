@@ -1,392 +1,398 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScoreMeter } from "@/components/ScoreMeter";
 import { SuggestionChip } from "@/components/SuggestionChip";
-import { starterPacks, mockParseResume } from "@/lib/starter-packs";
-import { EditorState, ResumeSection, ATSParseResult } from "@/lib/types";
-import { Save, Download, Eye, AlertCircle } from "lucide-react";
+import { Save, Download, Eye, Code } from "lucide-react";
+import { starterPacks } from "@/lib/starter-packs";
+import {
+  UserVersion,
+  ResumeSection,
+  ATSParseResult,
+  BulletSuggestion,
+} from "@/lib/types";
 
 export default function Editor() {
   const location = useLocation();
-  const [editorState, setEditorState] = useState<EditorState>({
-    userVersionId: `draft-${Date.now()}`,
-    templateId: location.state?.selectedTemplate || "template-1",
-    sections: [
-      {
-        id: "name",
-        name: "name",
-        content: "SARAH ANDERSON",
-        order: 1,
-        visible: true,
-      },
-      {
-        id: "title",
-        name: "title",
-        content: "Product Manager | Tech & Innovation",
-        order: 2,
-        visible: true,
-      },
-      {
-        id: "contact",
-        name: "contact",
-        content:
-          "sarah.anderson@email.com | (555) 123-4567 | San Francisco, CA",
-        order: 3,
-        visible: true,
-      },
-      {
-        id: "summary",
-        name: "Professional Summary",
-        content:
-          "Results-driven Product Manager with 8+ years of experience leading product strategy and cross-functional teams. Proven expertise in data-driven decision-making and launching successful products.",
-        order: 4,
-        visible: true,
-      },
-      {
-        id: "experience",
-        name: "Experience",
-        content:
-          "Senior Product Manager - TechCorp Inc. (2021-Present)\n• Led product strategy for 3 platforms serving 2M+ users\n• Increased user engagement by 45% through feature optimization\n• Managed cross-functional team of 12 engineers and designers",
-        order: 5,
-        visible: true,
-      },
-      {
-        id: "education",
-        name: "Education",
-        content:
-          "MBA in Business Administration - Stanford University (2019)\nBS in Computer Science - UC Berkeley (2015)",
-        order: 6,
-        visible: true,
-      },
-    ],
-    atsScore: 72,
-    lastSaved: Date.now(),
-    isDirty: false,
-  });
+  const selectedTemplate = (location.state as any)?.selectedTemplate || "Modern Clean";
 
-  const [atsResult, setAtsResult] = useState<ATSParseResult | null>(null);
-  const [starterPack, setStarterPack] = useState(starterPacks[0]);
-  const [appliedSuggestions, setAppliedSuggestions] = useState<Set<string>>(
-    new Set(),
+  const [resumeSections, setResumeSections] = useState<ResumeSection[]>([
+    {
+      id: "contact",
+      name: "Contact Info",
+      content: "Your Name\nyourname@email.com | (555) 123-4567 | linkedin.com/in/yourprofile",
+      order: 1,
+      visible: true,
+    },
+    {
+      id: "summary",
+      name: "Professional Summary",
+      content:
+        "Results-driven professional with experience in [your field]. Strong background in [key skills].",
+      order: 2,
+      visible: true,
+    },
+    {
+      id: "experience",
+      name: "Experience",
+      content: "Senior Role Title\nCompany Name • 2020 - Present\n• Achievement 1\n• Achievement 2",
+      order: 3,
+      visible: true,
+    },
+    {
+      id: "education",
+      name: "Education",
+      content: "Degree Name\nUniversity Name • Graduation Year",
+      order: 4,
+      visible: true,
+    },
+  ]);
+
+  const [atsScore, setAtsScore] = useState(75);
+  const [lastSaved, setLastSaved] = useState(new Date());
+  const [atsParseResult, setAtsParseResult] = useState<ATSParseResult | null>(
+    null
   );
-  const [isSaving, setIsSaving] = useState(false);
-  const [showPreview, setShowPreview] = useState(false);
+  const [viewMode, setViewMode] = useState<"visual" | "parsed">("visual");
+  const [selectedSectionId, setSelectedSectionId] = useState("contact");
+  const [suggestions, setSuggestions] = useState<BulletSuggestion[]>([]);
+  const [appliedSuggestions, setAppliedSuggestions] = useState<string[]>([]);
 
-  // Parse resume content for ATS
-  const updateATSPreview = useCallback(() => {
-    const htmlContent = generateHTML(editorState.sections);
-    const result = mockParseResume(htmlContent);
-    setAtsResult(result);
-  }, [editorState.sections]);
+  // Get starter pack for current template
+  const currentStarterPack = starterPacks.find((pack) =>
+    selectedTemplate.toLowerCase().includes(pack.industry.split(" ")[0].toLowerCase())
+  );
 
-  // Update ATS preview when sections change
-  useEffect(() => {
-    updateATSPreview();
-  }, [updateATSPreview]);
+  // Mock ATS Parser
+  const parseResume = (content: string): ATSParseResult => {
+    const lines = content.split("\n").filter((line) => line.trim());
+    const emailMatch = content.match(/[\w\.-]+@[\w\.-]+\.\w+/);
+    const phoneMatch = content.match(/\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}/);
 
-  // Autosave every 10 seconds
-  useEffect(() => {
-    const autoSaveInterval = setInterval(async () => {
-      if (editorState.isDirty) {
-        await saveVersion();
-      }
-    }, 10000);
+    // Simple score calculation
+    let score = 60;
+    if (emailMatch) score += 5;
+    if (phoneMatch) score += 5;
+    if (content.toLowerCase().includes("linkedin")) score += 5;
+    if (lines.length > 5) score += 5;
+    if (content.includes("%") || /\$[\d,]+/.test(content)) score += 10;
 
-    return () => clearInterval(autoSaveInterval);
-  }, [editorState]);
+    // Extract keywords
+    const keywords = [
+      "product",
+      "management",
+      "strategy",
+      "leadership",
+      "data",
+      "growth",
+    ].filter((k) => content.toLowerCase().includes(k));
 
-  const updateSection = (sectionId: string, content: string) => {
-    setEditorState((prev) => ({
-      ...prev,
-      sections: prev.sections.map((s) =>
-        s.id === sectionId ? { ...s, content } : s,
-      ),
-      isDirty: true,
-    }));
+    // Detect gaps
+    const gaps = [];
+    if (!emailMatch) gaps.push("Missing email address");
+    if (!phoneMatch) gaps.push("Missing phone number");
+    if (!content.toLowerCase().includes("linkedin"))
+      gaps.push("No LinkedIn URL found");
+    if (!content.includes("%") && !/\$[\d,]+/.test(content))
+      gaps.push("Consider adding quantifiable metrics");
+
+    return {
+      fields: {
+        email: emailMatch?.[0],
+        phone: phoneMatch?.[0],
+      },
+      sections: resumeSections.map((section) => ({
+        name: section.name,
+        content: section.content,
+        keywords: keywords,
+      })),
+      keywords,
+      score: Math.min(100, score),
+      gaps,
+      warnings: [],
+    };
   };
 
-  const applySuggestion = (
-    bulletId: string,
-    bulletText: string,
-    sectionName: string,
-  ) => {
-    const section = editorState.sections.find((s) => s.name === sectionName);
-    if (section) {
-      const newContent = section.content + "\n• " + bulletText;
-      updateSection(section.id, newContent);
-      setAppliedSuggestions((prev) => new Set([...prev, bulletId]));
+  // Auto-save every 10 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setLastSaved(new Date());
+    }, 10000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Parse resume on content change
+  useEffect(() => {
+    const fullContent = resumeSections.map((s) => s.content).join("\n");
+    const result = parseResume(fullContent);
+    setAtsParseResult(result);
+    setAtsScore(result.score);
+
+    // Load suggestions from starter pack
+    if (currentStarterPack) {
+      setSuggestions(currentStarterPack.bullets);
+    }
+  }, [resumeSections, currentStarterPack]);
+
+  const handleSectionChange = (sectionId: string, newContent: string) => {
+    setResumeSections((sections) =>
+      sections.map((section) =>
+        section.id === sectionId ? { ...section, content: newContent } : section
+      )
+    );
+  };
+
+  const handleApplySuggestion = (suggestion: BulletSuggestion) => {
+    const experienceSection = resumeSections.find((s) => s.id === "experience");
+    if (experienceSection) {
+      const updatedContent =
+        experienceSection.content + "\n• " + suggestion.text;
+      handleSectionChange("experience", updatedContent);
+      setAppliedSuggestions([...appliedSuggestions, suggestion.id]);
     }
   };
 
-  const saveVersion = async () => {
-    setIsSaving(true);
-    // Mock save operation
-    await new Promise((resolve) => setTimeout(resolve, 500));
-    setEditorState((prev) => ({
-      ...prev,
-      lastSaved: Date.now(),
-      isDirty: false,
-    }));
-    setIsSaving(false);
+  const handleDownload = () => {
+    const fullContent = resumeSections
+      .map((section) => `${section.name}\n${section.content}`)
+      .join("\n\n");
+    const element = document.createElement("a");
+    element.setAttribute(
+      "href",
+      "data:text/plain;charset=utf-8," + encodeURIComponent(fullContent)
+    );
+    element.setAttribute("download", "resume.txt");
+    element.style.display = "none";
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
   };
 
-  const generateHTML = (sections: ResumeSection[]): string => {
-    return sections
-      .filter((s) => s.visible)
-      .map((s) => {
-        if (s.name === "name") return `<h1>${s.content}</h1>`;
-        if (s.name === "title") return `<p>${s.content}</p>`;
-        return `<h2>${s.name}</h2><p>${s.content.replace(/\n/g, "</p><p>")}</p>`;
-      })
-      .join("\n");
-  };
-
-  const exportToPDF = () => {
-    const htmlContent = generateHTML(editorState.sections);
-    // Mock PDF generation
-    const element = document.createElement("div");
-    element.innerHTML = htmlContent;
-    const printWindow = window.open("", "", "height=400,width=600");
-    printWindow?.document.write(element.innerHTML);
-    printWindow?.document.close();
-    printWindow?.print();
-  };
+  const currentSection = resumeSections.find((s) => s.id === selectedSectionId);
 
   return (
-    <div className="flex flex-col min-h-screen bg-background">
+    <div className="flex flex-col min-h-screen bg-gradient-to-b from-background to-muted/20">
       <Header />
 
-      <div className="flex-1">
-        {/* Toolbar */}
-        <div className="border-b bg-muted/50 sticky top-16 z-10">
-          <div className="container mx-auto px-4 py-3 flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <h1 className="text-lg font-bold">Resume Editor</h1>
-              <div className="text-sm text-muted-foreground">
-                Last saved:{" "}
-                {new Date(editorState.lastSaved).toLocaleTimeString()}
-              </div>
+      <div className="flex-1 py-8 px-4">
+        <div className="container mx-auto max-w-7xl">
+          {/* Top Bar */}
+          <div className="flex justify-between items-center mb-8">
+            <div>
+              <h1 className="text-3xl font-bold text-foreground mb-2">
+                Resume Editor
+              </h1>
+              <p className="text-sm text-muted-foreground">
+                Last saved: {lastSaved.toLocaleTimeString()}
+              </p>
             </div>
-
             <div className="flex gap-2">
               <Button
                 variant="outline"
-                size="sm"
-                onClick={() => setShowPreview(!showPreview)}
-                className="md:hidden"
+                onClick={handleDownload}
+                className="flex items-center gap-2"
               >
-                <Eye className="w-4 h-4 mr-2" />
-                {showPreview ? "Edit" : "Preview"}
+                <Download className="w-4 h-4" />
+                Download
               </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={saveVersion}
-                disabled={!editorState.isDirty || isSaving}
-              >
-                <Save className="w-4 h-4 mr-2" />
-                {isSaving ? "Saving..." : "Save"}
-              </Button>
-              <Button
-                size="sm"
-                onClick={exportToPDF}
-                className="bg-gradient-to-r from-primary to-primary/80"
-              >
-                <Download className="w-4 h-4 mr-2" />
-                Export PDF
+              <Button className="flex items-center gap-2 bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90">
+                <Save className="w-4 h-4" />
+                Save
               </Button>
             </div>
           </div>
-        </div>
 
-        {/* Main Editor Area */}
-        <div className="container mx-auto px-4 py-8">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
-            {/* Left Pane: Canvas Editor */}
-            <div
-              className={`${showPreview ? "hidden" : ""} md:col-span-7 md:block`}
-            >
-              <Card className="p-6 space-y-6 bg-white">
-                <div className="space-y-4">
-                  {editorState.sections.map((section) => (
-                    <div key={section.id} className="space-y-2">
-                      {section.name !== "name" && section.name !== "title" && (
-                        <label className="text-sm font-semibold text-foreground capitalize">
-                          {section.name}
-                        </label>
-                      )}
-                      <textarea
-                        value={section.content}
-                        onChange={(e) =>
-                          updateSection(section.id, e.target.value)
-                        }
-                        className={`w-full border rounded-lg p-3 font-mono text-sm resize-none focus:outline-none focus:ring-2 focus:ring-primary ${
-                          section.name === "name" ? "text-2xl font-bold" : ""
-                        } ${section.name === "title" ? "text-lg font-semibold" : ""}`}
-                        rows={
-                          section.name === "experience" ||
-                          section.name === "education"
-                            ? 6
-                            : 2
-                        }
-                        placeholder={`Enter ${section.name}...`}
-                      />
-                    </div>
+          {/* Two-Pane Layout */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Left Pane: Editor */}
+            <div className="lg:col-span-2 space-y-4">
+              <div className="bg-white rounded-xl border border-border/50 shadow-sm overflow-hidden">
+                {/* Section Tabs */}
+                <div className="flex border-b border-border/50 overflow-x-auto">
+                  {resumeSections.map((section) => (
+                    <button
+                      key={section.id}
+                      onClick={() => setSelectedSectionId(section.id)}
+                      className={`px-4 py-3 font-medium text-sm whitespace-nowrap transition-colors ${
+                        selectedSectionId === section.id
+                          ? "border-b-2 border-primary text-primary"
+                          : "text-muted-foreground hover:text-foreground"
+                      }`}
+                    >
+                      {section.name}
+                    </button>
                   ))}
                 </div>
-              </Card>
+
+                {/* Editor Area */}
+                {currentSection && (
+                  <div className="p-6">
+                    <label className="block text-sm font-semibold text-foreground mb-3">
+                      {currentSection.name}
+                    </label>
+                    <textarea
+                      value={currentSection.content}
+                      onChange={(e) =>
+                        handleSectionChange(currentSection.id, e.target.value)
+                      }
+                      className="w-full h-64 p-4 border border-border/50 rounded-lg font-mono text-sm resize-none focus:outline-none focus:ring-2 focus:ring-primary/50"
+                      placeholder={`Edit your ${currentSection.name.toLowerCase()} here...`}
+                    />
+                  </div>
+                )}
+              </div>
+
+              {/* Live Preview Toggle */}
+              <div className="bg-white rounded-xl border border-border/50 p-4 flex gap-2">
+                <button
+                  onClick={() => setViewMode("visual")}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all ${
+                    viewMode === "visual"
+                      ? "bg-primary text-white"
+                      : "bg-muted text-foreground hover:bg-muted/80"
+                  }`}
+                >
+                  <Eye className="w-4 h-4" />
+                  Visual
+                </button>
+                <button
+                  onClick={() => setViewMode("parsed")}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all ${
+                    viewMode === "parsed"
+                      ? "bg-primary text-white"
+                      : "bg-muted text-foreground hover:bg-muted/80"
+                  }`}
+                >
+                  <Code className="w-4 h-4" />
+                  Parsed Text
+                </button>
+              </div>
+
+              {/* Preview Area */}
+              <div className="bg-white rounded-xl border border-border/50 p-6 shadow-sm">
+                <h3 className="font-semibold text-foreground mb-4">
+                  {viewMode === "visual" ? "Visual Preview" : "How ATS Sees Your Resume"}
+                </h3>
+                {viewMode === "visual" ? (
+                  <div className="prose prose-sm max-w-none">
+                    {resumeSections.map((section) => (
+                      <div key={section.id} className="mb-4">
+                        <h4 className="font-bold text-sm uppercase tracking-wide mb-2">
+                          {section.name}
+                        </h4>
+                        <div className="text-xs text-muted-foreground whitespace-pre-wrap">
+                          {section.content}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="space-y-3 text-xs">
+                    {atsParseResult && (
+                      <>
+                        <div>
+                          <h4 className="font-semibold text-foreground mb-2">
+                            Extracted Fields
+                          </h4>
+                          <div className="space-y-1 text-muted-foreground">
+                            {atsParseResult.fields.email && (
+                              <p>📧 Email: {atsParseResult.fields.email}</p>
+                            )}
+                            {atsParseResult.fields.phone && (
+                              <p>📱 Phone: {atsParseResult.fields.phone}</p>
+                            )}
+                          </div>
+                        </div>
+                        <div className="border-t pt-3">
+                          <h4 className="font-semibold text-foreground mb-2">
+                            Keywords Found
+                          </h4>
+                          <div className="flex flex-wrap gap-2">
+                            {atsParseResult.keywords.map((keyword) => (
+                              <span
+                                key={keyword}
+                                className="bg-green-100 text-green-800 px-2 py-1 rounded"
+                              >
+                                {keyword}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
 
             {/* Right Pane: Insights & Suggestions */}
-            <div
-              className={`${!showPreview ? "hidden" : ""} md:col-span-5 md:block`}
-            >
-              <div className="space-y-6">
-                {/* ATS Score Section */}
-                <Card className="p-6">
-                  <ScoreMeter
-                    score={atsResult?.score || 72}
-                    label="ATS Compatibility Score"
-                  />
-                </Card>
-
-                {/* Warnings & Gaps */}
-                {atsResult &&
-                  (atsResult.warnings.length > 0 ||
-                    atsResult.gaps.length > 0) && (
-                    <Card className="p-6 space-y-3">
-                      <h3 className="font-semibold flex items-center gap-2">
-                        <AlertCircle className="w-5 h-5 text-yellow-600" />
-                        Issues to Fix
-                      </h3>
-
-                      {atsResult.gaps.map((gap, i) => (
-                        <div
-                          key={i}
-                          className="text-sm text-yellow-700 bg-yellow-50 p-2 rounded"
-                        >
-                          • {gap}
-                        </div>
-                      ))}
-
-                      {atsResult.warnings.map((warning, i) => (
-                        <div
-                          key={i}
-                          className="text-sm text-red-700 bg-red-50 p-2 rounded"
-                        >
-                          • {warning}
-                        </div>
-                      ))}
-                    </Card>
-                  )}
-
-                {/* Suggestions Tab */}
-                <Card className="p-6">
-                  <Tabs defaultValue="bullets" className="w-full">
-                    <TabsList className="grid w-full grid-cols-3">
-                      <TabsTrigger value="bullets">Bullets</TabsTrigger>
-                      <TabsTrigger value="keywords">Keywords</TabsTrigger>
-                      <TabsTrigger value="metrics">Metrics</TabsTrigger>
-                    </TabsList>
-
-                    <TabsContent value="bullets" className="space-y-3 mt-4">
-                      <p className="text-xs text-muted-foreground">
-                        Suggestions from {starterPack.industry} starter pack
-                      </p>
-                      {starterPack.bullets.slice(0, 3).map((bullet) => (
-                        <SuggestionChip
-                          key={bullet.id}
-                          text={bullet.text}
-                          type="bullet"
-                          category={bullet.category}
-                          impact={bullet.impact}
-                          applied={appliedSuggestions.has(bullet.id)}
-                          onApply={() =>
-                            applySuggestion(
-                              bullet.id,
-                              bullet.text,
-                              "experience",
-                            )
-                          }
-                        />
-                      ))}
-                    </TabsContent>
-
-                    <TabsContent value="keywords" className="space-y-3 mt-4">
-                      <p className="text-xs text-muted-foreground">
-                        Keywords to improve ATS matching
-                      </p>
-                      <div className="flex flex-wrap gap-2">
-                        {starterPack.keywords.slice(0, 8).map((keyword, i) => (
-                          <button
-                            key={i}
-                            className="px-3 py-1 text-xs rounded-full bg-blue-50 border border-blue-200 text-blue-700 hover:bg-blue-100 transition-colors"
-                          >
-                            {keyword}
-                          </button>
-                        ))}
-                      </div>
-                    </TabsContent>
-
-                    <TabsContent value="metrics" className="space-y-3 mt-4">
-                      <p className="text-xs text-muted-foreground">
-                        Sample metrics for your industry
-                      </p>
-                      {starterPack.sample_metrics.map((metric, i) => (
-                        <div key={i} className="p-3 bg-muted rounded-lg">
-                          <p className="font-semibold text-sm">
-                            {metric.metric}
-                          </p>
-                          <p className="text-xl font-bold text-primary">
-                            {metric.value}
-                          </p>
-                          <p className="text-xs text-muted-foreground">
-                            {metric.context}
-                          </p>
-                        </div>
-                      ))}
-                    </TabsContent>
-                  </Tabs>
-                </Card>
-
-                {/* Parsed Text Preview */}
-                <Card className="p-6 space-y-3">
-                  <h3 className="font-semibold text-sm">
-                    How ATS Sees Your Resume
-                  </h3>
-                  {atsResult && (
-                    <div className="space-y-3 text-sm">
-                      <div>
-                        <p className="font-semibold text-xs text-muted-foreground">
-                          NAME
-                        </p>
-                        <p className="font-mono">{atsResult.fields.name}</p>
-                      </div>
-                      <div>
-                        <p className="font-semibold text-xs text-muted-foreground">
-                          EMAIL
-                        </p>
-                        <p className="font-mono text-xs">
-                          {atsResult.fields.email}
-                        </p>
-                      </div>
-                      <div>
-                        <p className="font-semibold text-xs text-muted-foreground">
-                          PHONE
-                        </p>
-                        <p className="font-mono text-xs">
-                          {atsResult.fields.phone}
-                        </p>
-                      </div>
-                    </div>
-                  )}
-                </Card>
+            <div className="space-y-6">
+              {/* ATS Score */}
+              <div className="bg-white rounded-xl border border-border/50 p-6 shadow-sm">
+                <ScoreMeter score={atsScore} label="Live ATS Score" />
               </div>
+
+              {/* Keyword Gaps */}
+              {atsParseResult && atsParseResult.gaps.length > 0 && (
+                <div className="bg-white rounded-xl border border-border/50 p-6 shadow-sm">
+                  <h3 className="font-semibold text-foreground mb-3">
+                    Areas to Improve
+                  </h3>
+                  <ul className="space-y-2">
+                    {atsParseResult.gaps.map((gap, i) => (
+                      <li key={i} className="flex items-start gap-2 text-sm">
+                        <span className="text-yellow-600 font-bold mt-0.5">
+                          ⚠
+                        </span>
+                        <span className="text-muted-foreground">{gap}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {/* Suggestions from Starter Pack */}
+              {suggestions.length > 0 && (
+                <div className="bg-white rounded-xl border border-border/50 p-6 shadow-sm">
+                  <h3 className="font-semibold text-foreground mb-4">
+                    Suggested Bullets
+                  </h3>
+                  <div className="space-y-3 max-h-96 overflow-y-auto">
+                    {suggestions.slice(0, 5).map((suggestion) => (
+                      <SuggestionChip
+                        key={suggestion.id}
+                        text={suggestion.text}
+                        type="bullet"
+                        category={suggestion.category}
+                        impact={suggestion.impact}
+                        applied={appliedSuggestions.includes(suggestion.id)}
+                        onApply={() => handleApplySuggestion(suggestion)}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Keywords to Include */}
+              {currentStarterPack && (
+                <div className="bg-white rounded-xl border border-border/50 p-6 shadow-sm">
+                  <h3 className="font-semibold text-foreground mb-3">
+                    Industry Keywords
+                  </h3>
+                  <div className="flex flex-wrap gap-2">
+                    {currentStarterPack.keywords.slice(0, 8).map((keyword) => (
+                      <span
+                        key={keyword}
+                        className="bg-primary/10 text-primary px-2.5 py-1 rounded text-xs font-medium"
+                      >
+                        {keyword}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
