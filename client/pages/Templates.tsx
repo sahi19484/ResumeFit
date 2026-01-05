@@ -286,7 +286,7 @@ export default function Templates() {
                         </div>
                       </>
                     )}
-                    {templates[i].previewStyle === "creative" && (
+                    {template.previewStyle === "creative" && (
                       <>
                         <div className="text-lg font-black">SA</div>
                         <div>
