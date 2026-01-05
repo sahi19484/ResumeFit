@@ -45,14 +45,34 @@ export default function Generator() {
     }
   };
 
-  const generateSampleResume = () => {
-    const targetRole = jobTitle || "Professional";
-    const resumeContent = `JOHN DOE
+  const generateSampleResume = (linkedIn: string, targetRoleInput: string) => {
+    const targetRole = targetRoleInput || "Professional";
+
+    // extract a simple name from the LinkedIn URL if possible
+    let displayName = "John Doe";
+    try {
+      const urlObj = new URL(linkedIn);
+      const parts = urlObj.pathname.split("/").filter(Boolean);
+      if (parts.length) {
+        const candidate = parts[parts.length - 1];
+        // turn `john-doe-123` into `John Doe`
+        displayName = candidate
+          .replace(/[-_]/g, " ")
+          .split(" ")
+          .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
+          .join(" ");
+      }
+    } catch {
+      // fallback stays
+    }
+
+    const linkedInDisplay = linkedIn || "linkedin.com/in/johndoe";
+
+    const resumeContent = `${displayName}
 ${targetRole}
 
-Email: john.doe@email.com
-Phone: (555) 123-4567
-LinkedIn: linkedin.com/in/johndoe
+Email: ${displayName.toLowerCase().replace(/ /g, ".")}@email.com
+LinkedIn: ${linkedInDisplay}
 Location: San Francisco, CA
 
 PROFESSIONAL SUMMARY
@@ -118,7 +138,7 @@ ACHIEVEMENTS
     setTimeout(() => setStep("optimizing"), 2000);
     setTimeout(() => setStep("building"), 4000);
     setTimeout(() => {
-      const resume = generateSampleResume();
+      const resume = generateSampleResume(linkedInUrl, jobTitle);
       setGeneratedResume(resume);
       setStep("complete");
     }, 6000);
