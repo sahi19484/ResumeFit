@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -17,11 +17,13 @@ import {
 type Step = "idle" | "extracting" | "optimizing" | "building" | "complete";
 
 export default function Generator() {
+  const navigate = useNavigate();
   const [linkedInUrl, setLinkedInUrl] = useState("");
   const [jobTitle, setJobTitle] = useState("");
   const [step, setStep] = useState<Step>("idle");
   const [error, setError] = useState("");
   const [isVisible, setIsVisible] = useState(false);
+  const [generatedResume, setGeneratedResume] = useState("");
 
   useEffect(() => {
     setIsVisible(true);
@@ -43,6 +45,61 @@ export default function Generator() {
     }
   };
 
+  const generateSampleResume = () => {
+    const targetRole = jobTitle || "Professional";
+    const resumeContent = `JOHN DOE
+${targetRole}
+
+Email: john.doe@email.com
+Phone: (555) 123-4567
+LinkedIn: linkedin.com/in/johndoe
+Location: San Francisco, CA
+
+PROFESSIONAL SUMMARY
+Results-driven professional with 5+ years of experience in ${targetRole.toLowerCase()} roles. Proven track record of delivering high-impact projects and driving business growth through innovative solutions and strategic thinking.
+
+EXPERIENCE
+
+Senior ${targetRole} | TechCorp Inc.
+San Francisco, CA | 2021 - Present
+• Led cross-functional teams of 10+ members to deliver 15+ successful projects
+• Increased operational efficiency by 40% through process optimization
+• Managed $2M+ budget and delivered projects 20% under budget
+• Collaborated with stakeholders to define product roadmap and strategy
+
+${targetRole} | Innovation Labs
+San Francisco, CA | 2019 - 2021
+• Developed and implemented strategic initiatives resulting in 30% revenue growth
+• Mentored junior team members and conducted training sessions
+• Analyzed market trends and customer feedback to inform product decisions
+• Achieved 95% customer satisfaction rating across all projects
+
+EDUCATION
+
+Bachelor of Science in Computer Science
+University of California, Berkeley | 2019
+
+SKILLS
+
+Technical: Python, JavaScript, SQL, AWS, Docker, Git
+Tools: Jira, Confluence, Slack, Microsoft Office, Google Suite
+Soft Skills: Leadership, Communication, Problem-solving, Strategic Planning
+
+CERTIFICATIONS
+
+• Project Management Professional (PMP)
+• Certified Scrum Master (CSM)
+• AWS Certified Solutions Architect
+
+ACHIEVEMENTS
+
+• Recognized as Employee of the Year 2023
+• Published 3 industry articles on innovation and leadership
+• Speaker at 2 major industry conferences`;
+
+    return resumeContent;
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
@@ -60,7 +117,43 @@ export default function Generator() {
     setStep("extracting");
     setTimeout(() => setStep("optimizing"), 2000);
     setTimeout(() => setStep("building"), 4000);
-    setTimeout(() => setStep("complete"), 6000);
+    setTimeout(() => {
+      const resume = generateSampleResume();
+      setGeneratedResume(resume);
+      setStep("complete");
+    }, 6000);
+  };
+
+  const handleDownloadDOCX = () => {
+    const element = document.createElement("a");
+    const file = new Blob([generatedResume], { type: "text/plain" });
+    element.href = URL.createObjectURL(file);
+    element.download = "resume.txt";
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+    URL.revokeObjectURL(element.href);
+  };
+
+  const handleDownloadPDF = () => {
+    const element = document.createElement("a");
+    const file = new Blob([generatedResume], { type: "text/plain" });
+    element.href = URL.createObjectURL(file);
+    element.download = "resume-ats-optimized.txt";
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+    URL.revokeObjectURL(element.href);
+  };
+
+  const handleEditResume = () => {
+    navigate("/editor", {
+      state: {
+        resumeContent: generatedResume,
+        linkedInUrl: linkedInUrl,
+        jobTitle: jobTitle
+      }
+    });
   };
 
   const handleStartOver = () => {
@@ -68,6 +161,7 @@ export default function Generator() {
     setLinkedInUrl("");
     setJobTitle("");
     setError("");
+    setGeneratedResume("");
   };
 
   if (step === "complete") {
@@ -104,16 +198,18 @@ export default function Generator() {
                 <div className="space-y-3 mb-6">
                   <Button
                     size="lg"
+                    onClick={handleDownloadDOCX}
                     className="w-full bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 h-12 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300"
                   >
-                    ⬇️ Download as DOCX (Recommended)
+                    Download as DOCX (Recommended)
                   </Button>
                   <Button
                     size="lg"
                     variant="outline"
+                    onClick={handleDownloadPDF}
                     className="w-full h-12 border-2 border-border hover:border-primary/50 hover:bg-primary/5 transition-all duration-300"
                   >
-                    ⬇️ Download as PDF (ATS-Safe)
+                    Download as PDF (ATS-Safe)
                   </Button>
                 </div>
 
@@ -155,9 +251,10 @@ export default function Generator() {
                 <Button
                   size="lg"
                   variant="outline"
+                  onClick={handleEditResume}
                   className="w-full h-12 border-2 border-border hover:border-primary/50 hover:bg-primary/5 transition-all duration-300"
                 >
-                  ✏️ Edit Resume
+                  Edit Resume
                 </Button>
                 <button
                   onClick={handleStartOver}
