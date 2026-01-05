@@ -179,6 +179,83 @@ ${(profile?.textSnippet || "").slice(0, 1500)}
 `;
 
     return resume;
+    const name = profile?.name || "Professional";
+    let headline = profile?.headline || "";
+    const location = profile?.location || "";
+
+    const rawSkills = profile?.skills || [];
+    const skillsList = Array.isArray(rawSkills) ? rawSkills.slice(0, 10) : [];
+
+    // Simple AI-like filler generator (deterministic and local)
+    const generateAISummary = (nameStr: string, role: string) => {
+      return `AI-generated summary: ${nameStr} is an experienced ${role} with a strong track record delivering high-impact projects, driving cross-functional collaboration, and improving product outcomes through data-driven decisions.`;
+    };
+
+    const generateAIExperiences = (role: string) => {
+      return [
+        {
+          title: `Senior ${role}`,
+          company: "Confidential Company",
+          date: "2021 - Present",
+          description: `Led cross-functional teams to deliver product roadmaps, improved KPIs by 20%, and scaled operational processes.`,
+        },
+        {
+          title: `${role}`,
+          company: "Previous Company",
+          date: "2018 - 2021",
+          description: `Built features end-to-end, collaborated with design and engineering, and launched initiatives that increased user engagement.`,
+        },
+      ];
+    };
+
+    const generateAISkills = (role: string) => {
+      const base = [
+        "Communication",
+        "Leadership",
+        "Problem-solving",
+        "Project Management",
+        "Collaboration",
+      ];
+      // add role-specific tokens
+      const roleTokens = role
+        .split(/\s+/)
+        .slice(0, 3)
+        .map((t) => t.charAt(0).toUpperCase() + t.slice(1));
+      return [...roleTokens, ...base].slice(0, 10);
+    };
+
+    // Build experience block
+    let experiences = Array.isArray(profile?.experiences) ? profile.experiences.slice(0, 5) : [];
+    if (!experiences || experiences.length === 0) {
+      experiences = generateAIExperiences(targetRole);
+    }
+
+    // Build education block
+    const educationArr = Array.isArray(profile?.education) && profile.education.length ? profile.education.slice(0, 3) : [{ school: "Bachelor's Degree (AI-generated)", degree: "Relevant Field" }];
+
+    // Fill headline if missing with AI-generated summary
+    if (!headline || headline.length < 10) {
+      headline = generateAISummary(name, targetRole);
+    }
+
+    // Fill skills if missing
+    const finalSkills = skillsList.length ? skillsList : generateAISkills(targetRole);
+
+    const experienceBlock = experiences
+      .map((e: any) => {
+        const title = e.title || e.role || "Experience";
+        const company = e.company || "";
+        const date = e.date || "";
+        const desc = e.description || "";
+        return `${title} | ${company}\n${date}\n${desc}\n`;
+      })
+      .join("\n");
+
+    const educationBlock = educationArr.map((ed: any) => `${ed.school || ""} ${ed.degree || ""}`).join("\n");
+
+    const resume = `${name}\n${targetRole}\n\n${headline}\n\nEmail: ${name.toLowerCase().replace(/ /g, ".")}@email.com\nLinkedIn: ${profile?.linkedIn || ""}\nLocation: ${location}\n\nPROFESSIONAL SUMMARY\n${headline}\n\nEXPERIENCE\n\n${experienceBlock}\n\nEDUCATION\n\n${educationBlock}\n\nSKILLS\n\n${finalSkills.join(", ")}\n\nADDITIONAL\n\nExtracted snippet:\n${(profile?.textSnippet || "").slice(0, 1500)}\n`;
+
+    return resume;
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -198,6 +275,9 @@ ${(profile?.textSnippet || "").slice(0, 1500)}
     (async () => {
       setStep("extracting");
 
+      let profile = null;
+      let extractionError = false;
+
       try {
         const resp = await fetch("/api/extract", {
           method: "POST",
@@ -205,26 +285,67 @@ ${(profile?.textSnippet || "").slice(0, 1500)}
           body: JSON.stringify({ url: linkedInUrl }),
         });
 
-        if (!resp.ok) {
-          const err = await resp.json().catch(() => ({}));
-          setError(err?.error || "Failed to extract LinkedIn profile");
-          setStep("idle");
-          return;
+        if (resp.ok) {
+          profile = await resp.json();
+        } else {
+          extractionError = true;
+          console.error("Extraction failed with status:", resp.status);
+        }
+      } catch (err) {
+        extractionError = true;
+        console.error("Extraction error:", err);
+      }
+
+      // If extraction failed, create a fallback profile from URL
+      if (!profile) {
+        let name = "Professional";
+        try {
+          const urlObj = new URL(linkedInUrl);
+          const parts = urlObj.pathname.split("/").filter(Boolean);
+          if (parts.length > 0) {
+            const candidate = parts[parts.length - 1];
+            name = candidate
+              .replace(/[-_]/g, " ")
+              .split(" ")
+              .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
+              .join(" ");
+          }
+        } catch (e) {
+          // fallback stays
         }
 
-        const profile = await resp.json();
+        profile = {
+          name,
+          headline: "Professional",
+          location: "",
+          experiences: [
+            {
+              title: "Your Experience",
+              company: "",
+              date: "",
+              description: "LinkedIn profile extraction unavailable. Please edit your resume to add your experience details.",
+            },
+          ],
+          education: [],
+          skills: ["Leadership", "Communication", "Problem-solving", "Teamwork", "Time Management"],
+          textSnippet: "Please enable your LinkedIn profile visibility or manually add your details in the editor.",
+          source: "fallback",
+        };
+      }
 
-        setStep("optimizing");
-        await new Promise((r) => setTimeout(r, 1200));
-        setStep("building");
-        await new Promise((r) => setTimeout(r, 1000));
+      setStep("optimizing");
+      await new Promise((r) => setTimeout(r, 1200));
+      setStep("building");
+      await new Promise((r) => setTimeout(r, 1000));
 
-        const resume = buildResumeFromProfile(profile, jobTitle || "Professional");
-        setGeneratedResume(resume);
-        setStep("complete");
-      } catch (err) {
-        setError("Unexpected error extracting profile");
-        setStep("idle");
+      const resume = buildResumeFromProfile(profile, jobTitle || "Professional");
+      setGeneratedResume(resume);
+      setStep("complete");
+
+      if (extractionError) {
+        setError(
+          "Note: LinkedIn profile extraction unavailable. Resume generated from your LinkedIn URL. Please edit to add your actual experience."
+        );
       }
     })();
   };
