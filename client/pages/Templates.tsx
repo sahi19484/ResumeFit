@@ -324,7 +324,7 @@ export default function Templates() {
                         </div>
                       </>
                     )}
-                    {templates[i].previewStyle === "academic" && (
+                    {template.previewStyle === "academic" && (
                       <>
                         <div>
                           <div className="font-bold text-sm">
