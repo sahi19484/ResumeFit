@@ -216,7 +216,7 @@ export default function Templates() {
                   </div>
 
                   <div className="relative w-full h-full flex flex-col justify-between text-white text-xs overflow-hidden">
-                    {templates[i].previewStyle === "modern" && (
+                    {template.previewStyle === "modern" && (
                       <>
                         <div>
                           <div className="font-bold text-sm mb-0.5">
