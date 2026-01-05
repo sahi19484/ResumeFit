@@ -302,7 +302,7 @@ export default function Templates() {
                         </div>
                       </>
                     )}
-                    {templates[i].previewStyle === "results" && (
+                    {template.previewStyle === "results" && (
                       <>
                         <div>
                           <div className="font-bold text-sm">
