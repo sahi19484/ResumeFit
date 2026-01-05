@@ -240,7 +240,7 @@ export default function Templates() {
                         </div>
                       </>
                     )}
-                    {templates[i].previewStyle === "classic" && (
+                    {template.previewStyle === "classic" && (
                       <>
                         <div className="text-center">
                           <div className="font-bold text-sm">
