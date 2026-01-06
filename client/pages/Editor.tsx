@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { ScoreMeter } from "@/components/ScoreMeter";
 import { SuggestionChip } from "@/components/SuggestionChip";
-import { Save, Download, Eye, Code } from "lucide-react";
+import ResumePreview from "@/components/ResumePreview";
+import ResumeDataForm from "@/components/ResumeDataForm";
+import { Save, Download, Eye, Code, ArrowLeft } from "lucide-react";
 import { starterPacks } from "@/lib/starter-packs";
+import { ResumeData, resumeDataToText } from "@/lib/resume-utils";
 import {
   UserVersion,
   ResumeSection,
