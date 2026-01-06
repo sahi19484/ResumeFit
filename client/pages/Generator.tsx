@@ -338,6 +338,146 @@ ACHIEVEMENTS
     setStep("form");
   };
 
+  // Form step - show when LinkedIn extraction fails
+  if (step === "form" && resumeData) {
+    return (
+      <div className="flex flex-col min-h-screen bg-gradient-to-b from-background to-muted/20">
+        <Header />
+
+        <div className="flex-1 py-12">
+          <div className="container mx-auto px-4">
+            <div className="max-w-4xl mx-auto">
+              <div className="mb-8">
+                <button
+                  onClick={handleStartOver}
+                  className="text-primary hover:text-primary/80 transition-colors font-semibold text-sm mb-4"
+                >
+                  ← Start Over
+                </button>
+                <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2">
+                  Let's Build Your Professional Resume
+                </h1>
+                <p className="text-lg text-muted-foreground">
+                  Our AI will suggest information based on your target job title.
+                  Edit and customize everything.
+                </p>
+              </div>
+
+              {error && (
+                <div className="flex gap-3 p-4 rounded-xl bg-amber-50 border border-amber-200 mb-8 animate-in fade-in">
+                  <AlertCircle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
+                  <p className="text-sm text-amber-800 font-medium">
+                    {error}
+                  </p>
+                </div>
+              )}
+
+              <ResumeDataForm
+                initialData={resumeData}
+                onSubmit={handleFormSubmit}
+                jobTitle={jobTitle || "Professional"}
+              />
+            </div>
+          </div>
+        </div>
+
+        <Footer />
+      </div>
+    );
+  }
+
+  // Preview step - show before completion
+  if (step === "preview" && resumeData) {
+    return (
+      <div className="flex flex-col min-h-screen bg-gradient-to-b from-background to-muted/20">
+        <Header />
+
+        <div className="flex-1 py-12">
+          <div className="container mx-auto px-4">
+            <div className="max-w-5xl mx-auto">
+              <div className="mb-8 flex justify-between items-center">
+                <div>
+                  <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2">
+                    Your Professional Resume
+                  </h1>
+                  <p className="text-lg text-muted-foreground">
+                    Review your resume below. Make changes in the editor if needed.
+                  </p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div className="lg:col-span-2">
+                  <ResumePreview resume={resumeData} template="modern" />
+                </div>
+
+                <div className="space-y-4">
+                  <div className="bg-white rounded-xl border border-border/50 p-6 shadow-sm sticky top-6">
+                    <h3 className="font-semibold text-foreground mb-4">
+                      Ready to Download?
+                    </h3>
+
+                    <div className="space-y-3 mb-6">
+                      <Button
+                        size="lg"
+                        onClick={handleDownloadDOCX}
+                        className="w-full bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 h-11 shadow-md"
+                      >
+                        Download DOCX
+                      </Button>
+                      <Button
+                        size="lg"
+                        variant="outline"
+                        onClick={handleDownloadPDF}
+                        className="w-full h-11 border-2"
+                      >
+                        Download PDF
+                      </Button>
+                    </div>
+
+                    <div className="space-y-2 mb-6">
+                      <Button
+                        size="lg"
+                        variant="outline"
+                        onClick={handleBackToForm}
+                        className="w-full"
+                      >
+                        Edit Resume
+                      </Button>
+                      <button
+                        onClick={handleStartOver}
+                        className="text-primary hover:text-primary/80 transition-colors font-semibold text-sm w-full"
+                      >
+                        Create Another
+                      </button>
+                    </div>
+
+                    <div className="text-xs text-muted-foreground space-y-1 pt-4 border-t">
+                      <p className="flex items-center gap-2">
+                        <span>✓</span>
+                        <span>ATS-Optimized</span>
+                      </p>
+                      <p className="flex items-center gap-2">
+                        <span>✓</span>
+                        <span>Professional Design</span>
+                      </p>
+                      <p className="flex items-center gap-2">
+                        <span>✓</span>
+                        <span>Ready to Submit</span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <Footer />
+      </div>
+    );
+  }
+
   if (step === "complete") {
     return (
       <div className="flex flex-col min-h-screen bg-gradient-to-b from-background to-muted/20">
