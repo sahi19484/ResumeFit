@@ -8,7 +8,11 @@ import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
 import ResumePreview from "@/components/ResumePreview";
 import ResumeDataForm from "@/components/ResumeDataForm";
-import { ResumeData, resumeDataToText, createDefaultResumeData } from "@/lib/resume-utils";
+import {
+  ResumeData,
+  resumeDataToText,
+  createDefaultResumeData,
+} from "@/lib/resume-utils";
 import {
   AlertCircle,
   Check,
@@ -17,7 +21,14 @@ import {
   Sparkles,
 } from "lucide-react";
 
-type Step = "idle" | "extracting" | "optimizing" | "building" | "form" | "preview" | "complete";
+type Step =
+  | "idle"
+  | "extracting"
+  | "optimizing"
+  | "building"
+  | "form"
+  | "preview"
+  | "complete";
 
 export default function Generator() {
   const navigate = useNavigate();
@@ -172,13 +183,23 @@ ACHIEVEMENTS
     };
 
     // Build experience block
-    let experiences = Array.isArray(profile?.experiences) ? profile.experiences.slice(0, 5) : [];
+    let experiences = Array.isArray(profile?.experiences)
+      ? profile.experiences.slice(0, 5)
+      : [];
     if (!experiences || experiences.length === 0) {
       experiences = generateAIExperiences(targetRole);
     }
 
     // Build education block
-    const educationArr = Array.isArray(profile?.education) && profile.education.length ? profile.education.slice(0, 3) : [{ school: "Bachelor's Degree (AI-generated)", degree: "Relevant Field" }];
+    const educationArr =
+      Array.isArray(profile?.education) && profile.education.length
+        ? profile.education.slice(0, 3)
+        : [
+            {
+              school: "Bachelor's Degree (AI-generated)",
+              degree: "Relevant Field",
+            },
+          ];
 
     // Fill headline if missing with AI-generated summary
     if (!headline || headline.length < 10) {
@@ -186,7 +207,9 @@ ACHIEVEMENTS
     }
 
     // Fill skills if missing
-    const finalSkills = skillsList.length ? skillsList : generateAISkills(targetRole);
+    const finalSkills = skillsList.length
+      ? skillsList
+      : generateAISkills(targetRole);
 
     const experienceBlock = experiences
       .map((e: any) => {
@@ -198,7 +221,9 @@ ACHIEVEMENTS
       })
       .join("\n");
 
-    const educationBlock = educationArr.map((ed: any) => `${ed.school || ""} ${ed.degree || ""}`).join("\n");
+    const educationBlock = educationArr
+      .map((ed: any) => `${ed.school || ""} ${ed.degree || ""}`)
+      .join("\n");
 
     const resume = `${name}\n${targetRole}\n\n${headline}\n\nEmail: ${name.toLowerCase().replace(/ /g, ".")}@email.com\nLinkedIn: ${profile?.linkedIn || ""}\nLocation: ${location}\n\nPROFESSIONAL SUMMARY\n${headline}\n\nEXPERIENCE\n\n${experienceBlock}\n\nEDUCATION\n\n${educationBlock}\n\nSKILLS\n\n${finalSkills.join(", ")}\n\nADDITIONAL\n\nExtracted snippet:\n${(profile?.textSnippet || "").slice(0, 1500)}\n`;
 
@@ -263,11 +288,14 @@ ACHIEVEMENTS
           // fallback stays
         }
 
-        const defaultData = createDefaultResumeData(name, jobTitle || "Professional");
+        const defaultData = createDefaultResumeData(
+          name,
+          jobTitle || "Professional",
+        );
         setResumeData(defaultData);
         setStep("form");
         setError(
-          "LinkedIn profile extraction unavailable. Please fill in your information below with AI-powered suggestions."
+          "LinkedIn profile extraction unavailable. Please fill in your information below with AI-powered suggestions.",
         );
         return;
       }
@@ -278,7 +306,10 @@ ACHIEVEMENTS
       setStep("building");
       await new Promise((r) => setTimeout(r, 1000));
 
-      const resume = buildResumeFromProfile(profile, jobTitle || "Professional");
+      const resume = buildResumeFromProfile(
+        profile,
+        jobTitle || "Professional",
+      );
       setGeneratedResume(resume);
       setStep("complete");
     })();
@@ -319,8 +350,8 @@ ACHIEVEMENTS
         resumeData: resumeData,
         resumeContent: generatedResume,
         linkedInUrl: linkedInUrl,
-        jobTitle: jobTitle
-      }
+        jobTitle: jobTitle,
+      },
     });
   };
 
@@ -358,17 +389,15 @@ ACHIEVEMENTS
                   Let's Build Your Professional Resume
                 </h1>
                 <p className="text-lg text-muted-foreground">
-                  Our AI will suggest information based on your target job title.
-                  Edit and customize everything.
+                  Our AI will suggest information based on your target job
+                  title. Edit and customize everything.
                 </p>
               </div>
 
               {error && (
                 <div className="flex gap-3 p-4 rounded-xl bg-amber-50 border border-amber-200 mb-8 animate-in fade-in">
                   <AlertCircle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
-                  <p className="text-sm text-amber-800 font-medium">
-                    {error}
-                  </p>
+                  <p className="text-sm text-amber-800 font-medium">{error}</p>
                 </div>
               )}
 
@@ -401,7 +430,8 @@ ACHIEVEMENTS
                     Your Professional Resume
                   </h1>
                   <p className="text-lg text-muted-foreground">
-                    Review your resume below. Make changes in the editor if needed.
+                    Review your resume below. Make changes in the editor if
+                    needed.
                   </p>
                 </div>
               </div>

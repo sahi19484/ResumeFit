@@ -131,7 +131,9 @@ export default function Templates() {
               Templates we recommend for you
             </h1>
             <p className="text-lg text-muted-foreground max-w-2xl">
-              Choose from our professionally designed, ATS-optimized templates. Each is tailored for specific industries and roles to help you stand out.
+              Choose from our professionally designed, ATS-optimized templates.
+              Each is tailored for specific industries and roles to help you
+              stand out.
             </p>
           </div>
 
@@ -149,7 +151,9 @@ export default function Templates() {
             ].map((industry) => (
               <div key={industry.name} className="flex items-center gap-1.5">
                 <div className={`w-3 h-3 rounded-full ${industry.color}`} />
-                <span className="text-xs text-muted-foreground font-medium">{industry.name}</span>
+                <span className="text-xs text-muted-foreground font-medium">
+                  {industry.name}
+                </span>
               </div>
             ))}
           </div>
@@ -198,7 +202,15 @@ export default function Templates() {
               {/* Results count */}
               <div className="ml-auto">
                 <p className="text-sm font-semibold text-muted-foreground">
-                  Showing <span className="text-foreground font-bold">{filteredTemplates.length}</span> of <span className="text-foreground font-bold">{templates.length}</span> templates
+                  Showing{" "}
+                  <span className="text-foreground font-bold">
+                    {filteredTemplates.length}
+                  </span>{" "}
+                  of{" "}
+                  <span className="text-foreground font-bold">
+                    {templates.length}
+                  </span>{" "}
+                  templates
                 </p>
               </div>
             </div>
@@ -453,391 +465,416 @@ export default function Templates() {
       </div>
 
       {/* Preview Modal */}
-      {previewTemplate !== null && (() => {
-        const currentTemplate = templates.find(t => t.name === previewTemplate);
-        return currentTemplate ? (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
-          <div className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden shadow-2xl my-auto">
-            {/* Close Button */}
-            <button
-              onClick={() => setPreviewTemplate(null)}
-              className="absolute top-4 right-4 p-2 hover:bg-gray-200 rounded-lg transition-colors z-10"
-            >
-              <X className="w-6 h-6 text-gray-700" />
-            </button>
+      {previewTemplate !== null &&
+        (() => {
+          const currentTemplate = templates.find(
+            (t) => t.name === previewTemplate,
+          );
+          return currentTemplate ? (
+            <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
+              <div className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden shadow-2xl my-auto">
+                {/* Close Button */}
+                <button
+                  onClick={() => setPreviewTemplate(null)}
+                  className="absolute top-4 right-4 p-2 hover:bg-gray-200 rounded-lg transition-colors z-10"
+                >
+                  <X className="w-6 h-6 text-gray-700" />
+                </button>
 
-            {/* Template Preview Content */}
-            <div
-              className={`bg-gradient-to-br ${currentTemplate.bgColor} p-8 relative overflow-hidden`}
-            >
-              {/* MODERN CLEAN - Tech Product Managers */}
-              {currentTemplate.previewStyle === "modern" && (
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-white">
-                  {/* Left column: Contact & Skills */}
-                  <div className="col-span-1 space-y-6">
-                    <div>
-                      <h4 className="text-xs font-bold uppercase tracking-wider mb-2">
-                        Contact
-                      </h4>
-                      <p className="text-xs text-blue-100">
-                        sarah.anderson@email.com
-                      </p>
-                      <p className="text-xs text-blue-100">(555) 123-4567</p>
-                    </div>
-                    <div>
-                      <h4 className="text-xs font-bold uppercase tracking-wider mb-2">
-                        Tools & Skills
-                      </h4>
-                      <div className="space-y-2 text-xs">
+                {/* Template Preview Content */}
+                <div
+                  className={`bg-gradient-to-br ${currentTemplate.bgColor} p-8 relative overflow-hidden`}
+                >
+                  {/* MODERN CLEAN - Tech Product Managers */}
+                  {currentTemplate.previewStyle === "modern" && (
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-white">
+                      {/* Left column: Contact & Skills */}
+                      <div className="col-span-1 space-y-6">
                         <div>
-                          <span>Product Strategy</span>{" "}
-                          <span className="float-right">90%</span>
-                        </div>
-                        <div className="bg-blue-900/50 h-1 rounded"></div>
-                        <div>
-                          <span>Data Analytics</span>{" "}
-                          <span className="float-right">85%</span>
-                        </div>
-                        <div className="bg-blue-900/50 h-1 rounded"></div>
-                      </div>
-                    </div>
-                  </div>
-                  {/* Right column: Summary & Experience */}
-                  <div className="col-span-2 space-y-4">
-                    <div>
-                      <h2 className="text-3xl font-bold mb-1">
-                        SARAH ANDERSON
-                      </h2>
-                      <p className="text-lg text-blue-100">Product Manager</p>
-                    </div>
-                    <div>
-                      <h3 className="text-sm font-bold uppercase mb-2">
-                        Summary
-                      </h3>
-                      <p className="text-xs text-blue-100 leading-relaxed">
-                        Results-driven PM with 8+ years building products that
-                        scale. Expert in data-driven decisions and
-                        cross-functional leadership.
-                      </p>
-                    </div>
-                    <div>
-                      <h3 className="text-sm font-bold uppercase mb-2">
-                        Experience
-                      </h3>
-                      <div className="space-y-2">
-                        <div>
-                          <p className="font-semibold text-sm">
-                            Senior Product Manager
+                          <h4 className="text-xs font-bold uppercase tracking-wider mb-2">
+                            Contact
+                          </h4>
+                          <p className="text-xs text-blue-100">
+                            sarah.anderson@email.com
                           </p>
-                          <p className="text-xs text-blue-200">
-                            TechCorp Inc. | 2021 - Present
+                          <p className="text-xs text-blue-100">
+                            (555) 123-4567
                           </p>
-                          <ul className="text-xs mt-1 space-y-1">
-                            <li>• Increased activation by 32%</li>
-                            <li>• Led 3 platform launches</li>
-                          </ul>
+                        </div>
+                        <div>
+                          <h4 className="text-xs font-bold uppercase tracking-wider mb-2">
+                            Tools & Skills
+                          </h4>
+                          <div className="space-y-2 text-xs">
+                            <div>
+                              <span>Product Strategy</span>{" "}
+                              <span className="float-right">90%</span>
+                            </div>
+                            <div className="bg-blue-900/50 h-1 rounded"></div>
+                            <div>
+                              <span>Data Analytics</span>{" "}
+                              <span className="float-right">85%</span>
+                            </div>
+                            <div className="bg-blue-900/50 h-1 rounded"></div>
+                          </div>
                         </div>
                       </div>
+                      {/* Right column: Summary & Experience */}
+                      <div className="col-span-2 space-y-4">
+                        <div>
+                          <h2 className="text-3xl font-bold mb-1">
+                            SARAH ANDERSON
+                          </h2>
+                          <p className="text-lg text-blue-100">
+                            Product Manager
+                          </p>
+                        </div>
+                        <div>
+                          <h3 className="text-sm font-bold uppercase mb-2">
+                            Summary
+                          </h3>
+                          <p className="text-xs text-blue-100 leading-relaxed">
+                            Results-driven PM with 8+ years building products
+                            that scale. Expert in data-driven decisions and
+                            cross-functional leadership.
+                          </p>
+                        </div>
+                        <div>
+                          <h3 className="text-sm font-bold uppercase mb-2">
+                            Experience
+                          </h3>
+                          <div className="space-y-2">
+                            <div>
+                              <p className="font-semibold text-sm">
+                                Senior Product Manager
+                              </p>
+                              <p className="text-xs text-blue-200">
+                                TechCorp Inc. | 2021 - Present
+                              </p>
+                              <ul className="text-xs mt-1 space-y-1">
+                                <li>• Increased activation by 32%</li>
+                                <li>• Led 3 platform launches</li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-              )}
+                  )}
 
-              {/* CLASSIC PROFESSIONAL - Finance & Consulting */}
-              {currentTemplate.previewStyle === "classic" && (
-                <div className="text-white font-serif space-y-3">
-                  <div className="text-center border-b-2 border-white/40 pb-3 mb-4">
-                    <h2 className="text-2xl font-bold">SARAH ANDERSON</h2>
-                    <p className="text-sm">Finance Manager | Consulting</p>
-                    <p className="text-xs mt-1">
-                      sarah.anderson@email.com | (555) 123-4567
-                    </p>
-                  </div>
-                  <div>
-                    <h3 className="text-sm font-bold uppercase">
-                      PROFESSIONAL EXPERIENCE
-                    </h3>
-                    <div className="ml-2 space-y-2 text-xs">
-                      <div>
-                        <p className="font-semibold">
-                          Senior Finance Manager — Morgan Stanley (2020-Present)
+                  {/* CLASSIC PROFESSIONAL - Finance & Consulting */}
+                  {currentTemplate.previewStyle === "classic" && (
+                    <div className="text-white font-serif space-y-3">
+                      <div className="text-center border-b-2 border-white/40 pb-3 mb-4">
+                        <h2 className="text-2xl font-bold">SARAH ANDERSON</h2>
+                        <p className="text-sm">Finance Manager | Consulting</p>
+                        <p className="text-xs mt-1">
+                          sarah.anderson@email.com | (555) 123-4567
                         </p>
-                        <ul className="ml-4 space-y-1 mt-1">
-                          <li>◦ Managed $250M portfolio</li>
-                          <li>◦ Increased operational efficiency by 28%</li>
-                          <li>◦ Led team of 8 analysts</li>
+                      </div>
+                      <div>
+                        <h3 className="text-sm font-bold uppercase">
+                          PROFESSIONAL EXPERIENCE
+                        </h3>
+                        <div className="ml-2 space-y-2 text-xs">
+                          <div>
+                            <p className="font-semibold">
+                              Senior Finance Manager — Morgan Stanley
+                              (2020-Present)
+                            </p>
+                            <ul className="ml-4 space-y-1 mt-1">
+                              <li>◦ Managed $250M portfolio</li>
+                              <li>◦ Increased operational efficiency by 28%</li>
+                              <li>◦ Led team of 8 analysts</li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                      <div>
+                        <h3 className="text-sm font-bold uppercase">
+                          CERTIFICATIONS
+                        </h3>
+                        <p className="text-xs">CFA Level III | MBA Finance</p>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* CLINICAL - Healthcare */}
+                  {currentTemplate.previewStyle === "clinical" && (
+                    <div className="text-white space-y-4">
+                      <div className="border-b-2 border-teal-300 pb-3">
+                        <h2 className="text-3xl font-bold">
+                          SARAH ANDERSON, RN
+                        </h2>
+                        <p className="text-sm text-teal-100">
+                          Registered Nurse | Critical Care
+                        </p>
+                      </div>
+                      <div>
+                        <h3 className="text-sm font-bold uppercase">
+                          LICENSES & CERTIFICATIONS
+                        </h3>
+                        <p className="text-xs text-teal-100">
+                          RN License CA #123456 | BLS/ACLS | CCRN
+                        </p>
+                      </div>
+                      <div>
+                        <h3 className="text-sm font-bold uppercase">
+                          CLINICAL EXPERIENCE
+                        </h3>
+                        <div className="text-xs space-y-2">
+                          <div>
+                            <p className="font-semibold">
+                              ICU Registered Nurse — UCSF Medical Center
+                              (2019-Present)
+                            </p>
+                            <p className="text-teal-100">
+                              Managed care for 6-8 patients with complex
+                              conditions
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* CREATIVE BRIEF - Designers */}
+                  {currentTemplate.previewStyle === "creative" && (
+                    <div className="text-white space-y-6">
+                      <div className="flex flex-col md:flex-row md:items-end gap-4 border-b-4 border-pink-300 pb-3">
+                        <div className="text-5xl md:text-6xl font-black text-pink-200">
+                          SA
+                        </div>
+                        <div>
+                          <h2 className="text-2xl font-bold">SARAH ANDERSON</h2>
+                          <p className="text-sm text-pink-100">
+                            UX/UI Designer
+                          </p>
+                        </div>
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+                        <div>
+                          <p className="font-bold text-pink-200">Dribbble</p>
+                          <p>dribbble.com/sarah</p>
+                        </div>
+                        <div>
+                          <p className="font-bold text-pink-200">Portfolio</p>
+                          <p>sarahdesign.com</p>
+                        </div>
+                        <div>
+                          <p className="font-bold text-pink-200">LinkedIn</p>
+                          <p>in/sarahanderson</p>
+                        </div>
+                      </div>
+                      <div className="bg-pink-900/50 p-3 rounded">
+                        <h3 className="text-sm font-bold mb-1">
+                          FEATURED PROJECTS
+                        </h3>
+                        <p className="text-xs">
+                          Mobile App Redesign (32% improvement) | E-commerce
+                          Platform | Design System
+                        </p>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* RESULTS-FIRST - Sales */}
+                  {currentTemplate.previewStyle === "results" && (
+                    <div className="text-white space-y-5">
+                      <div>
+                        <h2 className="text-2xl md:text-3xl font-bold mb-1">
+                          SARAH ANDERSON
+                        </h2>
+                        <p className="text-base md:text-lg text-orange-100">
+                          Sales Executive | Business Development
+                        </p>
+                      </div>
+                      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 bg-orange-900/40 p-3 rounded">
+                        <div className="text-center">
+                          <p className="text-2xl font-bold">$2.5M</p>
+                          <p className="text-xs">ARR Generated</p>
+                        </div>
+                        <div className="text-center border-l border-r border-white/30">
+                          <p className="text-2xl font-bold">145%</p>
+                          <p className="text-xs">Quota Attainment</p>
+                        </div>
+                        <div className="text-center">
+                          <p className="text-2xl font-bold">42</p>
+                          <p className="text-xs">Deals Closed</p>
+                        </div>
+                      </div>
+                      <div>
+                        <h3 className="text-sm font-bold uppercase">
+                          PROFESSIONAL EXPERIENCE
+                        </h3>
+                        <div className="text-xs space-y-1 mt-2">
+                          <p className="font-semibold">
+                            Senior Sales Manager — SalesCorp (2019-Present)
+                          </p>
+                          <p className="text-orange-100">
+                            Led team to 150% quota | $2.5M ARR | 42 closed deals
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* ACADEMIC CV - Researchers */}
+                  {currentTemplate.previewStyle === "academic" && (
+                    <div className="text-white font-serif space-y-4">
+                      <div className="border-b border-purple-300 pb-3">
+                        <h2 className="text-2xl font-bold">
+                          Dr. Sarah Anderson
+                        </h2>
+                        <p className="text-sm text-purple-100">
+                          Assistant Professor | Computer Science
+                        </p>
+                      </div>
+                      <div>
+                        <h3 className="text-sm font-bold uppercase">
+                          RESEARCH INTERESTS
+                        </h3>
+                        <p className="text-xs text-purple-100">
+                          Machine Learning, Natural Language Processing, AI
+                          Ethics
+                        </p>
+                      </div>
+                      <div>
+                        <h3 className="text-sm font-bold uppercase">
+                          RECENT PUBLICATIONS
+                        </h3>
+                        <ul className="text-xs space-y-1">
+                          <li>
+                            Anderson, S. et al. (2023). "Novel ML approaches..."
+                            IEEE Conference.
+                          </li>
+                          <li>
+                            Anderson, S. (2022). "AI Ethics Review..." Journal
+                            of AI.
+                          </li>
+                        </ul>
+                      </div>
+                      <div>
+                        <h3 className="text-sm font-bold uppercase">
+                          TEACHING
+                        </h3>
+                        <p className="text-xs text-purple-100">
+                          Intro to ML, Advanced AI, Research Methods
+                        </p>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* TECHNICAL - Software Engineers */}
+                  {currentTemplate.previewStyle === "technical" && (
+                    <div className="text-white space-y-4 font-mono text-xs">
+                      <div>
+                        <h2 className="text-3xl font-bold font-sans mb-1">
+                          SARAH ANDERSON
+                        </h2>
+                        <p className="text-sm text-gray-300">
+                          Full Stack Engineer | DevOps
+                        </p>
+                      </div>
+                      <div>
+                        <h3 className="text-sm font-bold uppercase font-sans mb-2">
+                          TECH STACK
+                        </h3>
+                        <div className="space-y-1">
+                          <p>
+                            Languages: JavaScript, Python, Go | Framework:
+                            React, Node.js, FastAPI
+                          </p>
+                          <p>
+                            Tools: Docker, Kubernetes, AWS, PostgreSQL | Git:
+                            github.com/sarah
+                          </p>
+                        </div>
+                      </div>
+                      <div>
+                        <h3 className="text-sm font-bold uppercase font-sans mb-2">
+                          PROJECTS & IMPACT
+                        </h3>
+                        <div className="space-y-1">
+                          <p>
+                            → Built microservices (50% latency reduction) |
+                            github.com/sarah/service
+                          </p>
+                          <p>
+                            → Automated CI/CD pipeline (80% faster deployments)
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* EXECUTIVE PREMIUM - Leadership */}
+                  {currentTemplate.previewStyle === "executive" && (
+                    <div className="text-white space-y-6">
+                      <div className="border-b-2 border-amber-400 pb-4">
+                        <h2 className="text-4xl font-bold mb-1">
+                          SARAH ANDERSON
+                        </h2>
+                        <p className="text-lg text-amber-100">
+                          Vice President of Product | Strategic Leader
+                        </p>
+                      </div>
+                      <div>
+                        <h3 className="text-sm font-bold uppercase tracking-wider mb-2">
+                          EXECUTIVE PROFILE
+                        </h3>
+                        <p className="text-sm leading-relaxed">
+                          Strategic executive with 15+ years transforming
+                          organizations through digital innovation. Proven track
+                          record driving $500M+ in revenue and building
+                          world-class teams.
+                        </p>
+                      </div>
+                      <div>
+                        <h3 className="text-sm font-bold uppercase tracking-wider mb-3">
+                          KEY ACHIEVEMENTS
+                        </h3>
+                        <ul className="space-y-2 text-sm">
+                          <li>
+                            → Grew division revenue by $250M (30% CAGR) over 5
+                            years
+                          </li>
+                          <li>
+                            → Led successful IPO preparation and execution
+                          </li>
+                          <li>→ Built leadership team of 50+ executives</li>
                         </ul>
                       </div>
                     </div>
-                  </div>
-                  <div>
-                    <h3 className="text-sm font-bold uppercase">
-                      CERTIFICATIONS
-                    </h3>
-                    <p className="text-xs">CFA Level III | MBA Finance</p>
-                  </div>
+                  )}
                 </div>
-              )}
 
-              {/* CLINICAL - Healthcare */}
-              {currentTemplate.previewStyle === "clinical" && (
-                <div className="text-white space-y-4">
-                  <div className="border-b-2 border-teal-300 pb-3">
-                    <h2 className="text-3xl font-bold">SARAH ANDERSON, RN</h2>
-                    <p className="text-sm text-teal-100">
-                      Registered Nurse | Critical Care
-                    </p>
-                  </div>
-                  <div>
-                    <h3 className="text-sm font-bold uppercase">
-                      LICENSES & CERTIFICATIONS
-                    </h3>
-                    <p className="text-xs text-teal-100">
-                      RN License CA #123456 | BLS/ACLS | CCRN
-                    </p>
-                  </div>
-                  <div>
-                    <h3 className="text-sm font-bold uppercase">
-                      CLINICAL EXPERIENCE
-                    </h3>
-                    <div className="text-xs space-y-2">
-                      <div>
-                        <p className="font-semibold">
-                          ICU Registered Nurse — UCSF Medical Center
-                          (2019-Present)
-                        </p>
-                        <p className="text-teal-100">
-                          Managed care for 6-8 patients with complex conditions
-                        </p>
-                      </div>
-                    </div>
-                  </div>
+                {/* Action Footer */}
+                <div className="bg-gray-50 px-8 py-4 flex gap-2 justify-end border-t border-gray-200">
+                  <Button
+                    variant="outline"
+                    onClick={() => setPreviewTemplate(null)}
+                    className="border-gray-300 hover:bg-gray-100"
+                  >
+                    Close
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      navigate("/generator", {
+                        state: {
+                          selectedTemplate: currentTemplate.name,
+                        },
+                      });
+                    }}
+                    className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-white"
+                  >
+                    Use This Template
+                  </Button>
                 </div>
-              )}
-
-              {/* CREATIVE BRIEF - Designers */}
-              {currentTemplate.previewStyle === "creative" && (
-                <div className="text-white space-y-6">
-                  <div className="flex flex-col md:flex-row md:items-end gap-4 border-b-4 border-pink-300 pb-3">
-                    <div className="text-5xl md:text-6xl font-black text-pink-200">
-                      SA
-                    </div>
-                    <div>
-                      <h2 className="text-2xl font-bold">SARAH ANDERSON</h2>
-                      <p className="text-sm text-pink-100">UX/UI Designer</p>
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
-                    <div>
-                      <p className="font-bold text-pink-200">Dribbble</p>
-                      <p>dribbble.com/sarah</p>
-                    </div>
-                    <div>
-                      <p className="font-bold text-pink-200">Portfolio</p>
-                      <p>sarahdesign.com</p>
-                    </div>
-                    <div>
-                      <p className="font-bold text-pink-200">LinkedIn</p>
-                      <p>in/sarahanderson</p>
-                    </div>
-                  </div>
-                  <div className="bg-pink-900/50 p-3 rounded">
-                    <h3 className="text-sm font-bold mb-1">
-                      FEATURED PROJECTS
-                    </h3>
-                    <p className="text-xs">
-                      Mobile App Redesign (32% improvement) | E-commerce
-                      Platform | Design System
-                    </p>
-                  </div>
-                </div>
-              )}
-
-              {/* RESULTS-FIRST - Sales */}
-              {currentTemplate.previewStyle === "results" && (
-                <div className="text-white space-y-5">
-                  <div>
-                    <h2 className="text-2xl md:text-3xl font-bold mb-1">
-                      SARAH ANDERSON
-                    </h2>
-                    <p className="text-base md:text-lg text-orange-100">
-                      Sales Executive | Business Development
-                    </p>
-                  </div>
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3 bg-orange-900/40 p-3 rounded">
-                    <div className="text-center">
-                      <p className="text-2xl font-bold">$2.5M</p>
-                      <p className="text-xs">ARR Generated</p>
-                    </div>
-                    <div className="text-center border-l border-r border-white/30">
-                      <p className="text-2xl font-bold">145%</p>
-                      <p className="text-xs">Quota Attainment</p>
-                    </div>
-                    <div className="text-center">
-                      <p className="text-2xl font-bold">42</p>
-                      <p className="text-xs">Deals Closed</p>
-                    </div>
-                  </div>
-                  <div>
-                    <h3 className="text-sm font-bold uppercase">
-                      PROFESSIONAL EXPERIENCE
-                    </h3>
-                    <div className="text-xs space-y-1 mt-2">
-                      <p className="font-semibold">
-                        Senior Sales Manager — SalesCorp (2019-Present)
-                      </p>
-                      <p className="text-orange-100">
-                        Led team to 150% quota | $2.5M ARR | 42 closed deals
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* ACADEMIC CV - Researchers */}
-              {currentTemplate.previewStyle === "academic" && (
-                <div className="text-white font-serif space-y-4">
-                  <div className="border-b border-purple-300 pb-3">
-                    <h2 className="text-2xl font-bold">Dr. Sarah Anderson</h2>
-                    <p className="text-sm text-purple-100">
-                      Assistant Professor | Computer Science
-                    </p>
-                  </div>
-                  <div>
-                    <h3 className="text-sm font-bold uppercase">
-                      RESEARCH INTERESTS
-                    </h3>
-                    <p className="text-xs text-purple-100">
-                      Machine Learning, Natural Language Processing, AI Ethics
-                    </p>
-                  </div>
-                  <div>
-                    <h3 className="text-sm font-bold uppercase">
-                      RECENT PUBLICATIONS
-                    </h3>
-                    <ul className="text-xs space-y-1">
-                      <li>
-                        Anderson, S. et al. (2023). "Novel ML approaches..."
-                        IEEE Conference.
-                      </li>
-                      <li>
-                        Anderson, S. (2022). "AI Ethics Review..." Journal of
-                        AI.
-                      </li>
-                    </ul>
-                  </div>
-                  <div>
-                    <h3 className="text-sm font-bold uppercase">TEACHING</h3>
-                    <p className="text-xs text-purple-100">
-                      Intro to ML, Advanced AI, Research Methods
-                    </p>
-                  </div>
-                </div>
-              )}
-
-              {/* TECHNICAL - Software Engineers */}
-              {currentTemplate.previewStyle === "technical" && (
-                <div className="text-white space-y-4 font-mono text-xs">
-                  <div>
-                    <h2 className="text-3xl font-bold font-sans mb-1">
-                      SARAH ANDERSON
-                    </h2>
-                    <p className="text-sm text-gray-300">
-                      Full Stack Engineer | DevOps
-                    </p>
-                  </div>
-                  <div>
-                    <h3 className="text-sm font-bold uppercase font-sans mb-2">
-                      TECH STACK
-                    </h3>
-                    <div className="space-y-1">
-                      <p>
-                        Languages: JavaScript, Python, Go | Framework: React,
-                        Node.js, FastAPI
-                      </p>
-                      <p>
-                        Tools: Docker, Kubernetes, AWS, PostgreSQL | Git:
-                        github.com/sarah
-                      </p>
-                    </div>
-                  </div>
-                  <div>
-                    <h3 className="text-sm font-bold uppercase font-sans mb-2">
-                      PROJECTS & IMPACT
-                    </h3>
-                    <div className="space-y-1">
-                      <p>
-                        → Built microservices (50% latency reduction) |
-                        github.com/sarah/service
-                      </p>
-                      <p>→ Automated CI/CD pipeline (80% faster deployments)</p>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* EXECUTIVE PREMIUM - Leadership */}
-              {currentTemplate.previewStyle === "executive" && (
-                <div className="text-white space-y-6">
-                  <div className="border-b-2 border-amber-400 pb-4">
-                    <h2 className="text-4xl font-bold mb-1">SARAH ANDERSON</h2>
-                    <p className="text-lg text-amber-100">
-                      Vice President of Product | Strategic Leader
-                    </p>
-                  </div>
-                  <div>
-                    <h3 className="text-sm font-bold uppercase tracking-wider mb-2">
-                      EXECUTIVE PROFILE
-                    </h3>
-                    <p className="text-sm leading-relaxed">
-                      Strategic executive with 15+ years transforming
-                      organizations through digital innovation. Proven track
-                      record driving $500M+ in revenue and building world-class
-                      teams.
-                    </p>
-                  </div>
-                  <div>
-                    <h3 className="text-sm font-bold uppercase tracking-wider mb-3">
-                      KEY ACHIEVEMENTS
-                    </h3>
-                    <ul className="space-y-2 text-sm">
-                      <li>
-                        → Grew division revenue by $250M (30% CAGR) over 5 years
-                      </li>
-                      <li>→ Led successful IPO preparation and execution</li>
-                      <li>→ Built leadership team of 50+ executives</li>
-                    </ul>
-                  </div>
-                </div>
-              )}
+              </div>
             </div>
-
-            {/* Action Footer */}
-            <div className="bg-gray-50 px-8 py-4 flex gap-2 justify-end border-t border-gray-200">
-              <Button
-                variant="outline"
-                onClick={() => setPreviewTemplate(null)}
-                className="border-gray-300 hover:bg-gray-100"
-              >
-                Close
-              </Button>
-              <Button
-                onClick={() => {
-                  navigate("/generator", {
-                    state: {
-                      selectedTemplate: currentTemplate.name,
-                    },
-                  });
-                }}
-                className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-white"
-              >
-                Use This Template
-              </Button>
-            </div>
-          </div>
-        </div>
-        ) : null;
-      })()}
+          ) : null;
+        })()}
 
       <Footer />
     </div>

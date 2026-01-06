@@ -4,7 +4,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
-import { ResumeData, createDefaultResumeData, generateAISuggestions } from "@/lib/resume-utils";
+import {
+  ResumeData,
+  createDefaultResumeData,
+  generateAISuggestions,
+} from "@/lib/resume-utils";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Sparkles, Plus, Trash2 } from "lucide-react";
 
@@ -20,7 +24,7 @@ export default function ResumeDataForm({
   jobTitle = "Professional",
 }: ResumeDataFormProps) {
   const [data, setData] = useState<ResumeData>(
-    initialData || createDefaultResumeData("", jobTitle)
+    initialData || createDefaultResumeData("", jobTitle),
   );
   const [showSuggestions, setShowSuggestions] = useState(true);
   const suggestions = generateAISuggestions(jobTitle);
@@ -43,7 +47,7 @@ export default function ResumeDataForm({
     setData({
       ...data,
       experience: data.experience.map((exp) =>
-        exp.id === id ? { ...exp, [field]: value } : exp
+        exp.id === id ? { ...exp, [field]: value } : exp,
       ),
     });
   };
@@ -73,14 +77,20 @@ export default function ResumeDataForm({
     });
   };
 
-  const handleAchievementChange = (expId: string, idx: number, value: string) => {
+  const handleAchievementChange = (
+    expId: string,
+    idx: number,
+    value: string,
+  ) => {
     const updated = data.experience.map((exp) =>
       exp.id === expId
         ? {
             ...exp,
-            achievements: exp.achievements.map((a, i) => (i === idx ? value : a)),
+            achievements: exp.achievements.map((a, i) =>
+              i === idx ? value : a,
+            ),
           }
-        : exp
+        : exp,
     );
     setData({ ...data, experience: updated });
   };
@@ -89,7 +99,7 @@ export default function ResumeDataForm({
     const updated = data.experience.map((exp) =>
       exp.id === expId
         ? { ...exp, achievements: [...exp.achievements, ""] }
-        : exp
+        : exp,
     );
     setData({ ...data, experience: updated });
   };
@@ -101,7 +111,7 @@ export default function ResumeDataForm({
             ...exp,
             achievements: exp.achievements.filter((_, i) => i !== idx),
           }
-        : exp
+        : exp,
     );
     setData({ ...data, experience: updated });
   };
@@ -295,7 +305,11 @@ export default function ResumeDataForm({
                     <Input
                       value={exp.job_title}
                       onChange={(e) =>
-                        handleExperienceChange(exp.id, "job_title", e.target.value)
+                        handleExperienceChange(
+                          exp.id,
+                          "job_title",
+                          e.target.value,
+                        )
                       }
                       placeholder="Senior Software Engineer"
                       className="mt-1"
@@ -307,7 +321,11 @@ export default function ResumeDataForm({
                     <Input
                       value={exp.company}
                       onChange={(e) =>
-                        handleExperienceChange(exp.id, "company", e.target.value)
+                        handleExperienceChange(
+                          exp.id,
+                          "company",
+                          e.target.value,
+                        )
                       }
                       placeholder="Tech Company Inc."
                       className="mt-1"
@@ -319,7 +337,11 @@ export default function ResumeDataForm({
                     <Input
                       value={exp.location}
                       onChange={(e) =>
-                        handleExperienceChange(exp.id, "location", e.target.value)
+                        handleExperienceChange(
+                          exp.id,
+                          "location",
+                          e.target.value,
+                        )
                       }
                       placeholder="San Francisco, CA"
                       className="mt-1"
@@ -333,7 +355,11 @@ export default function ResumeDataForm({
                         type="month"
                         value={exp.start_date}
                         onChange={(e) =>
-                          handleExperienceChange(exp.id, "start_date", e.target.value)
+                          handleExperienceChange(
+                            exp.id,
+                            "start_date",
+                            e.target.value,
+                          )
                         }
                         className="mt-1"
                       />
@@ -344,7 +370,11 @@ export default function ResumeDataForm({
                         type="month"
                         value={exp.end_date}
                         onChange={(e) =>
-                          handleExperienceChange(exp.id, "end_date", e.target.value)
+                          handleExperienceChange(
+                            exp.id,
+                            "end_date",
+                            e.target.value,
+                          )
                         }
                         disabled={exp.current}
                         className="mt-1"
@@ -358,7 +388,11 @@ export default function ResumeDataForm({
                       id={`current-${exp.id}`}
                       checked={exp.current}
                       onChange={(e) =>
-                        handleExperienceChange(exp.id, "current", e.target.checked)
+                        handleExperienceChange(
+                          exp.id,
+                          "current",
+                          e.target.checked,
+                        )
                       }
                       className="rounded"
                     />
@@ -383,7 +417,7 @@ export default function ResumeDataForm({
                               handleAchievementChange(
                                 exp.id,
                                 aidx,
-                                e.target.value
+                                e.target.value,
                               )
                             }
                             placeholder="Led team to deliver X project, increasing Y by Z%"
@@ -434,9 +468,7 @@ export default function ResumeDataForm({
         <TabsContent value="skills" className="space-y-4">
           <Card className="p-6 border-border/50">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-foreground">
-                Skills
-              </h3>
+              <h3 className="text-lg font-semibold text-foreground">Skills</h3>
               {showSuggestions && (
                 <Button
                   size="sm"

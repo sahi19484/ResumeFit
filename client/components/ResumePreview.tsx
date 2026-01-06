@@ -17,7 +17,9 @@ export default function ResumePreview({
     <div className="w-full">
       {/* Preview Header */}
       <div className="mb-4 flex justify-between items-center">
-        <h3 className="text-lg font-semibold text-foreground">Resume Preview</h3>
+        <h3 className="text-lg font-semibold text-foreground">
+          Resume Preview
+        </h3>
         {onDownload && (
           <Button
             size="sm"
@@ -32,15 +34,9 @@ export default function ResumePreview({
 
       {/* Resume Document */}
       <div className="resume-container bg-white rounded-xl shadow-lg border border-border/50 p-8 md:p-12 max-w-4xl">
-        {template === "modern" && (
-          <ModernTemplate resume={resume} />
-        )}
-        {template === "classic" && (
-          <ClassicTemplate resume={resume} />
-        )}
-        {template === "minimalist" && (
-          <MinimalistTemplate resume={resume} />
-        )}
+        {template === "modern" && <ModernTemplate resume={resume} />}
+        {template === "classic" && <ClassicTemplate resume={resume} />}
+        {template === "minimalist" && <MinimalistTemplate resume={resume} />}
       </div>
 
       {/* Print Styles */}
@@ -69,9 +65,7 @@ function ModernTemplate({ resume }: { resume: ResumeData }) {
           {resume.personal.full_name}
         </h1>
         <div className="flex flex-wrap gap-3 text-sm text-muted-foreground">
-          {resume.personal.email && (
-            <span>{resume.personal.email}</span>
-          )}
+          {resume.personal.email && <span>{resume.personal.email}</span>}
           {resume.personal.phone && (
             <>
               <span>•</span>
@@ -119,8 +113,7 @@ function ModernTemplate({ resume }: { resume: ResumeData }) {
                     {exp.job_title}
                   </h3>
                   <span className="text-xs text-muted-foreground whitespace-nowrap">
-                    {exp.start_date} –{" "}
-                    {exp.current ? "Present" : exp.end_date}
+                    {exp.start_date} – {exp.current ? "Present" : exp.end_date}
                   </span>
                 </div>
                 <p className="text-xs text-muted-foreground font-medium">
@@ -130,7 +123,10 @@ function ModernTemplate({ resume }: { resume: ResumeData }) {
                 {exp.achievements && exp.achievements.length > 0 && (
                   <ul className="mt-2 space-y-1">
                     {exp.achievements.map((achievement, idx) => (
-                      <li key={idx} className="text-xs text-muted-foreground leading-relaxed flex gap-2">
+                      <li
+                        key={idx}
+                        className="text-xs text-muted-foreground leading-relaxed flex gap-2"
+                      >
                         <span className="flex-shrink-0">•</span>
                         <span>{achievement}</span>
                       </li>
@@ -238,7 +234,9 @@ function ClassicTemplate({ resume }: { resume: ResumeData }) {
               <div key={exp.id} className="text-xs">
                 <div className="flex justify-between">
                   <span className="font-bold">{exp.job_title}</span>
-                  <span>{exp.start_date} – {exp.current ? "Present" : exp.end_date}</span>
+                  <span>
+                    {exp.start_date} – {exp.current ? "Present" : exp.end_date}
+                  </span>
                 </div>
                 <div className="font-semibold italic text-muted-foreground">
                   {exp.company}, {exp.location}
@@ -327,7 +325,9 @@ function MinimalistTemplate({ resume }: { resume: ResumeData }) {
       {/* Experience */}
       {resume.experience && resume.experience.length > 0 && (
         <div>
-          <div className="font-bold text-sm text-foreground mb-3">EXPERIENCE</div>
+          <div className="font-bold text-sm text-foreground mb-3">
+            EXPERIENCE
+          </div>
           <div className="space-y-4">
             {resume.experience.map((exp) => (
               <div key={exp.id} className="text-xs">
@@ -337,13 +337,14 @@ function MinimalistTemplate({ resume }: { resume: ResumeData }) {
                     {exp.start_date} – {exp.current ? "Present" : exp.end_date}
                   </span>
                 </div>
-                <div className="text-muted-foreground mb-1">
-                  {exp.company}
-                </div>
+                <div className="text-muted-foreground mb-1">{exp.company}</div>
                 {exp.achievements && exp.achievements.length > 0 && (
                   <ul className="space-y-1">
                     {exp.achievements.map((achievement, idx) => (
-                      <li key={idx} className="text-muted-foreground flex gap-2">
+                      <li
+                        key={idx}
+                        className="text-muted-foreground flex gap-2"
+                      >
                         <span>–</span>
                         <span>{achievement}</span>
                       </li>
@@ -359,13 +360,17 @@ function MinimalistTemplate({ resume }: { resume: ResumeData }) {
       {/* Education */}
       {resume.education && resume.education.length > 0 && (
         <div>
-          <div className="font-bold text-sm text-foreground mb-2">EDUCATION</div>
+          <div className="font-bold text-sm text-foreground mb-2">
+            EDUCATION
+          </div>
           <div className="space-y-2 text-xs">
             {resume.education.map((edu) => (
               <div key={edu.id}>
                 <div className="flex justify-between gap-2">
                   <span className="font-semibold">{edu.school}</span>
-                  <span className="text-muted-foreground">{edu.graduation_date}</span>
+                  <span className="text-muted-foreground">
+                    {edu.graduation_date}
+                  </span>
                 </div>
                 <div className="text-muted-foreground">
                   {edu.degree}

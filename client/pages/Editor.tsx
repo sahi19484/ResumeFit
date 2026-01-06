@@ -22,13 +22,18 @@ export default function Editor() {
   const navigate = useNavigate();
   const selectedTemplate =
     (location.state as any)?.selectedTemplate || "Modern Clean";
-  const initialResumeData = (location.state as any)?.resumeData as ResumeData | undefined;
+  const initialResumeData = (location.state as any)?.resumeData as
+    | ResumeData
+    | undefined;
 
-  const [resumeData, setResumeData] = useState<ResumeData | null>(initialResumeData || null);
+  const [resumeData, setResumeData] = useState<ResumeData | null>(
+    initialResumeData || null,
+  );
   const [viewMode, setViewMode] = useState<"form" | "preview">("form");
-  const [template, setTemplate] = useState<"modern" | "classic" | "minimalist">("modern");
+  const [template, setTemplate] = useState<"modern" | "classic" | "minimalist">(
+    "modern",
+  );
   const [lastSaved, setLastSaved] = useState(new Date());
-
 
   // Auto-save every 10 seconds
   useEffect(() => {
@@ -187,19 +192,27 @@ export default function Editor() {
                   <div className="space-y-3 text-sm">
                     <div className="flex justify-between">
                       <span className="text-muted-foreground">Name:</span>
-                      <span className="font-medium">{resumeData.personal.full_name}</span>
+                      <span className="font-medium">
+                        {resumeData.personal.full_name}
+                      </span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-muted-foreground">Email:</span>
-                      <span className="font-medium text-xs">{resumeData.personal.email}</span>
+                      <span className="font-medium text-xs">
+                        {resumeData.personal.email}
+                      </span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-muted-foreground">Sections:</span>
-                      <span className="font-medium">{resumeData.experience.length + 2}</span>
+                      <span className="font-medium">
+                        {resumeData.experience.length + 2}
+                      </span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-muted-foreground">Skills:</span>
-                      <span className="font-medium">{resumeData.skills.length}</span>
+                      <span className="font-medium">
+                        {resumeData.skills.length}
+                      </span>
                     </div>
                   </div>
 

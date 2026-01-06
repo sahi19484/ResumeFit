@@ -41,13 +41,17 @@ export interface Education {
 }
 
 // AI-powered suggestions based on job titles
-export const JOB_TITLE_SUGGESTIONS: Record<string, {
-  professional_summary: string;
-  skills: string[];
-  experience_bullets: string[];
-}> = {
+export const JOB_TITLE_SUGGESTIONS: Record<
+  string,
+  {
+    professional_summary: string;
+    skills: string[];
+    experience_bullets: string[];
+  }
+> = {
   "Software Engineer": {
-    professional_summary: "Results-driven Software Engineer with X+ years of experience building scalable applications and solving complex technical challenges. Proficient in modern web technologies and cloud infrastructure with a track record of delivering high-impact projects.",
+    professional_summary:
+      "Results-driven Software Engineer with X+ years of experience building scalable applications and solving complex technical challenges. Proficient in modern web technologies and cloud infrastructure with a track record of delivering high-impact projects.",
     skills: [
       "Full-Stack Development",
       "JavaScript/TypeScript",
@@ -71,7 +75,8 @@ export const JOB_TITLE_SUGGESTIONS: Record<string, {
     ],
   },
   "Product Manager": {
-    professional_summary: "Strategic Product Manager with X+ years of experience driving product vision and delivering data-driven solutions. Expert in roadmap planning, stakeholder management, and leading cross-functional teams to ship products that users love.",
+    professional_summary:
+      "Strategic Product Manager with X+ years of experience driving product vision and delivering data-driven solutions. Expert in roadmap planning, stakeholder management, and leading cross-functional teams to ship products that users love.",
     skills: [
       "Product Strategy",
       "Roadmap Planning",
@@ -95,7 +100,8 @@ export const JOB_TITLE_SUGGESTIONS: Record<string, {
     ],
   },
   "Data Scientist": {
-    professional_summary: "Data-driven Data Scientist with X+ years of experience building predictive models and deriving actionable insights from complex datasets. Expert in machine learning, statistical analysis, and communicating findings to stakeholders.",
+    professional_summary:
+      "Data-driven Data Scientist with X+ years of experience building predictive models and deriving actionable insights from complex datasets. Expert in machine learning, statistical analysis, and communicating findings to stakeholders.",
     skills: [
       "Machine Learning",
       "Python",
@@ -119,7 +125,8 @@ export const JOB_TITLE_SUGGESTIONS: Record<string, {
     ],
   },
   "UX Designer": {
-    professional_summary: "User-Centric UX Designer with X+ years of experience creating intuitive digital experiences. Skilled in user research, interaction design, and translating complex requirements into elegant, accessible interfaces.",
+    professional_summary:
+      "User-Centric UX Designer with X+ years of experience creating intuitive digital experiences. Skilled in user research, interaction design, and translating complex requirements into elegant, accessible interfaces.",
     skills: [
       "User Research",
       "Wireframing",
@@ -143,7 +150,8 @@ export const JOB_TITLE_SUGGESTIONS: Record<string, {
     ],
   },
   "Marketing Manager": {
-    professional_summary: "Results-Oriented Marketing Manager with X+ years of experience developing and executing integrated marketing strategies. Proven track record of driving brand awareness, customer acquisition, and revenue growth.",
+    professional_summary:
+      "Results-Oriented Marketing Manager with X+ years of experience developing and executing integrated marketing strategies. Proven track record of driving brand awareness, customer acquisition, and revenue growth.",
     skills: [
       "Marketing Strategy",
       "Campaign Management",
@@ -172,7 +180,7 @@ export const JOB_TITLE_SUGGESTIONS: Record<string, {
 export function generateAISuggestions(jobTitle: string) {
   // Normalize job title for matching
   const normalized = jobTitle.toLowerCase();
-  
+
   // Find best matching job title from suggestions
   let bestMatch = "Software Engineer";
   let highestScore = 0;
@@ -192,7 +200,7 @@ export function generateAISuggestions(jobTitle: string) {
 // Create a default resume data structure
 export function createDefaultResumeData(
   name: string = "Your Name",
-  jobTitle: string = "Professional"
+  jobTitle: string = "Professional",
 ): ResumeData {
   const suggestions = generateAISuggestions(jobTitle);
 
