@@ -6,6 +6,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
+import ResumePreview from "@/components/ResumePreview";
+import ResumeDataForm from "@/components/ResumeDataForm";
+import { ResumeData, resumeDataToText, createDefaultResumeData } from "@/lib/resume-utils";
 import {
   AlertCircle,
   Check,
@@ -14,7 +17,7 @@ import {
   Sparkles,
 } from "lucide-react";
 
-type Step = "idle" | "extracting" | "optimizing" | "building" | "complete";
+type Step = "idle" | "extracting" | "optimizing" | "building" | "form" | "preview" | "complete";
 
 export default function Generator() {
   const navigate = useNavigate();
