@@ -380,36 +380,43 @@ export default function Templates() {
                   </div>
                 </div>
 
-                <div className="p-6">
-                  <div className="mb-4">
-                    <h3 className="font-bold text-xl text-foreground group-hover:text-primary transition-colors mb-2">
-                      {template.name}
-                    </h3>
-                    <p className="text-sm text-muted-foreground">
+                <div className="p-6 flex flex-col h-full">
+                  <div className="mb-4 flex-1">
+                    <div className="flex items-start justify-between gap-2 mb-3">
+                      <div>
+                        <h3 className="font-bold text-lg text-foreground group-hover:text-primary transition-colors">
+                          {template.name}
+                        </h3>
+                        <p className="text-xs text-muted-foreground mt-1 font-medium">
+                          {template.industry}
+                        </p>
+                      </div>
+                    </div>
+                    <p className="text-sm text-muted-foreground leading-relaxed">
                       {template.description}
                     </p>
                   </div>
 
                   <div className="flex items-center gap-2 mb-4">
-                    <Badge className="bg-gradient-to-r from-accent to-accent/80 text-white border-0 flex items-center gap-1">
+                    <Badge className="bg-gradient-to-r from-accent to-accent/80 text-white border-0 flex items-center gap-1 text-xs">
                       <CheckCircle2 className="w-3 h-3" />
                       ATS Validated
                     </Badge>
                   </div>
 
-                  <div className="flex gap-2">
+                  <div className="flex gap-2 pt-4 border-t border-border/30">
                     <Button
                       variant="outline"
                       size="sm"
-                      className="flex-1 border-border/50 hover:border-primary/50 hover:bg-primary/5 transition-all duration-300"
+                      className="flex-1 border-border hover:border-primary/50 hover:bg-primary/5 transition-all duration-300 text-sm font-medium"
                       onClick={() => setPreviewTemplate(template.name)}
                     >
-                      <Eye className="w-4 h-4 mr-2" />
+                      <Eye className="w-4 h-4 mr-1.5" />
                       Preview
                     </Button>
                     <Button
                       size="sm"
-                      className="flex-1 bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 transition-all duration-300"
+                      className="flex-1 bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 transition-all duration-300 text-sm font-medium"
                       onClick={() =>
                         navigate("/generator", {
                           state: { selectedTemplate: template.name },
