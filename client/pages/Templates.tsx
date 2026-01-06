@@ -190,7 +190,7 @@ export default function Templates() {
 
           {/* Template Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {templates.map((template, i) => (
+            {filteredTemplates.map((template, i) => (
               <div
                 key={i}
                 className={`group rounded-2xl border border-border/50 bg-white overflow-hidden hover:border-primary/30 hover:shadow-xl transition-all duration-500 hover:-translate-y-2 ${
