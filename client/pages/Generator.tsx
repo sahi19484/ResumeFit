@@ -120,7 +120,8 @@ ACHIEVEMENTS
     return resumeContent;
   };
 
-  const buildResumeFromProfile = (profile: any, targetRole: string) => {
+  const 
+  buildResumeFromProfile = (profile: any, targetRole: string) => {
     const name = profile?.name || "John Doe";
     const headline = profile?.headline || "";
     const location = profile?.location || "";
