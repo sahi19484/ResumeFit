@@ -430,7 +430,9 @@ export default function Templates() {
       </div>
 
       {/* Preview Modal */}
-      {previewTemplate !== null && (
+      {previewTemplate !== null && (() => {
+        const currentTemplate = templates.find(t => t.name === previewTemplate);
+        return currentTemplate ? (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
           <div className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden shadow-2xl my-auto">
             {/* Close Button */}
@@ -443,10 +445,10 @@ export default function Templates() {
 
             {/* Template Preview Content */}
             <div
-              className={`bg-gradient-to-br ${templates[previewTemplate].bgColor} p-8 relative overflow-hidden`}
+              className={`bg-gradient-to-br ${currentTemplate.bgColor} p-8 relative overflow-hidden`}
             >
               {/* MODERN CLEAN - Tech Product Managers */}
-              {templates[previewTemplate].previewStyle === "modern" && (
+              {currentTemplate.previewStyle === "modern" && (
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-white">
                   {/* Left column: Contact & Skills */}
                   <div className="col-span-1 space-y-6">
@@ -519,7 +521,7 @@ export default function Templates() {
               )}
 
               {/* CLASSIC PROFESSIONAL - Finance & Consulting */}
-              {templates[previewTemplate].previewStyle === "classic" && (
+              {currentTemplate.previewStyle === "classic" && (
                 <div className="text-white font-serif space-y-3">
                   <div className="text-center border-b-2 border-white/40 pb-3 mb-4">
                     <h2 className="text-2xl font-bold">SARAH ANDERSON</h2>
@@ -555,7 +557,7 @@ export default function Templates() {
               )}
 
               {/* CLINICAL - Healthcare */}
-              {templates[previewTemplate].previewStyle === "clinical" && (
+              {currentTemplate.previewStyle === "clinical" && (
                 <div className="text-white space-y-4">
                   <div className="border-b-2 border-teal-300 pb-3">
                     <h2 className="text-3xl font-bold">SARAH ANDERSON, RN</h2>
@@ -591,7 +593,7 @@ export default function Templates() {
               )}
 
               {/* CREATIVE BRIEF - Designers */}
-              {templates[previewTemplate].previewStyle === "creative" && (
+              {currentTemplate.previewStyle === "creative" && (
                 <div className="text-white space-y-6">
                   <div className="flex flex-col md:flex-row md:items-end gap-4 border-b-4 border-pink-300 pb-3">
                     <div className="text-5xl md:text-6xl font-black text-pink-200">
@@ -629,7 +631,7 @@ export default function Templates() {
               )}
 
               {/* RESULTS-FIRST - Sales */}
-              {templates[previewTemplate].previewStyle === "results" && (
+              {currentTemplate.previewStyle === "results" && (
                 <div className="text-white space-y-5">
                   <div>
                     <h2 className="text-2xl md:text-3xl font-bold mb-1">
@@ -670,7 +672,7 @@ export default function Templates() {
               )}
 
               {/* ACADEMIC CV - Researchers */}
-              {templates[previewTemplate].previewStyle === "academic" && (
+              {currentTemplate.previewStyle === "academic" && (
                 <div className="text-white font-serif space-y-4">
                   <div className="border-b border-purple-300 pb-3">
                     <h2 className="text-2xl font-bold">Dr. Sarah Anderson</h2>
@@ -711,7 +713,7 @@ export default function Templates() {
               )}
 
               {/* TECHNICAL - Software Engineers */}
-              {templates[previewTemplate].previewStyle === "technical" && (
+              {currentTemplate.previewStyle === "technical" && (
                 <div className="text-white space-y-4 font-mono text-xs">
                   <div>
                     <h2 className="text-3xl font-bold font-sans mb-1">
@@ -752,7 +754,7 @@ export default function Templates() {
               )}
 
               {/* EXECUTIVE PREMIUM - Leadership */}
-              {templates[previewTemplate].previewStyle === "executive" && (
+              {currentTemplate.previewStyle === "executive" && (
                 <div className="text-white space-y-6">
                   <div className="border-b-2 border-amber-400 pb-4">
                     <h2 className="text-4xl font-bold mb-1">SARAH ANDERSON</h2>
@@ -800,7 +802,7 @@ export default function Templates() {
                 onClick={() => {
                   navigate("/generator", {
                     state: {
-                      selectedTemplate: templates[previewTemplate].name,
+                      selectedTemplate: currentTemplate.name,
                     },
                   });
                 }}
@@ -811,7 +813,8 @@ export default function Templates() {
             </div>
           </div>
         </div>
-      )}
+        ) : null;
+      })()}
 
       <Footer />
     </div>
