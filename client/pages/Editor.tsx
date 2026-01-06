@@ -30,63 +30,6 @@ export default function Editor() {
   const [lastSaved, setLastSaved] = useState(new Date());
 
 
-  // Get starter pack for current template
-  const currentStarterPack = starterPacks.find((pack) =>
-    selectedTemplate
-      .toLowerCase()
-      .includes(pack.industry.split(" ")[0].toLowerCase()),
-  );
-
-  // Mock ATS Parser
-  const parseResume = (content: string): ATSParseResult => {
-    const lines = content.split("\n").filter((line) => line.trim());
-    const emailMatch = content.match(/[\w\.-]+@[\w\.-]+\.\w+/);
-    const phoneMatch = content.match(/\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}/);
-
-    // Simple score calculation
-    let score = 60;
-    if (emailMatch) score += 5;
-    if (phoneMatch) score += 5;
-    if (content.toLowerCase().includes("linkedin")) score += 5;
-    if (lines.length > 5) score += 5;
-    if (content.includes("%") || /\$[\d,]+/.test(content)) score += 10;
-
-    // Extract keywords
-    const keywords = [
-      "product",
-      "management",
-      "strategy",
-      "leadership",
-      "data",
-      "growth",
-    ].filter((k) => content.toLowerCase().includes(k));
-
-    // Detect gaps
-    const gaps = [];
-    if (!emailMatch) gaps.push("Missing email address");
-    if (!phoneMatch) gaps.push("Missing phone number");
-    if (!content.toLowerCase().includes("linkedin"))
-      gaps.push("No LinkedIn URL found");
-    if (!content.includes("%") && !/\$[\d,]+/.test(content))
-      gaps.push("Consider adding quantifiable metrics");
-
-    return {
-      fields: {
-        email: emailMatch?.[0],
-        phone: phoneMatch?.[0],
-      },
-      sections: resumeSections.map((section) => ({
-        name: section.name,
-        content: section.content,
-        keywords: keywords,
-      })),
-      keywords,
-      score: Math.min(100, score),
-      gaps,
-      warnings: [],
-    };
-  };
-
   // Auto-save every 10 seconds
   useEffect(() => {
     const interval = setInterval(() => {
@@ -95,47 +38,18 @@ export default function Editor() {
     return () => clearInterval(interval);
   }, []);
 
-  // Parse resume on content change
-  useEffect(() => {
-    const fullContent = resumeSections.map((s) => s.content).join("\n");
-    const result = parseResume(fullContent);
-    setAtsParseResult(result);
-    setAtsScore(result.score);
-
-    // Load suggestions from starter pack
-    if (currentStarterPack) {
-      setSuggestions(currentStarterPack.bullets);
-    }
-  }, [resumeSections, currentStarterPack]);
-
-  const handleSectionChange = (sectionId: string, newContent: string) => {
-    setResumeSections((sections) =>
-      sections.map((section) =>
-        section.id === sectionId
-          ? { ...section, content: newContent }
-          : section,
-      ),
-    );
-  };
-
-  const handleApplySuggestion = (suggestion: BulletSuggestion) => {
-    const experienceSection = resumeSections.find((s) => s.id === "experience");
-    if (experienceSection) {
-      const updatedContent =
-        experienceSection.content + "\n• " + suggestion.text;
-      handleSectionChange("experience", updatedContent);
-      setAppliedSuggestions([...appliedSuggestions, suggestion.id]);
-    }
+  const handleFormSubmit = (data: ResumeData) => {
+    setResumeData(data);
+    setViewMode("preview");
   };
 
   const handleDownload = () => {
-    const fullContent = resumeSections
-      .map((section) => `${section.name}\n${section.content}`)
-      .join("\n\n");
+    if (!resumeData) return;
+    const textContent = resumeDataToText(resumeData);
     const element = document.createElement("a");
     element.setAttribute(
       "href",
-      "data:text/plain;charset=utf-8," + encodeURIComponent(fullContent),
+      "data:text/plain;charset=utf-8," + encodeURIComponent(textContent),
     );
     element.setAttribute("download", "resume.txt");
     element.style.display = "none";
@@ -143,8 +57,6 @@ export default function Editor() {
     element.click();
     document.body.removeChild(element);
   };
-
-  const currentSection = resumeSections.find((s) => s.id === selectedSectionId);
 
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-b from-background to-muted/20">
