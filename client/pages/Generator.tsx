@@ -26,7 +26,9 @@ export default function Generator() {
   const [step, setStep] = useState<Step>("idle");
   const [error, setError] = useState("");
   const [isVisible, setIsVisible] = useState(false);
+  const [resumeData, setResumeData] = useState<ResumeData | null>(null);
   const [generatedResume, setGeneratedResume] = useState("");
+  const [linkedInFailed, setLinkedInFailed] = useState(false);
 
   useEffect(() => {
     setIsVisible(true);
