@@ -19,42 +19,15 @@ import {
 
 export default function Editor() {
   const location = useLocation();
+  const navigate = useNavigate();
   const selectedTemplate =
     (location.state as any)?.selectedTemplate || "Modern Clean";
+  const initialResumeData = (location.state as any)?.resumeData as ResumeData | undefined;
 
-  const [resumeSections, setResumeSections] = useState<ResumeSection[]>([
-    {
-      id: "contact",
-      name: "Contact Info",
-      content:
-        "Your Name\nyourname@email.com | (555) 123-4567 | linkedin.com/in/yourprofile",
-      order: 1,
-      visible: true,
-    },
-    {
-      id: "summary",
-      name: "Professional Summary",
-      content:
-        "Results-driven professional with experience in [your field]. Strong background in [key skills].",
-      order: 2,
-      visible: true,
-    },
-    {
-      id: "experience",
-      name: "Experience",
-      content:
-        "Senior Role Title\nCompany Name • 2020 - Present\n• Achievement 1\n• Achievement 2",
-      order: 3,
-      visible: true,
-    },
-    {
-      id: "education",
-      name: "Education",
-      content: "Degree Name\nUniversity Name • Graduation Year",
-      order: 4,
-      visible: true,
-    },
-  ]);
+  const [resumeData, setResumeData] = useState<ResumeData | null>(initialResumeData || null);
+  const [viewMode, setViewMode] = useState<"form" | "preview">("form");
+  const [template, setTemplate] = useState<"modern" | "classic" | "minimalist">("modern");
+  const [lastSaved, setLastSaved] = useState(new Date());
 
   const [atsScore, setAtsScore] = useState(75);
   const [lastSaved, setLastSaved] = useState(new Date());
