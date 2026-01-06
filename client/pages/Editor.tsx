@@ -29,15 +29,6 @@ export default function Editor() {
   const [template, setTemplate] = useState<"modern" | "classic" | "minimalist">("modern");
   const [lastSaved, setLastSaved] = useState(new Date());
 
-  const [atsScore, setAtsScore] = useState(75);
-  const [lastSaved, setLastSaved] = useState(new Date());
-  const [atsParseResult, setAtsParseResult] = useState<ATSParseResult | null>(
-    null,
-  );
-  const [viewMode, setViewMode] = useState<"visual" | "parsed">("visual");
-  const [selectedSectionId, setSelectedSectionId] = useState("contact");
-  const [suggestions, setSuggestions] = useState<BulletSuggestion[]>([]);
-  const [appliedSuggestions, setAppliedSuggestions] = useState<string[]>([]);
 
   // Get starter pack for current template
   const currentStarterPack = starterPacks.find((pack) =>
