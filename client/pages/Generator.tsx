@@ -6,6 +6,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
+import ResumePreview from "@/components/ResumePreview";
+import ResumeDataForm from "@/components/ResumeDataForm";
+import {
+  ResumeData,
+  resumeDataToText,
+  createDefaultResumeData,
+} from "@/lib/resume-utils";
 import {
   AlertCircle,
   Check,
@@ -14,7 +21,14 @@ import {
   Sparkles,
 } from "lucide-react";
 
-type Step = "idle" | "extracting" | "optimizing" | "building" | "complete";
+type Step =
+  | "idle"
+  | "extracting"
+  | "optimizing"
+  | "building"
+  | "form"
+  | "preview"
+  | "complete";
 
 export default function Generator() {
   const navigate = useNavigate();
@@ -23,7 +37,9 @@ export default function Generator() {
   const [step, setStep] = useState<Step>("idle");
   const [error, setError] = useState("");
   const [isVisible, setIsVisible] = useState(false);
+  const [resumeData, setResumeData] = useState<ResumeData | null>(null);
   const [generatedResume, setGeneratedResume] = useState("");
+  const [linkedInFailed, setLinkedInFailed] = useState(false);
 
   useEffect(() => {
     setIsVisible(true);
@@ -167,13 +183,23 @@ ACHIEVEMENTS
     };
 
     // Build experience block
-    let experiences = Array.isArray(profile?.experiences) ? profile.experiences.slice(0, 5) : [];
+    let experiences = Array.isArray(profile?.experiences)
+      ? profile.experiences.slice(0, 5)
+      : [];
     if (!experiences || experiences.length === 0) {
       experiences = generateAIExperiences(targetRole);
     }
 
     // Build education block
-    const educationArr = Array.isArray(profile?.education) && profile.education.length ? profile.education.slice(0, 3) : [{ school: "Bachelor's Degree (AI-generated)", degree: "Relevant Field" }];
+    const educationArr =
+      Array.isArray(profile?.education) && profile.education.length
+        ? profile.education.slice(0, 3)
+        : [
+            {
+              school: "Bachelor's Degree (AI-generated)",
+              degree: "Relevant Field",
+            },
+          ];
 
     // Fill headline if missing with AI-generated summary
     if (!headline || headline.length < 10) {
@@ -181,7 +207,9 @@ ACHIEVEMENTS
     }
 
     // Fill skills if missing
-    const finalSkills = skillsList.length ? skillsList : generateAISkills(targetRole);
+    const finalSkills = skillsList.length
+      ? skillsList
+      : generateAISkills(targetRole);
 
     const experienceBlock = experiences
       .map((e: any) => {
@@ -193,7 +221,9 @@ ACHIEVEMENTS
       })
       .join("\n");
 
-    const educationBlock = educationArr.map((ed: any) => `${ed.school || ""} ${ed.degree || ""}`).join("\n");
+    const educationBlock = educationArr
+      .map((ed: any) => `${ed.school || ""} ${ed.degree || ""}`)
+      .join("\n");
 
     const resume = `${name}\n${targetRole}\n\n${headline}\n\nEmail: ${name.toLowerCase().replace(/ /g, ".")}@email.com\nLinkedIn: ${profile?.linkedIn || ""}\nLocation: ${location}\n\nPROFESSIONAL SUMMARY\n${headline}\n\nEXPERIENCE\n\n${experienceBlock}\n\nEDUCATION\n\n${educationBlock}\n\nSKILLS\n\n${finalSkills.join(", ")}\n\nADDITIONAL\n\nExtracted snippet:\n${(profile?.textSnippet || "").slice(0, 1500)}\n`;
 
@@ -203,6 +233,7 @@ ACHIEVEMENTS
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    setLinkedInFailed(false);
 
     if (!linkedInUrl.trim()) {
       setError("Please enter your LinkedIn profile URL");
@@ -238,8 +269,9 @@ ACHIEVEMENTS
         console.error("Extraction error:", err);
       }
 
-      // If extraction failed, create a fallback profile from URL
-      if (!profile) {
+      if (extractionError || !profile) {
+        // Show form for manual entry when LinkedIn extraction fails
+        setLinkedInFailed(true);
         let name = "Professional";
         try {
           const urlObj = new URL(linkedInUrl);
@@ -256,40 +288,38 @@ ACHIEVEMENTS
           // fallback stays
         }
 
-        profile = {
+        const defaultData = createDefaultResumeData(
           name,
-          headline: "Professional",
-          location: "",
-          experiences: [
-            {
-              title: "Your Experience",
-              company: "",
-              date: "",
-              description: "LinkedIn profile extraction unavailable. Please edit your resume to add your experience details.",
-            },
-          ],
-          education: [],
-          skills: ["Leadership", "Communication", "Problem-solving", "Teamwork", "Time Management"],
-          textSnippet: "Please enable your LinkedIn profile visibility or manually add your details in the editor.",
-          source: "fallback",
-        };
+          jobTitle || "Professional",
+        );
+        setResumeData(defaultData);
+        setStep("form");
+        setError(
+          "LinkedIn profile extraction unavailable. Please fill in your information below with AI-powered suggestions.",
+        );
+        return;
       }
 
+      // LinkedIn extraction was successful
       setStep("optimizing");
       await new Promise((r) => setTimeout(r, 1200));
       setStep("building");
       await new Promise((r) => setTimeout(r, 1000));
 
-      const resume = buildResumeFromProfile(profile, jobTitle || "Professional");
+      const resume = buildResumeFromProfile(
+        profile,
+        jobTitle || "Professional",
+      );
       setGeneratedResume(resume);
       setStep("complete");
-
-      if (extractionError) {
-        setError(
-          "Note: LinkedIn profile extraction unavailable. Resume generated from your LinkedIn URL. Please edit to add your actual experience."
-        );
-      }
     })();
+  };
+
+  const handleFormSubmit = (formData: ResumeData) => {
+    setResumeData(formData);
+    const textContent = resumeDataToText(formData);
+    setGeneratedResume(textContent);
+    setStep("preview");
   };
 
   const handleDownloadDOCX = () => {
@@ -317,10 +347,11 @@ ACHIEVEMENTS
   const handleEditResume = () => {
     navigate("/editor", {
       state: {
+        resumeData: resumeData,
         resumeContent: generatedResume,
         linkedInUrl: linkedInUrl,
-        jobTitle: jobTitle
-      }
+        jobTitle: jobTitle,
+      },
     });
   };
 
@@ -330,7 +361,152 @@ ACHIEVEMENTS
     setJobTitle("");
     setError("");
     setGeneratedResume("");
+    setResumeData(null);
+    setLinkedInFailed(false);
   };
+
+  const handleBackToForm = () => {
+    setStep("form");
+  };
+
+  // Form step - show when LinkedIn extraction fails
+  if (step === "form" && resumeData) {
+    return (
+      <div className="flex flex-col min-h-screen bg-gradient-to-b from-background to-muted/20">
+        <Header />
+
+        <div className="flex-1 py-12">
+          <div className="container mx-auto px-4">
+            <div className="max-w-4xl mx-auto">
+              <div className="mb-8">
+                <button
+                  onClick={handleStartOver}
+                  className="text-primary hover:text-primary/80 transition-colors font-semibold text-sm mb-4"
+                >
+                  ← Start Over
+                </button>
+                <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2">
+                  Let's Build Your Professional Resume
+                </h1>
+                <p className="text-lg text-muted-foreground">
+                  Our AI will suggest information based on your target job
+                  title. Edit and customize everything.
+                </p>
+              </div>
+
+              {error && (
+                <div className="flex gap-3 p-4 rounded-xl bg-amber-50 border border-amber-200 mb-8 animate-in fade-in">
+                  <AlertCircle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
+                  <p className="text-sm text-amber-800 font-medium">{error}</p>
+                </div>
+              )}
+
+              <ResumeDataForm
+                initialData={resumeData}
+                onSubmit={handleFormSubmit}
+                jobTitle={jobTitle || "Professional"}
+              />
+            </div>
+          </div>
+        </div>
+
+        <Footer />
+      </div>
+    );
+  }
+
+  // Preview step - show before completion
+  if (step === "preview" && resumeData) {
+    return (
+      <div className="flex flex-col min-h-screen bg-gradient-to-b from-background to-muted/20">
+        <Header />
+
+        <div className="flex-1 py-12">
+          <div className="container mx-auto px-4">
+            <div className="max-w-5xl mx-auto">
+              <div className="mb-8 flex justify-between items-center">
+                <div>
+                  <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2">
+                    Your Professional Resume
+                  </h1>
+                  <p className="text-lg text-muted-foreground">
+                    Review your resume below. Make changes in the editor if
+                    needed.
+                  </p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div className="lg:col-span-2">
+                  <ResumePreview resume={resumeData} template="modern" />
+                </div>
+
+                <div className="space-y-4">
+                  <div className="bg-white rounded-xl border border-border/50 p-6 shadow-sm sticky top-6">
+                    <h3 className="font-semibold text-foreground mb-4">
+                      Ready to Download?
+                    </h3>
+
+                    <div className="space-y-3 mb-6">
+                      <Button
+                        size="lg"
+                        onClick={handleDownloadDOCX}
+                        className="w-full bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 h-11 shadow-md"
+                      >
+                        Download DOCX
+                      </Button>
+                      <Button
+                        size="lg"
+                        variant="outline"
+                        onClick={handleDownloadPDF}
+                        className="w-full h-11 border-2"
+                      >
+                        Download PDF
+                      </Button>
+                    </div>
+
+                    <div className="space-y-2 mb-6">
+                      <Button
+                        size="lg"
+                        variant="outline"
+                        onClick={handleBackToForm}
+                        className="w-full"
+                      >
+                        Edit Resume
+                      </Button>
+                      <button
+                        onClick={handleStartOver}
+                        className="text-primary hover:text-primary/80 transition-colors font-semibold text-sm w-full"
+                      >
+                        Create Another
+                      </button>
+                    </div>
+
+                    <div className="text-xs text-muted-foreground space-y-1 pt-4 border-t">
+                      <p className="flex items-center gap-2">
+                        <span>✓</span>
+                        <span>ATS-Optimized</span>
+                      </p>
+                      <p className="flex items-center gap-2">
+                        <span>✓</span>
+                        <span>Professional Design</span>
+                      </p>
+                      <p className="flex items-center gap-2">
+                        <span>✓</span>
+                        <span>Ready to Submit</span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <Footer />
+      </div>
+    );
+  }
 
   if (step === "complete") {
     return (

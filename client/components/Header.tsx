@@ -36,10 +36,10 @@ export default function Header() {
             <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-accent group-hover:w-full transition-all duration-300" />
           </a>
           <Link
-            to="/pricing"
+            to="/marketplace"
             className="text-sm font-semibold text-foreground hover:text-primary transition-colors duration-300 relative group"
           >
-            Pricing
+            Starter Packs
             <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-accent group-hover:w-full transition-all duration-300" />
           </Link>
           <Link
@@ -50,10 +50,10 @@ export default function Header() {
             <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-accent group-hover:w-full transition-all duration-300" />
           </Link>
           <Link
-            to="/marketplace"
+            to="/pricing"
             className="text-sm font-semibold text-foreground hover:text-primary transition-colors duration-300 relative group"
           >
-            Starter Packs
+            Pricing
             <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-accent group-hover:w-full transition-all duration-300" />
           </Link>
         </nav>
