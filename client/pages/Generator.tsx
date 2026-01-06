@@ -208,6 +208,7 @@ ACHIEVEMENTS
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    setLinkedInFailed(false);
 
     if (!linkedInUrl.trim()) {
       setError("Please enter your LinkedIn profile URL");
@@ -243,8 +244,9 @@ ACHIEVEMENTS
         console.error("Extraction error:", err);
       }
 
-      // If extraction failed, create a fallback profile from URL
-      if (!profile) {
+      if (extractionError || !profile) {
+        // Show form for manual entry when LinkedIn extraction fails
+        setLinkedInFailed(true);
         let name = "Professional";
         try {
           const urlObj = new URL(linkedInUrl);
@@ -261,25 +263,16 @@ ACHIEVEMENTS
           // fallback stays
         }
 
-        profile = {
-          name,
-          headline: "Professional",
-          location: "",
-          experiences: [
-            {
-              title: "Your Experience",
-              company: "",
-              date: "",
-              description: "LinkedIn profile extraction unavailable. Please edit your resume to add your experience details.",
-            },
-          ],
-          education: [],
-          skills: ["Leadership", "Communication", "Problem-solving", "Teamwork", "Time Management"],
-          textSnippet: "Please enable your LinkedIn profile visibility or manually add your details in the editor.",
-          source: "fallback",
-        };
+        const defaultData = createDefaultResumeData(name, jobTitle || "Professional");
+        setResumeData(defaultData);
+        setStep("form");
+        setError(
+          "LinkedIn profile extraction unavailable. Please fill in your information below with AI-powered suggestions."
+        );
+        return;
       }
 
+      // LinkedIn extraction was successful
       setStep("optimizing");
       await new Promise((r) => setTimeout(r, 1200));
       setStep("building");
@@ -288,13 +281,14 @@ ACHIEVEMENTS
       const resume = buildResumeFromProfile(profile, jobTitle || "Professional");
       setGeneratedResume(resume);
       setStep("complete");
-
-      if (extractionError) {
-        setError(
-          "Note: LinkedIn profile extraction unavailable. Resume generated from your LinkedIn URL. Please edit to add your actual experience."
-        );
-      }
     })();
+  };
+
+  const handleFormSubmit = (formData: ResumeData) => {
+    setResumeData(formData);
+    const textContent = resumeDataToText(formData);
+    setGeneratedResume(textContent);
+    setStep("preview");
   };
 
   const handleDownloadDOCX = () => {
