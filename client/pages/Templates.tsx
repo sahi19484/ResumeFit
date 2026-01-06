@@ -135,8 +135,27 @@ export default function Templates() {
             </p>
           </div>
 
+          {/* Industry Color Tags */}
+          <div className="mb-8 flex flex-wrap gap-2">
+            {[
+              { name: "Tech & Product", color: "bg-blue-500" },
+              { name: "Finance & Consulting", color: "bg-slate-600" },
+              { name: "Healthcare", color: "bg-teal-500" },
+              { name: "Design & Creative", color: "bg-pink-500" },
+              { name: "Sales & Business", color: "bg-orange-500" },
+              { name: "Education & Academia", color: "bg-purple-600" },
+              { name: "Engineering", color: "bg-gray-700" },
+              { name: "Executive", color: "bg-amber-700" },
+            ].map((industry) => (
+              <div key={industry.name} className="flex items-center gap-1.5">
+                <div className={`w-3 h-3 rounded-full ${industry.color}`} />
+                <span className="text-xs text-muted-foreground font-medium">{industry.name}</span>
+              </div>
+            ))}
+          </div>
+
           {/* Filters */}
-          <div className="mb-8 space-y-4">
+          <div className="mb-12 space-y-4">
             <div className="flex flex-col md:flex-row items-start md:items-center gap-4">
               {/* Industry Filter */}
               <div className="w-full md:w-auto">
