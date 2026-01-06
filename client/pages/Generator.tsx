@@ -316,6 +316,7 @@ ACHIEVEMENTS
   const handleEditResume = () => {
     navigate("/editor", {
       state: {
+        resumeData: resumeData,
         resumeContent: generatedResume,
         linkedInUrl: linkedInUrl,
         jobTitle: jobTitle
@@ -329,6 +330,12 @@ ACHIEVEMENTS
     setJobTitle("");
     setError("");
     setGeneratedResume("");
+    setResumeData(null);
+    setLinkedInFailed(false);
+  };
+
+  const handleBackToForm = () => {
+    setStep("form");
   };
 
   if (step === "complete") {
