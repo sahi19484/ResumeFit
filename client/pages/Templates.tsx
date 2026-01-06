@@ -117,41 +117,36 @@ export default function Templates() {
     <div className="flex flex-col min-h-screen bg-gradient-to-b from-background to-muted/20">
       <Header />
 
-      <div className="flex-1 py-20 md:py-32">
+      <div className="flex-1 py-16 md:py-24">
         <div className="container mx-auto px-4">
           {/* Header */}
           <div
-            className={`max-w-3xl mx-auto text-center mb-16 transition-all duration-700 ${
+            className={`mb-12 transition-all duration-700 ${
               isVisible
                 ? "opacity-100 translate-y-0"
                 : "opacity-0 translate-y-8"
             }`}
           >
-            <h1 className="text-5xl md:text-6xl font-bold text-foreground mb-6">
-              ATS-Validated
-              <br />
-              <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                Resume Templates
-              </span>
+            <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-3">
+              Templates we recommend for you
             </h1>
-            <p className="text-xl text-muted-foreground">
-              Every template is tested and validated to pass ATS parsing. Choose
-              the style that works best for your industry.
+            <p className="text-lg text-muted-foreground max-w-2xl">
+              Choose from our professionally designed, ATS-optimized templates. Each is tailored for specific industries and roles to help you stand out.
             </p>
           </div>
 
           {/* Filters */}
-          <div className="max-w-4xl mx-auto mb-12 space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="mb-8 space-y-4">
+            <div className="flex flex-col md:flex-row items-start md:items-center gap-4">
               {/* Industry Filter */}
-              <div>
-                <label className="text-sm font-semibold text-foreground mb-2 block">
+              <div className="w-full md:w-auto">
+                <label className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2 block">
                   Filter by Industry
                 </label>
                 <select
                   value={selectedIndustry}
                   onChange={(e) => setSelectedIndustry(e.target.value)}
-                  className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-background"
+                  className="w-full md:w-48 px-4 py-2.5 border border-border/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-background text-sm font-medium transition-all hover:border-border"
                 >
                   <option value="all">All Industries</option>
                   {industries.map((industry) => (
@@ -163,14 +158,14 @@ export default function Templates() {
               </div>
 
               {/* Style Filter */}
-              <div>
-                <label className="text-sm font-semibold text-foreground mb-2 block">
+              <div className="w-full md:w-auto">
+                <label className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2 block">
                   Filter by Style
                 </label>
                 <select
                   value={selectedStyle}
                   onChange={(e) => setSelectedStyle(e.target.value)}
-                  className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-background"
+                  className="w-full md:w-48 px-4 py-2.5 border border-border/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-background text-sm font-medium transition-all hover:border-border"
                 >
                   <option value="all">All Styles</option>
                   {styles.map((style) => (
@@ -180,12 +175,14 @@ export default function Templates() {
                   ))}
                 </select>
               </div>
-            </div>
 
-            {/* Results count */}
-            <p className="text-sm text-muted-foreground">
-              Showing {filteredTemplates.length} of {templates.length} templates
-            </p>
+              {/* Results count */}
+              <div className="ml-auto">
+                <p className="text-sm font-semibold text-muted-foreground">
+                  Showing <span className="text-foreground font-bold">{filteredTemplates.length}</span> of <span className="text-foreground font-bold">{templates.length}</span> templates
+                </p>
+              </div>
+            </div>
           </div>
 
           {/* Template Grid */}
