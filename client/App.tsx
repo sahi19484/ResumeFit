@@ -6,15 +6,21 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Landing from "./pages/Landing";
-import Generator from "./pages/Generator";
-import Pricing from "./pages/Pricing";
-import Templates from "./pages/Templates";
-import Editor from "./pages/Editor";
-import Marketplace from "./pages/Marketplace";
-import Privacy from "./pages/Privacy";
-import Terms from "./pages/Terms";
+import { lazy, Suspense } from "react";
 import NotFound from "./pages/NotFound";
+
+// Lazy load all routes except Landing (the homepage)
+const Landing = lazy(() => import("./pages/Landing"));
+const Generator = lazy(() => import("./pages/Generator"));
+const Pricing = lazy(() => import("./pages/Pricing"));
+const Templates = lazy(() => import("./pages/Templates"));
+const Editor = lazy(() => import("./pages/Editor"));
+const Marketplace = lazy(() => import("./pages/Marketplace"));
+const Privacy = lazy(() => import("./pages/Privacy"));
+const Terms = lazy(() => import("./pages/Terms"));
+
+// Simple loading fallback
+const PageLoader = () => <div className="flex items-center justify-center min-h-screen">Loading...</div>;
 
 const queryClient = new QueryClient();
 
@@ -24,18 +30,20 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Landing />} />
-          <Route path="/generator" element={<Generator />} />
-          <Route path="/pricing" element={<Pricing />} />
-          <Route path="/templates" element={<Templates />} />
-          <Route path="/marketplace" element={<Marketplace />} />
-          <Route path="/editor" element={<Editor />} />
-          <Route path="/privacy" element={<Privacy />} />
-          <Route path="/terms" element={<Terms />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <Suspense fallback={<PageLoader />}>
+          <Routes>
+            <Route path="/" element={<Landing />} />
+            <Route path="/generator" element={<Generator />} />
+            <Route path="/pricing" element={<Pricing />} />
+            <Route path="/templates" element={<Templates />} />
+            <Route path="/marketplace" element={<Marketplace />} />
+            <Route path="/editor" element={<Editor />} />
+            <Route path="/privacy" element={<Privacy />} />
+            <Route path="/terms" element={<Terms />} />
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Suspense>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
