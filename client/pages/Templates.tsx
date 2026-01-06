@@ -405,7 +405,7 @@ export default function Templates() {
                       variant="outline"
                       size="sm"
                       className="flex-1 border-border/50 hover:border-primary/50 hover:bg-primary/5 transition-all duration-300"
-                      onClick={() => setPreviewTemplate(i)}
+                      onClick={() => setPreviewTemplate(template.name)}
                     >
                       <Eye className="w-4 h-4 mr-2" />
                       Preview
