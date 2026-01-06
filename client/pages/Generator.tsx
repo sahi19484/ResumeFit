@@ -120,66 +120,7 @@ ACHIEVEMENTS
     return resumeContent;
   };
 
-  const 
-  buildResumeFromProfile = (profile: any, targetRole: string) => {
-    const name = profile?.name || "John Doe";
-    const headline = profile?.headline || "";
-    const location = profile?.location || "";
-
-    const skills = (profile?.skills || []).slice(0, 10).join(", ");
-
-    let experienceBlock = "";
-    if (profile?.experiences && profile.experiences.length) {
-      experienceBlock = profile.experiences
-        .slice(0, 5)
-        .map((e: any) => {
-          const title = e.title || e.role || "";
-          const company = e.company || "";
-          const date = e.date || "";
-          const desc = e.description || "";
-          return `${title} | ${company}\n${date}\n${desc}\n`;
-        })
-        .join("\n");
-    } else if (profile?.textSnippet) {
-      experienceBlock = profile.textSnippet.slice(0, 1000);
-    }
-
-    const educationBlock = (profile?.education || [])
-      .slice(0, 3)
-      .map((ed: any) => `${ed.school || ""} ${ed.degree || ""}`)
-      .join("\n");
-
-    const resume = `${name}
-${targetRole}
-
-${headline}
-
-Email: ${name.toLowerCase().replace(/ /g, ".")}@email.com
-LinkedIn: ${profile?.linkedIn || ""}
-Location: ${location}
-
-PROFESSIONAL SUMMARY
-${headline || `Experienced ${targetRole} with proven results.`}
-
-EXPERIENCE
-
-${experienceBlock}
-
-EDUCATION
-
-${educationBlock}
-
-SKILLS
-
-${skills}
-
-ADDITIONAL
-
-Extracted snippet:
-${(profile?.textSnippet || "").slice(0, 1500)}
-`;
-
-    return resume;
+  const buildResumeFromProfile = (profile: any, targetRole: string) => {
     const name = profile?.name || "Professional";
     let headline = profile?.headline || "";
     const location = profile?.location || "";
