@@ -26,7 +26,7 @@ export const handleExtract: RequestHandler = async (req, res) => {
     // Try method 1: Puppeteer (handles JavaScript-rendered content)
     try {
       browser = await puppeteer.launch({
-        headless: "new",
+        headless: true,
         args: [
           "--no-sandbox",
           "--disable-setuid-sandbox",
