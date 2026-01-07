@@ -22,11 +22,17 @@ export default async function handler(req: any, res: any) {
       headers: {
         "User-Agent":
           "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+        "Cache-Control": "no-cache",
+        "Pragma": "no-cache",
+        "Referer": "https://www.linkedin.com/",
       },
+      timeout: 15000,
     });
 
     if (!response.ok) {
-      return res.status(502).json({ error: "Failed to fetch LinkedIn profile" });
+      return res.status(502).json({ error: "Failed to fetch LinkedIn profile. Please ensure the profile is public." });
     }
 
     const html = await response.text();
@@ -77,8 +83,8 @@ export default async function handler(req: any, res: any) {
     const textContent = $("body").text().replace(/\s+/g, " ").trim();
 
     const result = {
-      name,
-      headline,
+      name: name || "Professional",
+      headline: headline || "Professional Profile",
       location,
       experiences,
       education,
