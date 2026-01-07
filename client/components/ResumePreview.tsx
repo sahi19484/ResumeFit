@@ -33,7 +33,7 @@ export default function ResumePreview({
       </div>
 
       {/* Resume Document */}
-      <div className="resume-container bg-white rounded-xl shadow-lg border border-border/50 p-8 md:p-12 max-w-4xl stagger">
+      <div className="resume-container bg-white rounded-xl shadow-lg border border-border/50 p-8 md:p-12 max-w-4xl stagger bg-gradient-to-br from-primary/10 to-accent/10">
         {template === "modern" && <ModernTemplate resume={resume} />}
         {template === "classic" && <ClassicTemplate resume={resume} />}
         {template === "minimalist" && <MinimalistTemplate resume={resume} />}

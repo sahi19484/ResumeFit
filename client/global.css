@@ -12,51 +12,51 @@
    * A different format will require also updating the theme in tailwind.config.ts.
   */
   :root {
-    --background: 0 0% 100%;
-    --foreground: 218 24% 18%;
+    --background: 210 40% 98%; /* soft light sky */
+    --foreground: 220 20% 12%; /* dark text */
 
-    --card: 0 0% 100%;
-    --card-foreground: 218 24% 18%;
+    --card: 210 40% 100%;
+    --card-foreground: 220 20% 12%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 218 24% 18%;
+    --popover: 210 40% 100%;
+    --popover-foreground: 220 20% 12%;
 
-    --primary: 217 91% 54%;
+    --primary: 200 95% 50%; /* bright cyan */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 208 100% 50%;
+    --secondary: 275 80% 60%; /* vibrant purple */
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 218 14% 82%;
-    --muted-foreground: 218 12% 42%;
+    --muted: 220 20% 92%;
+    --muted-foreground: 215 18% 50%;
 
-    --accent: 170 100% 45%;
+    --accent: 340 85% 60%; /* warm pink */
     --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 84.2% 60.2%;
+    --destructive: 14 85% 56%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 218 14% 90%;
-    --input: 218 14% 95%;
-    --ring: 217 91% 54%;
+    --border: 215 30% 92%;
+    --input: 215 30% 96%;
+    --ring: 200 95% 50%;
 
     --radius: 0.5rem;
 
-    --sidebar-background: 0 0% 98%;
+    --sidebar-background: 210 40% 98%;
 
-    --sidebar-foreground: 218 24% 18%;
+    --sidebar-foreground: 220 20% 12%;
 
-    --sidebar-primary: 217 91% 54%;
+    --sidebar-primary: 200 95% 50%;
 
     --sidebar-primary-foreground: 0 0% 100%;
 
-    --sidebar-accent: 170 100% 45%;
+    --sidebar-accent: 340 85% 60%;
 
     --sidebar-accent-foreground: 0 0% 100%;
 
-    --sidebar-border: 218 14% 90%;
+    --sidebar-border: 215 30% 92%;
 
-    --sidebar-ring: 217 91% 54%;
+    --sidebar-ring: 200 95% 50%;
   }
 
   .dark {
@@ -109,6 +109,8 @@
 
   body {
     @apply bg-background text-foreground;
+    background-image: radial-gradient(circle at 10% 10%, rgba(99,102,241,0.06), transparent 15%), radial-gradient(circle at 90% 80%, rgba(236,72,153,0.05), transparent 18%);
+    background-repeat: no-repeat;
   }
 
   :where(p, span, li, h1, h2, h3, h4, h5, h6, a, button, label, td, th) {
@@ -196,5 +198,18 @@
       opacity: 1;
       transform: translateY(0);
     }
+  }
+
+  /* Joyful background slow shift */
+  .joyful-bg {
+    background-image: radial-gradient(circle at 10% 10%, rgba(99,102,241,0.08), transparent 12%), radial-gradient(circle at 90% 40%, rgba(14,165,233,0.06), transparent 18%), radial-gradient(circle at 50% 85%, rgba(236,72,153,0.05), transparent 22%);
+    animation: joyfulShift 12s linear infinite;
+    background-size: 200% 200%, 200% 200%, 200% 200%;
+  }
+
+  @keyframes joyfulShift {
+    0% { background-position: 0% 0%, 100% 0%, 50% 100%; }
+    50% { background-position: 100% 0%, 0% 100%, 50% 0%; }
+    100% { background-position: 0% 0%, 100% 0%, 50% 100%; }
   }
 }
