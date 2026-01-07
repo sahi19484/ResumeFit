@@ -8,8 +8,15 @@ import { SuggestionChip } from "@/components/SuggestionChip";
 import ResumePreview from "@/components/ResumePreview";
 import ResumeDataForm from "@/components/ResumeDataForm";
 import { Save, Download, Eye, Code, ArrowLeft } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { starterPacks } from "@/lib/starter-packs";
 import { ResumeData, resumeDataToText } from "@/lib/resume-utils";
+import { generatePDFFromResume, generateDOCXFromResume } from "@/lib/pdf-utils";
 import {
   UserVersion,
   ResumeSection,
@@ -49,6 +56,16 @@ export default function Editor() {
   };
 
   const handleDownload = () => {
+    if (!resumeData) return;
+    generatePDFFromResume(resumeData, "resume.pdf");
+  };
+
+  const handleDownloadDOCX = () => {
+    if (!resumeData) return;
+    generateDOCXFromResume(resumeData, "resume.docx");
+  };
+
+  const handleDownloadText = () => {
     if (!resumeData) return;
     const textContent = resumeDataToText(resumeData);
     const element = document.createElement("a");
@@ -128,13 +145,25 @@ export default function Editor() {
                 >
                   Edit Resume
                 </Button>
-                <Button
-                  onClick={handleDownload}
-                  className="flex items-center gap-2 bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90"
-                >
-                  <Download className="w-4 h-4" />
-                  Download
-                </Button>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button className="flex items-center gap-2 bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90">
+                        <Download className="w-4 h-4" />
+                        Download
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuItem onClick={handleDownload}>
+                        📄 PDF Format
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={handleDownloadDOCX}>
+                        📝 Word Document
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={handleDownloadText}>
+                        📋 Text Format
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
               </div>
             </div>
 

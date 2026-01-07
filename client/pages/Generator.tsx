@@ -13,6 +13,7 @@ import {
   resumeDataToText,
   createDefaultResumeData,
 } from "@/lib/resume-utils";
+import { generatePDFFromResume, generateDOCXFromResume } from "@/lib/pdf-utils";
 import {
   AlertCircle,
   Check,
@@ -323,25 +324,15 @@ ACHIEVEMENTS
   };
 
   const handleDownloadDOCX = () => {
-    const element = document.createElement("a");
-    const file = new Blob([generatedResume], { type: "text/plain" });
-    element.href = URL.createObjectURL(file);
-    element.download = "resume.txt";
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element);
-    URL.revokeObjectURL(element.href);
+    if (resumeData) {
+      generateDOCXFromResume(resumeData, "resume.docx");
+    }
   };
 
   const handleDownloadPDF = () => {
-    const element = document.createElement("a");
-    const file = new Blob([generatedResume], { type: "text/plain" });
-    element.href = URL.createObjectURL(file);
-    element.download = "resume-ats-optimized.txt";
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element);
-    URL.revokeObjectURL(element.href);
+    if (resumeData) {
+      generatePDFFromResume(resumeData, "resume.pdf");
+    }
   };
 
   const handleEditResume = () => {
