@@ -731,8 +731,7 @@ ACHIEVEMENTS
                       )}
                     </div>
                     <p className="text-sm text-muted-foreground mt-2">
-                      Paste your public profile — no sign-in needed. Your data
-                      stays private.
+                      Paste your public profile — no sign-in needed. Your data stays private.
                     </p>
                   </div>
 
