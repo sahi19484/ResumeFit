@@ -28,7 +28,6 @@ export default async function handler(req: any, res: any) {
         "Pragma": "no-cache",
         "Referer": "https://www.linkedin.com/",
       },
-      timeout: 15000,
     });
 
     if (!response.ok) {
