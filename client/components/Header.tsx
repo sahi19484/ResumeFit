@@ -4,17 +4,17 @@ import { FileText } from "lucide-react";
 
 export default function Header() {
   return (
-    <header className="sticky top-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-xl">
+    <header className="sticky top-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-xl animate-fade-in">
       <div className="container mx-auto px-4 py-3.5 flex items-center justify-between h-16">
         {/* Logo */}
         <Link
           to="/"
           className="group flex items-center gap-2.5 font-bold text-xl text-foreground hover:opacity-80 transition-opacity"
         >
-          <div className="bg-gradient-to-br from-primary to-primary/80 rounded-lg p-2.5 group-hover:shadow-lg group-hover:scale-105 transition-all duration-300">
+          <div className="bg-gradient-to-br from-primary to-primary/80 rounded-lg p-2.5 group-hover:shadow-lg group-hover:scale-105 transition-all duration-300 animate-scale-in">
             <FileText className="w-5 h-5 text-white" />
           </div>
-          <span className="bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent font-black">
+          <span className="gradient-anim font-black">
             ResumeFit
           </span>
         </Link>

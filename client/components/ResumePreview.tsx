@@ -14,7 +14,7 @@ export default function ResumePreview({
   onDownload,
 }: ResumePreviewProps) {
   return (
-    <div className="w-full">
+    <div className="w-full animate-scale-in">
       {/* Preview Header */}
       <div className="mb-4 flex justify-between items-center">
         <h3 className="text-lg font-semibold text-foreground">
@@ -33,7 +33,7 @@ export default function ResumePreview({
       </div>
 
       {/* Resume Document */}
-      <div className="resume-container bg-white rounded-xl shadow-lg border border-border/50 p-8 md:p-12 max-w-4xl">
+      <div className="resume-container bg-white rounded-xl shadow-lg border border-border/50 p-8 md:p-12 max-w-4xl stagger">
         {template === "modern" && <ModernTemplate resume={resume} />}
         {template === "classic" && <ClassicTemplate resume={resume} />}
         {template === "minimalist" && <MinimalistTemplate resume={resume} />}

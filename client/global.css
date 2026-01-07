@@ -166,4 +166,35 @@
       transform: scale(1);
     }
   }
+
+  /* Gradient shimmer for logo/text */
+  .gradient-anim {
+    background: linear-gradient(90deg, rgba(99,102,241,1) 0%, rgba(14,165,233,1) 50%, rgba(236,72,153,1) 100%);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: gradientShift 4s linear infinite;
+  }
+
+  @keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  /* Stagger utility: apply to parent, children use --stagger-index */
+  .stagger > * {
+    opacity: 0;
+    transform: translateY(10px);
+    animation: staggerIn 0.5s ease-out forwards;
+    animation-delay: calc(var(--stagger-index, 0) * 80ms);
+  }
+
+  @keyframes staggerIn {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 }

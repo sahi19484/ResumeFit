@@ -3,16 +3,16 @@ import { FileText } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="border-t border-border/50 bg-gradient-to-b from-background to-muted/10 backdrop-blur-sm">
+    <footer className="border-t border-border/50 bg-gradient-to-b from-background to-muted/10 backdrop-blur-sm animate-fade-in animate-slide-up">
       <div className="container mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
           {/* Brand */}
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <div className="bg-gradient-to-br from-primary to-primary/80 rounded-lg p-2">
+              <div className="bg-gradient-to-br from-primary to-primary/80 rounded-lg p-2 transform transition-all duration-500 hover:-translate-y-1 shadow-sm">
                 <FileText className="w-5 h-5 text-white" />
               </div>
-              <h3 className="font-black text-lg bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
+              <h3 className="font-black text-lg gradient-anim">
                 ResumeFit
               </h3>
             </div>
