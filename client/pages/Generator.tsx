@@ -67,12 +67,21 @@ export default function Generator() {
 
   // Ensure a LinkedIn URL has a protocol so URL() parsing works for plain hostnames
   const normalizeLinkedInUrl = (url: string) => {
-    const trimmed = url.trim();
+    let trimmed = url.trim();
     if (!trimmed) return trimmed;
+    
+    // Remove any leading/trailing whitespace and fix common typos
+    trimmed = trimmed.replace(/\s+/g, ''); // Remove all spaces
+    
+    // Handle common mistakes: https:/ or http:/ (single slash)
+    trimmed = trimmed.replace(/^https:\/([^/])/, 'https://$1');
+    trimmed = trimmed.replace(/^http:\/([^/])/, 'http://$1');
+    
     // Check if URL already has protocol
     if (trimmed.startsWith("http://") || trimmed.startsWith("https://")) {
       return trimmed;
     }
+    
     // Add https:// if missing
     return `https://${trimmed}`;
   };
