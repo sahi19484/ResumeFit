@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
 import ResumePreview from "@/components/ResumePreview";
 import ResumeDataForm from "@/components/ResumeDataForm";
+import ExtractionOptions from "@/components/ExtractionOptions";
 import {
   ResumeData,
   resumeDataToText,
@@ -29,7 +30,8 @@ type Step =
   | "building"
   | "form"
   | "preview"
-  | "complete";
+  | "complete"
+  | "extraction_options";
 
 export default function Generator() {
   const navigate = useNavigate();
@@ -41,6 +43,7 @@ export default function Generator() {
   const [resumeData, setResumeData] = useState<ResumeData | null>(null);
   const [generatedResume, setGeneratedResume] = useState("");
   const [linkedInFailed, setLinkedInFailed] = useState(false);
+  const [extractionScript, setExtractionScript] = useState("");
 
   useEffect(() => {
     setIsVisible(true);
@@ -262,6 +265,8 @@ ACHIEVEMENTS
 
       let profile = null;
       let extractionError = false;
+      let authRequired = false;
+      let script = "";
 
       try {
         if (!validateUrl(normalizedUrl)) {
@@ -274,8 +279,19 @@ ACHIEVEMENTS
             body: JSON.stringify({ url: normalizedUrl }),
           });
 
+          const data = await resp.json();
+
+          // Check if auth is required (403 response with auth_required flag)
+          if (resp.status === 403 && data.auth_required) {
+            authRequired = true;
+            script = data.extraction_script || "";
+            setExtractionScript(script);
+            setStep("extraction_options");
+            return;
+          }
+
           if (resp.ok) {
-            profile = await resp.json();
+            profile = data;
           } else {
             extractionError = true;
             console.error("Extraction failed with status:", resp.status);
@@ -370,11 +386,76 @@ ACHIEVEMENTS
     setGeneratedResume("");
     setResumeData(null);
     setLinkedInFailed(false);
+    setExtractionScript("");
   };
 
   const handleBackToForm = () => {
     setStep("form");
   };
+
+  const handleManualEntry = () => {
+    // Create a default resume with the extracted URL info
+    let name = "Professional";
+    try {
+      const urlObj = new URL(linkedInUrl);
+      const parts = urlObj.pathname.split("/").filter(Boolean);
+      if (parts.length > 0) {
+        const candidate = parts[parts.length - 1];
+        name = candidate
+          .replace(/[-_]/g, " ")
+          .split(" ")
+          .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
+          .join(" ");
+      }
+    } catch (e) {
+      // fallback
+    }
+
+    const defaultData = createDefaultResumeData(
+      name,
+      jobTitle || "Professional"
+    );
+    setResumeData(defaultData);
+    setStep("form");
+  };
+
+  // Extraction options step - show when LinkedIn requires manual extraction
+  if (step === "extraction_options") {
+    return (
+      <div className="flex flex-col min-h-screen bg-gradient-to-b from-background to-muted/20">
+        <Header />
+
+        <div className="flex-1 py-12">
+          <div className="container mx-auto px-4">
+            <div className="max-w-4xl mx-auto">
+              <div className="mb-8">
+                <button
+                  onClick={handleStartOver}
+                  className="text-primary hover:text-primary/80 transition-colors font-semibold text-sm mb-4"
+                >
+                  ← Start Over
+                </button>
+                <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2">
+                  Extract Your LinkedIn Profile
+                </h1>
+                <p className="text-lg text-muted-foreground">
+                  LinkedIn blocks automated access. Choose how you'd like to provide your data:
+                </p>
+              </div>
+
+              <ExtractionOptions
+                extractionScript={extractionScript}
+                onManualEntry={handleManualEntry}
+                linkedInUrl={linkedInUrl}
+              />
+            </div>
+          </div>
+        </div>
+
+        <Footer />
+      </div>
+    );
+  }
 
   // Form step - show when LinkedIn extraction fails
   if (step === "form" && resumeData) {
