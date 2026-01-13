@@ -62,6 +62,14 @@ export default function Generator() {
     }
   };
 
+  // Ensure a LinkedIn URL has a protocol so URL() parsing works for plain hostnames
+  const normalizeLinkedInUrl = (url: string) => {
+    const trimmed = url.trim();
+    if (!trimmed) return trimmed;
+    if (/^https?:\/\//i.test(trimmed)) return trimmed;
+    return `https://${trimmed}`;
+  };
+
   const generateSampleResume = (linkedIn: string, targetRoleInput: string) => {
     const targetRole = targetRoleInput || "Professional";
 
@@ -248,6 +256,9 @@ ACHIEVEMENTS
 
     (async () => {
       setStep("extracting");
+
+      // Normalize URL (allow users to paste linkedin.com/in/xyz without protocol)
+      const normalizedUrl = normalizeLinkedInUrl(linkedInUrl);
 
       let profile = null;
       let extractionError = false;
