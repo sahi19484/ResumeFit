@@ -85,7 +85,10 @@ const CLIENT_EXTRACTION_SCRIPT = `
 export const handleExtract: RequestHandler = async (req, res) => {
   try {
     const { url } = req.method === "GET" ? req.query : req.body;
+    console.log("🌐 Extract request received for URL:", url);
+    
     if (!url || typeof url !== "string") {
+      console.log("❌ Invalid URL parameter");
       return res.status(400).json({ error: "Missing url parameter" });
     }
 
@@ -93,91 +96,17 @@ export const handleExtract: RequestHandler = async (req, res) => {
     try {
       const parsed = new URL(url);
       if (!parsed.hostname.includes("linkedin.com")) {
+        console.log("❌ Not a LinkedIn URL");
         return res.status(400).json({ error: "Only linkedin.com URLs are supported" });
       }
     } catch (e) {
+      console.log("❌ Invalid URL format");
       return res.status(400).json({ error: "Invalid URL" });
     }
 
-    // Try fetch + cheerio (works ~5% of the time on public profiles)
-    try {
-      console.log("🌐 Fetching LinkedIn profile:", url);
-      const response = await fetch(url, {
-        headers: {
-          "User-Agent":
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-          "Accept-Language": "en-US,en;q=0.9",
-          "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-          "Cache-Control": "no-cache",
-          "Pragma": "no-cache",
-          "Referer": "https://www.linkedin.com/",
-        },
-        timeout: 10000,
-      } as any);
-
-      console.log("📊 Response status:", response.status, "ok:", response.ok);
-
-      if (response.ok) {
-        const html = await response.text();
-        const $ = load(html);
-
-        // Check if we actually got profile data (not auth wall)
-        const name = $("h1").first().text().trim() || $("title").text().split("|")[0]?.trim() || "";
-        console.log("📝 Extracted name:", name);
-        
-        // If we got a name and it's not "LinkedIn" or similar, return the data
-        if (name && name.length > 2 && !name.toLowerCase().includes("linkedin")) {
-          console.log("✅ Valid profile data found, returning extraction");
-          const headline = $("p.profile-headline, .text-body-medium").first().text().trim() || "";
-          const location = $(".pv-top-card--list-bullet, .text-body-small").first().text().trim() || "";
-
-          const experiences: Array<any> = [];
-          $("section[id*='experience'] li, #experience-section li").each((i, el) => {
-            if (i >= 5) return;
-            const title = $(el).find("h3").first().text().trim() || $(el).find("h4").first().text().trim();
-            const company = $(el).find("p.pv-entity__secondary-title").first().text().trim() || $(el).find("span.pv-entity__secondary-title").first().text().trim();
-            const date = $(el).find("h4.pv-entity__date-range span:nth-child(2)").text().trim() || $(el).find("span.date-range").text().trim();
-            if (title || company) {
-              experiences.push({ title, company, date, description: "" });
-            }
-          });
-
-          const education: Array<any> = [];
-          $("section[id*='education'] li, #education-section li").each((i, el) => {
-            if (i >= 3) return;
-            const school = $(el).find("h3").first().text().trim() || $(el).find("span").first().text().trim();
-            const degree = $(el).find("p").first().text().trim();
-            if (school) education.push({ school, degree });
-          });
-
-          const skills: string[] = [];
-          $(".pv-skill-category-entity__name-text, .skill-pill").each((i, el) => {
-            if (i >= 20) return;
-            const s = $(el).text().trim();
-            if (s) skills.push(s);
-          });
-
-          const textContent = $("body").text().replace(/\s+/g, " ").trim();
-
-          return res.json({
-            name,
-            headline,
-            location,
-            experiences,
-            education,
-            skills: [...new Set(skills)],
-            textSnippet: textContent.slice(0, 2500),
-          });
-        }
-      }
-    } catch (fetchErr) {
-      console.warn("⚠️ Fetch extraction attempt failed:", fetchErr?.message || fetchErr);
-    }
-
-    // If we get here, LinkedIn blocked automated access
-    // Return helpful response with extraction script
-    console.log("📋 Returning auth_required response for:", url);
-    return res.status(403).json({
+    // LinkedIn blocks automated access, always return auth_required response
+    console.log("📋 Returning auth_required response");
+    return res.status(200).json({
       auth_required: true,
       message: "LinkedIn requires manual extraction. Use one of the methods below:",
       extraction_script: CLIENT_EXTRACTION_SCRIPT,
@@ -209,7 +138,7 @@ export const handleExtract: RequestHandler = async (req, res) => {
       },
     });
   } catch (err) {
-    console.error("extract error", err);
+    console.error("❌ Extract error:", err);
     return res.status(500).json({ error: "Internal server error" });
   }
 };
