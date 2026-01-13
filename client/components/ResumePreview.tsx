@@ -40,7 +40,7 @@ export default function ResumePreview({
       </div>
 
       {/* Print Styles */}
-      <style jsx>{`
+      <style>{`
         @media print {
           .resume-container {
             box-shadow: none;
