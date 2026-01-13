@@ -101,6 +101,7 @@ export const handleExtract: RequestHandler = async (req, res) => {
 
     // Try fetch + cheerio (works ~5% of the time on public profiles)
     try {
+      console.log("🌐 Fetching LinkedIn profile:", url);
       const response = await fetch(url, {
         headers: {
           "User-Agent":
@@ -114,15 +115,19 @@ export const handleExtract: RequestHandler = async (req, res) => {
         timeout: 10000,
       } as any);
 
+      console.log("📊 Response status:", response.status, "ok:", response.ok);
+
       if (response.ok) {
         const html = await response.text();
         const $ = load(html);
 
         // Check if we actually got profile data (not auth wall)
         const name = $("h1").first().text().trim() || $("title").text().split("|")[0]?.trim() || "";
+        console.log("📝 Extracted name:", name);
         
         // If we got a name and it's not "LinkedIn" or similar, return the data
         if (name && name.length > 2 && !name.toLowerCase().includes("linkedin")) {
+          console.log("✅ Valid profile data found, returning extraction");
           const headline = $("p.profile-headline, .text-body-medium").first().text().trim() || "";
           const location = $(".pv-top-card--list-bullet, .text-body-small").first().text().trim() || "";
 
@@ -166,11 +171,12 @@ export const handleExtract: RequestHandler = async (req, res) => {
         }
       }
     } catch (fetchErr) {
-      console.warn("Fetch extraction attempt failed:", fetchErr?.message || fetchErr);
+      console.warn("⚠️ Fetch extraction attempt failed:", fetchErr?.message || fetchErr);
     }
 
     // If we get here, LinkedIn blocked automated access
     // Return helpful response with extraction script
+    console.log("📋 Returning auth_required response for:", url);
     return res.status(403).json({
       auth_required: true,
       message: "LinkedIn requires manual extraction. Use one of the methods below:",
