@@ -281,24 +281,31 @@ ACHIEVEMENTS
             body: JSON.stringify({ url: normalizedUrl }),
           });
 
-          const data = await resp.json();
-          console.log("📦 Server response status:", resp.status, "auth_required:", data?.auth_required);
+          try {
+            const data = await resp.json();
+            console.log("📦 Server response status:", resp.status);
+            console.log("📦 Response data:", data);
+            console.log("📦 auth_required value:", data?.auth_required, "type:", typeof data?.auth_required);
 
-          // Check if auth is required (could be any status with auth_required flag)
-          if (data?.auth_required === true) {
-            console.log("🔐 Auth required - showing extraction options");
-            script = data.extraction_script || "";
-            setExtractionScript(script);
-            setStep("extraction_options");
-            return; // Exit the async IIFE early
-          }
+            // Check if auth is required (could be any status with auth_required flag)
+            if (data?.auth_required === true) {
+              console.log("🔐 Auth required - showing extraction options");
+              script = data.extraction_script || "";
+              setExtractionScript(script);
+              setStep("extraction_options");
+              return;
+            }
 
-          if (resp.ok && data?.name) {
-            console.log("✅ Extraction successful!");
-            profile = data;
-          } else {
+            if (resp.ok && data?.name) {
+              console.log("✅ Extraction successful!");
+              profile = data;
+            } else {
+              extractionError = true;
+              console.error("❌ Extraction failed with status:", resp.status, "data:", data);
+            }
+          } catch (parseErr) {
             extractionError = true;
-            console.error("❌ Extraction failed with status:", resp.status, data);
+            console.error("❌ Failed to parse response:", parseErr);
           }
         }
       } catch (err) {
@@ -306,7 +313,6 @@ ACHIEVEMENTS
         console.error("❌ Extraction error:", err);
       }
 
-      // Only proceed if extraction didn't fail and we have a profile
       if (extractionError || !profile) {
         // Show form for manual entry when LinkedIn extraction fails
         setLinkedInFailed(true);
