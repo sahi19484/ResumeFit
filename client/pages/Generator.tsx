@@ -253,17 +253,22 @@ ACHIEVEMENTS
       let extractionError = false;
 
       try {
-        const resp = await fetch("/api/extract", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ url: linkedInUrl }),
-        });
-
-        if (resp.ok) {
-          profile = await resp.json();
-        } else {
+        if (!validateUrl(normalizedUrl)) {
           extractionError = true;
-          console.error("Extraction failed with status:", resp.status);
+          console.error("Invalid LinkedIn URL after normalization:", normalizedUrl);
+        } else {
+          const resp = await fetch("/api/extract", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ url: normalizedUrl }),
+          });
+
+          if (resp.ok) {
+            profile = await resp.json();
+          } else {
+            extractionError = true;
+            console.error("Extraction failed with status:", resp.status);
+          }
         }
       } catch (err) {
         extractionError = true;
@@ -275,7 +280,7 @@ ACHIEVEMENTS
         setLinkedInFailed(true);
         let name = "Professional";
         try {
-          const urlObj = new URL(linkedInUrl);
+          const urlObj = new URL(normalizedUrl || linkedInUrl);
           const parts = urlObj.pathname.split("/").filter(Boolean);
           if (parts.length > 0) {
             const candidate = parts[parts.length - 1];
