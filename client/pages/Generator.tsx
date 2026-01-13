@@ -259,6 +259,7 @@ ACHIEVEMENTS
 
     (async () => {
       setStep("extracting");
+      setError(""); // Clear any previous errors
 
       // Normalize URL (allow users to paste linkedin.com/in/xyz without protocol)
       const normalizedUrl = normalizeLinkedInUrl(linkedInUrl);
@@ -273,6 +274,7 @@ ACHIEVEMENTS
           extractionError = true;
           console.error("Invalid LinkedIn URL after normalization:", normalizedUrl);
         } else {
+          console.log("📥 Attempting extraction for:", normalizedUrl);
           const resp = await fetch("/api/extract", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -280,10 +282,11 @@ ACHIEVEMENTS
           });
 
           const data = await resp.json();
+          console.log("📦 Server response status:", resp.status, "auth_required:", data?.auth_required);
 
-          // Check if auth is required (403 response with auth_required flag)
-          if (resp.status === 403 && data.auth_required) {
-            authRequired = true;
+          // Check if auth is required (could be any status with auth_required flag)
+          if (data?.auth_required === true) {
+            console.log("🔐 Auth required - showing extraction options");
             script = data.extraction_script || "";
             setExtractionScript(script);
             setStep("extraction_options");
@@ -291,15 +294,16 @@ ACHIEVEMENTS
           }
 
           if (resp.ok) {
+            console.log("✅ Extraction successful!");
             profile = data;
           } else {
             extractionError = true;
-            console.error("Extraction failed with status:", resp.status);
+            console.error("❌ Extraction failed with status:", resp.status, data);
           }
         }
       } catch (err) {
         extractionError = true;
-        console.error("Extraction error:", err);
+        console.error("❌ Extraction error:", err);
       }
 
       if (extractionError || !profile) {
