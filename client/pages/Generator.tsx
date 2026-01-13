@@ -69,7 +69,11 @@ export default function Generator() {
   const normalizeLinkedInUrl = (url: string) => {
     const trimmed = url.trim();
     if (!trimmed) return trimmed;
-    if (/^https?:\/\//i.test(trimmed)) return trimmed;
+    // Check if URL already has protocol
+    if (trimmed.startsWith("http://") || trimmed.startsWith("https://")) {
+      return trimmed;
+    }
+    // Add https:// if missing
     return `https://${trimmed}`;
   };
 
@@ -270,6 +274,8 @@ ACHIEVEMENTS
       let script = "";
 
       try {
+        console.log("Original URL:", linkedInUrl);
+        console.log("Normalized URL:", normalizedUrl);
         if (!validateUrl(normalizedUrl)) {
           extractionError = true;
           console.error("Invalid LinkedIn URL after normalization:", normalizedUrl);
