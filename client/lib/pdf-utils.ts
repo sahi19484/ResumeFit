@@ -184,9 +184,9 @@ export const generatePDFFromResume = (resumeData: ResumeData, filename = "resume
   const options = {
     margin: 0,
     filename: filename,
-    image: { type: "jpeg", quality: 0.98 },
+    image: { type: "png" as const, quality: 0.98 },
     html2canvas: { scale: 2 },
-    jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
+    jsPDF: { unit: "in" as const, format: "letter", orientation: "portrait" as const },
   };
 
   // Generate PDF
