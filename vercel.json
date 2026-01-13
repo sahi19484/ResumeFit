@@ -2,21 +2,13 @@
   "version": 2,
   "buildCommand": "pnpm build",
   "devCommand": "pnpm dev",
-  "outputDirectory": "dist/spa",
   "installCommand": "pnpm install",
   "framework": "vite",
   "env": {
     "PING_MESSAGE": "pong"
   },
-  "functions": {
-    "api/**/*.ts": {
-      "memory": 1024,
-      "maxDuration": 30
-    }
-  },
-  "routes": [
-    { "src": "/api/(.*)", "dest": "/api/$1.ts" },
-    { "src": "^/assets/(.*)$", "dest": "/assets/$1" },
-    { "src": ".*", "dest": "/index.html" }
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api" },
+    { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
