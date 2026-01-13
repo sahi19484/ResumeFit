@@ -290,10 +290,10 @@ ACHIEVEMENTS
             script = data.extraction_script || "";
             setExtractionScript(script);
             setStep("extraction_options");
-            return;
+            return; // Exit the async IIFE early
           }
 
-          if (resp.ok) {
+          if (resp.ok && data?.name) {
             console.log("✅ Extraction successful!");
             profile = data;
           } else {
@@ -306,6 +306,7 @@ ACHIEVEMENTS
         console.error("❌ Extraction error:", err);
       }
 
+      // Only proceed if extraction didn't fail and we have a profile
       if (extractionError || !profile) {
         // Show form for manual entry when LinkedIn extraction fails
         setLinkedInFailed(true);
