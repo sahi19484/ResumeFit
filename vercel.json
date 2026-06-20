@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "buildCommand": "pnpm run build:client",
-  "devCommand": "pnpm dev",
-  "installCommand": "pnpm install",
+  "buildCommand": "npm run build",
+  "devCommand": "npm dev",
+  "installCommand": "npm install",
   "framework": "vite",
   "env": {
     "PING_MESSAGE": "pong"
