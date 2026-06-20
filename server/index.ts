@@ -7,6 +7,18 @@ import { handleExtract } from "./routes/extract";
 // api/index.ts
 import serverless from "serverless-http";
 
+let handler: ReturnType<typeof serverless>;
+
+export default async (req: any, res: any) => {
+  if (!handler) {
+    const { default: app } = await import("../server/index");
+    handler = serverless(app);
+  }
+  return handler(req, res);
+};
+// api/index.ts
+import serverless from "serverless-http";
+
 // Dynamically import your Express app
 // (adjust the path if your server entry point differs)
 import app from "../server/index";
