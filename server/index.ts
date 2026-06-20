@@ -4,6 +4,15 @@ import cors from "cors";
 import { handleDemo } from "./routes/demo";
 import { handleExtract } from "./routes/extract";
 
+// api/index.ts
+import serverless from "serverless-http";
+
+// Dynamically import your Express app
+// (adjust the path if your server entry point differs)
+import app from "../server/index";
+
+export default serverless(app);
+
 export function createServer() {
   const app = express();
 
