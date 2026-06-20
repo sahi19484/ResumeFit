@@ -12,3 +12,13 @@
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
+{
+  "buildCommand": "pnpm vite build --configLoader runner",
+  "devCommand": "pnpm dev",
+  "installCommand": "pnpm install",
+  "framework": "vite",
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
