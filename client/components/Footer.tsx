@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { FileText } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -9,8 +8,12 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <div className="bg-gradient-to-br from-primary to-primary/80 rounded-lg p-2 transform transition-all duration-500 hover:-translate-y-1 shadow-sm">
-                <FileText className="w-5 h-5 text-white" />
+              <div className="rounded-lg overflow-hidden transform transition-all duration-500 hover:-translate-y-1 shadow-sm">
+                <img
+                  src="/favicon.ico"
+                  alt="ResumeFit logo"
+                  className="w-8 h-8 object-contain"
+                />
               </div>
               <h3 className="font-black text-lg gradient-anim">
                 ResumeFit

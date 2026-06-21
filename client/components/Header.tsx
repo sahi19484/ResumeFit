@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { FileText } from "lucide-react";
 
 export default function Header() {
   return (
@@ -11,8 +10,12 @@ export default function Header() {
           to="/"
           className="group flex items-center gap-2.5 font-bold text-xl text-foreground hover:opacity-80 transition-opacity"
         >
-          <div className="bg-gradient-to-br from-primary to-primary/80 rounded-lg p-2.5 group-hover:shadow-lg group-hover:scale-105 transition-all duration-300 animate-scale-in">
-            <FileText className="w-5 h-5 text-white" />
+          <div className="rounded-lg overflow-hidden group-hover:shadow-lg group-hover:scale-105 transition-all duration-300 animate-scale-in">
+            <img
+              src="/favicon.ico"
+              alt="ResumeFit logo"
+              className="w-9 h-9 object-contain"
+            />
           </div>
           <span className="gradient-anim font-black">
             ResumeFit
